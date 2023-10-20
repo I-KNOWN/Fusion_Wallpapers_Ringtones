@@ -9,5 +9,16 @@
 
     //Blue
     <color name="blue_400">#05BDFF</color>
+    <color name="blue_700">#2F80ED</color>
+
+    //Green
+    <color name="green_600">#2F7BB1</color>
+
+    //Cyan
+    <color name="cyan_500">#56CCF2</color>
+
+
+    //Purple
+    <color name="purple_500">#6686F8</color>
 
 </resources>

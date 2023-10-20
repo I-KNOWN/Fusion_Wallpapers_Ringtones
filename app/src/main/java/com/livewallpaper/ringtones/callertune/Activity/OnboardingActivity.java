@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -42,7 +43,8 @@ public class OnboardingActivity extends AppCompatActivity {
                 } else if (currentPage == 1) {
                     binding.vp2.setCurrentItem(2,true);
                 } else if (currentPage == 2) {
-                    
+                    startActivity(new Intent(OnboardingActivity.this, TMCActivity.class));
+                    finish();
                 }
             }
         });
@@ -98,6 +100,7 @@ public class OnboardingActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 if(position == 0){
+                    binding.tvNext.setText(R.string.next);
                     currentPage = 0;
                     binding.ivDot1.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_fill));
                     binding.ivDot2.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
@@ -106,6 +109,7 @@ public class OnboardingActivity extends AppCompatActivity {
                     binding.tvDesc.setText(R.string.boarding_desc_1);
                     binding.tvHeader.setText(R.string.boarding_title_1);
                 } else if (position == 1) {
+                    binding.tvNext.setText(R.string.next);
                     currentPage = 1;
                     binding.ivDot1.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot2.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_fill));
@@ -114,6 +118,7 @@ public class OnboardingActivity extends AppCompatActivity {
                     binding.tvHeader.setText(R.string.boarding_title_2);
                 } else if (position == 2) {
                     currentPage = 2;
+                    binding.tvNext.setText(R.string.start);
                     binding.ivDot1.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot2.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot3.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_fill));

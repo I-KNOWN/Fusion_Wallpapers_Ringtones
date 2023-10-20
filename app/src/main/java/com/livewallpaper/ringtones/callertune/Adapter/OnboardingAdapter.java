@@ -78,6 +78,23 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
 
         holder.rv2.scrollToPosition(rv2_data.size() - 1);
 
+        if (llm1.findLastCompletelyVisibleItemPosition() < (rv1_data.size() - 1)){
+            llm1.smoothScrollToPosition(holder.rv1, new RecyclerView.State(), (rv1_data.size() - 1));
+        }else if(llm1.findLastCompletelyVisibleItemPosition() == (rv1_data.size() - 1)){
+            llm1.smoothScrollToPosition(holder.rv1, new RecyclerView.State(), 0);
+        }
+
+        if (llm3.findLastCompletelyVisibleItemPosition() < (rv2_data.size() - 1)){
+            llm2.smoothScrollToPosition(holder.rv2, new RecyclerView.State(), 0);
+        }else if(llm3.findLastCompletelyVisibleItemPosition() == (rv2_data.size() - 1)){
+            llm2.smoothScrollToPosition(holder.rv2, new RecyclerView.State(), (rv2_data.size() - 1));
+        }
+
+        if (llm3.findLastCompletelyVisibleItemPosition() < (rv3_data.size() - 1)){
+            llm3.smoothScrollToPosition(holder.rv3, new RecyclerView.State(), (rv3_data.size() - 1));
+        }else if(llm3.findLastCompletelyVisibleItemPosition() == (rv3_data.size() - 1)){
+            llm3.smoothScrollToPosition(holder.rv3, new RecyclerView.State(), 0);
+        }
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
