@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.livewallpaper.ringtones.callertune.Adapter.OnboardingAdapter;
 import com.livewallpaper.ringtones.callertune.Model.AutoScrollImageModel;
@@ -29,6 +30,22 @@ public class OnboardingActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         initViewPager();
+        initBtn();
+    }
+
+    private void initBtn() {
+        binding.cvNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentPage == 0){
+                    binding.vp2.setCurrentItem(1,true);
+                } else if (currentPage == 1) {
+                    binding.vp2.setCurrentItem(2,true);
+                } else if (currentPage == 2) {
+                    
+                }
+            }
+        });
     }
 
     private void initViewPager() {
@@ -81,6 +98,7 @@ public class OnboardingActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 if(position == 0){
+                    currentPage = 0;
                     binding.ivDot1.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_fill));
                     binding.ivDot2.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot3.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
@@ -88,12 +106,14 @@ public class OnboardingActivity extends AppCompatActivity {
                     binding.tvDesc.setText(R.string.boarding_desc_1);
                     binding.tvHeader.setText(R.string.boarding_title_1);
                 } else if (position == 1) {
+                    currentPage = 1;
                     binding.ivDot1.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot2.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_fill));
                     binding.ivDot3.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.tvDesc.setText(R.string.boarding_desc_2);
                     binding.tvHeader.setText(R.string.boarding_title_2);
                 } else if (position == 2) {
+                    currentPage = 2;
                     binding.ivDot1.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot2.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_unfill));
                     binding.ivDot3.setBackground(ContextCompat.getDrawable(OnboardingActivity.this, R.drawable.dot_fill));

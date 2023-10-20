@@ -77,6 +77,7 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
         holder.rv3.setAdapter(autoScrollAdapter3);
 
         holder.rv2.scrollToPosition(rv2_data.size() - 1);
+
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
