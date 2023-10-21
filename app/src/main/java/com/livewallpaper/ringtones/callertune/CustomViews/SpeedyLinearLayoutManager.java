@@ -1,4 +1,4 @@
-package com.livewallpaper.ringtones.callertune.CustomManager;
+package com.livewallpaper.ringtones.callertune.CustomViews;
 
 import android.content.Context;
 import android.graphics.PointF;

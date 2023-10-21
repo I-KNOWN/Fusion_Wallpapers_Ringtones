@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,28 @@ public class PreferencesActivity extends AppCompatActivity {
         preferenceId = new ArrayList<>();
         binding.tvProgressIncrement.setText(Integer.toString(count));
         initPrefereneSelector();
+
+//        initBtn();
+    }
+
+    private void initBtn() {
+
+        binding.cvNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(count != 0){
+                    Toast.makeText(PreferencesActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(PreferencesActivity.this, MainActivity.class));
+                    finish();
+                }else {
+                    Toast.makeText(PreferencesActivity.this, "Select Atleast 1 Interest", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
 
     }
 
