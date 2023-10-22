@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "Fusion_Wallpapers_Ringtones"
 include ':app'
 include ':adsmodule'
+include ':photoeditor'

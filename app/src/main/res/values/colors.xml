@@ -10,6 +10,7 @@
     //Blue
     <color name="blue_400">#05BDFF</color>
     <color name="blue_700">#2F80ED</color>
+    <color name="blue_800">#02206D</color>
 
     //Green
     <color name="green_600">#2F7BB1</color>
