@@ -3,4 +3,5 @@
     <declare-styleable name="ConstraintWithBoolean">
         <attr name="isOn" format="boolean"/>
     </declare-styleable>
+
 </resources>
