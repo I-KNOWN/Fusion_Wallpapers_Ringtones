@@ -98,6 +98,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.slider.Slider
+                android:id="@+id/filter_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
