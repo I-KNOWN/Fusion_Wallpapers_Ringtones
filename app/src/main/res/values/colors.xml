@@ -22,4 +22,6 @@
     //Purple
     <color name="purple_500">#6686F8</color>
 
+    <color name="grey_600">#939393</color>
+
 </resources>
