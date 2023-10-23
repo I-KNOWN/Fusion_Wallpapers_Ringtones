@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.app.WallpaperManager;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
@@ -197,19 +200,158 @@ public class WallpaperActivity extends AppCompatActivity {
 
     private void initBehaviour() {
         behaviorSetter = BottomSheetBehavior.from(binding.llSetter);
-        behaviorSetter.setState(BottomSheetBehavior.STATE_COLLAPSED);
         behaviorSetter.setPeekHeight(0, true);
         behaviorSetter.setDraggable(true);
+        behaviorSetter.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if(newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    binding.llSetter.animate()
+                            .alpha(0)
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(@NonNull Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(@NonNull Animator animation) {
+                                    binding.llSetter.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onAnimationCancel(@NonNull Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(@NonNull Animator animation) {
+
+                                }
+                            })
+                            .setDuration(200);
+
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        behaviorSetter.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
 
         behaviorSave = BottomSheetBehavior.from(binding.cvSaveWithAd);
-        behaviorSave.setState(BottomSheetBehavior.STATE_COLLAPSED);
         behaviorSave.setDraggable(true);
         behaviorSave.setPeekHeight(0, true);
+        behaviorSave.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if(newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    binding.cvSaveWithAd.animate()
+                            .alpha(0)
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(@NonNull Animator animation) {
 
+                                }
+
+                                @Override
+                                public void onAnimationEnd(@NonNull Animator animation) {
+                                    binding.cvSaveWithAd.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onAnimationCancel(@NonNull Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(@NonNull Animator animation) {
+
+                                }
+                            })
+                            .setDuration(200);
+
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        behaviorSave.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        binding.ivFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.showAlertProgressDialog(activity);
+
+                    ExecutorService executorService = Executors.newSingleThreadExecutor();
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            String filename = "bitmap.png";
+
+                            try {
+                                FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                                loadedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                stream.close();
+                            }catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Global.hideAlertProgressDialog();
+                                    Intent in1 = new Intent(WallpaperActivity.this, EditorActivity.class);
+                                    in1.putExtra("image", filename);
+                                    startActivity(in1);
+                                }
+                            });
+
+                        }
+                    });
+
+
+
+
+/*
+                Intent intent = new Intent(WallpaperActivity.this, EditorActivity.class);
+                intent.putExtra()
+                startActivity();*/
+            }
+        });
         binding.ivDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                behaviorSetter.setState(BottomSheetBehavior.STATE_EXPANDED);
+                binding.llSetter.animate()
+                        .alpha(0)
+                        .setDuration(1);
+                binding.llSetter.setVisibility(View.VISIBLE);
+                binding.llSetter.animate().alpha(1).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(@NonNull Animator animation) {
+                        behaviorSetter.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(@NonNull Animator animation) {
+
+                    }
+                }).setDuration(0);
             }
         });
 
@@ -217,7 +359,31 @@ public class WallpaperActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 behaviorSetter.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                behaviorSave.setState(BottomSheetBehavior.STATE_EXPANDED);
+                binding.cvSaveWithAd.animate()
+                        .alpha(0)
+                        .setDuration(1);
+                binding.cvSaveWithAd.setVisibility(View.VISIBLE);
+                binding.cvSaveWithAd.animate().alpha(1).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(@NonNull Animator animation) {
+                        behaviorSave.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(@NonNull Animator animation) {
+
+                    }
+                }).setDuration(0);
             }
         });
 

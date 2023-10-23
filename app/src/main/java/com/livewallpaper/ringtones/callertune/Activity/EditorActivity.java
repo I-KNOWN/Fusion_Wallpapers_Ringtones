@@ -43,6 +43,7 @@ import com.steelkiwi.cropiwa.CropIwaView;
 import com.steelkiwi.cropiwa.config.CropIwaSaveConfig;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -72,7 +73,19 @@ public class EditorActivity extends AppCompatActivity {
         current_index = 1;
         isActivited = false;
 
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.board1_01);
+        Bitmap bmp = null;
+        String filename = getIntent().getStringExtra("image");
+        try {
+            FileInputStream is = this.openFileInput(filename);
+            bmp = BitmapFactory.decodeStream(is);
+            bitmap = bmp;
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.board1_01);
         binding.ivEditor.setImageBitmap(bitmap);
         initCrop();
         intiSlider();
