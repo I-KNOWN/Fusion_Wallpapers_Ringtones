@@ -57,8 +57,9 @@ dependencies {
 
     //WySaid
     implementation 'org.wysaid:gpuimage-plus:2.6.3-min'
-
     implementation 'com.steelkiwi:cropiwa:1.0.3'
+    implementation 'com.isseiaoki:simplecropview:1.1.8'
 
-
+    //Blur View
+    implementation 'com.github.Dimezis:BlurView:version-2.0.3'
 }

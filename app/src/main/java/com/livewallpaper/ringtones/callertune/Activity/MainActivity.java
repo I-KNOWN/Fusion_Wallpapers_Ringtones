@@ -169,10 +169,6 @@ public class MainActivity extends AppCompatActivity {
             constraintWithBoolean.getChildAt(1).startAnimation(slideDown);
             constraintWithBoolean.setIsOn(true);
         }
-
-
-
-
     }
 
 
