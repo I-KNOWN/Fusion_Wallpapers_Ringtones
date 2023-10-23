@@ -62,4 +62,8 @@ dependencies {
 
     //Blur View
     implementation 'com.github.Dimezis:BlurView:version-2.0.3'
+
+    //Rounded ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
 }

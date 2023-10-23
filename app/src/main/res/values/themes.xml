@@ -3,6 +3,7 @@
     <style name="Base.Theme.Fusion_Wallpapers_Ringtones" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.Fusion_Wallpapers_Ringtones" parent="Base.Theme.Fusion_Wallpapers_Ringtones" />

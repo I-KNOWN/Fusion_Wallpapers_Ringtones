@@ -37,6 +37,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
 
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="@dimen/_42sdp"
+            android:padding="3dp"
+            android:src="@drawable/back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_visible"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="@dimen/_42sdp"
+            android:padding="3dp"
+            android:src="@drawable/visible_ic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -46,6 +68,7 @@
         android:id="@+id/blurView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:blurOverlayColor="#0F000000"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:transitionName="image_transition"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -23,6 +24,7 @@
             app:layout_constraintVertical_bias="0.5" />
 
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginStart="25dp"
@@ -38,6 +40,7 @@
             android:layout_marginBottom="30dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
+            android:transitionName="card_elem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

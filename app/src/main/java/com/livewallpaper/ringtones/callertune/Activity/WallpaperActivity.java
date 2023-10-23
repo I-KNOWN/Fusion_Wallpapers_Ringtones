@@ -11,6 +11,7 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
 import com.adsmodule.api.adsModule.utils.Global;
 import com.bumptech.glide.Glide;
@@ -34,6 +36,7 @@ import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityWallpaperBinding;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -55,8 +58,8 @@ public class WallpaperActivity extends AppCompatActivity {
         binding = ActivityWallpaperBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         url = "https://raw.githubusercontent.com/brijesh-ide/AppLock_Hide_Photos_Videos/master/themes/img_animals.png";
-        initBehaviour();
         initWallpaper();
+        initBehaviour();
         initBtn();
     }
 
@@ -169,10 +172,31 @@ public class WallpaperActivity extends AppCompatActivity {
                 behaviorSave.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
 
     private void initWallpaper() {
-        Glide.with(WallpaperActivity.this)
+
+        Bitmap bmp = null;
+        String filename = getIntent().getStringExtra("image");
+        try {
+            FileInputStream is = this.openFileInput(filename);
+            bmp = BitmapFactory.decodeStream(is);
+            loadedBitmap = bmp;
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        binding.ivWallpaper.setImageBitmap(loadedBitmap);
+
+/*        Glide.with(WallpaperActivity.this)
                 .asBitmap()
                 .load(url)
                 .addListener(new RequestListener<Bitmap>() {
@@ -195,7 +219,7 @@ public class WallpaperActivity extends AppCompatActivity {
                         return true;
                     }
                 })
-                .into(binding.ivWallpaper);
+                .into(binding.ivWallpaper);*/
     }
 
     private void initBehaviour() {
@@ -309,6 +333,8 @@ public class WallpaperActivity extends AppCompatActivity {
                                     Intent in1 = new Intent(WallpaperActivity.this, EditorActivity.class);
                                     in1.putExtra("image", filename);
                                     startActivity(in1);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                                 }
                             });
 
@@ -417,5 +443,18 @@ public class WallpaperActivity extends AppCompatActivity {
             Toast.makeText(WallpaperActivity.this, "Failed To Save Image", Toast.LENGTH_SHORT).show();
             Log.d("onBtnSavePng", e.toString());
         }
+    }
+
+    @NonNull
+    @Override
+    public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
+        finish();
+        return super.getOnBackInvokedDispatcher();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

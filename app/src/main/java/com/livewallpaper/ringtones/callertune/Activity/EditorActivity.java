@@ -4,6 +4,7 @@ import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.ADJUST;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.WallpaperManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,7 +94,60 @@ public class EditorActivity extends AppCompatActivity {
         initBtn();
         unSelectAll();
         initBehaviour();
+        initBtnExtra();
         binding.ivContrast.performClick();
+    }
+
+    private void initBtnExtra() {
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
+        binding.ivVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(bottomSheetOption.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetOption.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    binding.cvBottomOption.animate()
+                            .alpha(0)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                }
+                            })
+                            .setDuration(200);
+                } else if(bottomSheetOption.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    binding.cvBottomOption.animate()
+                            .alpha(1)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    bottomSheetOption.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                }
+                            })
+                            .setDuration(200);
+
+
+                }
+            }
+        });
+    }
+
+    @NonNull
+    @Override
+    public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
+        finish();
+        return super.getOnBackInvokedDispatcher();
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void initCrop() {
@@ -100,7 +155,7 @@ public class EditorActivity extends AppCompatActivity {
         cropIwaView.setCropMode(CropImageView.CropMode.FIT_IMAGE);
         cropIwaView.setImageBitmap(bitmap);
         cropIwaView.setInitialFrameScale(0.5f);
-        cropIwaView.setCustomRatio(bitmap.getWidth(), bitmap.getHeight());
+        cropIwaView.setCustomRatio(binding.ivEditor.getWidth(), binding.ivEditor.getHeight());
         bottomSheetCrop = BottomSheetBehavior.from(binding.blurView);
         bottomSheetCrop.setPeekHeight(0);
         bottomSheetCrop.setDraggable(false);
