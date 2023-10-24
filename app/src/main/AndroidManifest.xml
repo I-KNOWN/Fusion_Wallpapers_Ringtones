@@ -49,6 +49,20 @@
         <activity
             android:name=".Activity.MainActivity"
             android:exported="false" />
+        <service
+            android:name=".Keyboard.CustomKeyboard"
+            android:exported="true"
+            android:label="Fusion Keyboard"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+
     </application>
 
 </manifest>

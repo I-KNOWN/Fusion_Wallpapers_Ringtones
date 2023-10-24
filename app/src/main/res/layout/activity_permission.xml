@@ -92,6 +92,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/btn_keyboard"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         app:cardCornerRadius="15dp"
@@ -136,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                    android:text="External Storage"
+                    android:text="Manage Keyboard"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -144,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_medium"
-                    android:text="Allow to access photos and media on your device."
+                    android:text="Set Fusion keyboard as default"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>
