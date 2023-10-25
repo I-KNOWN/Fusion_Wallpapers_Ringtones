@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@color/blue_400"
+        android:src="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/main_text"
         app:layout_constraintEnd_toEndOf="@id/main_text"
         app:layout_constraintHorizontal_bias="0.5"
@@ -28,7 +28,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5">
-
         <LinearLayout
             android:id="@+id/row_1"
             android:layout_width="match_parent"
@@ -120,7 +119,6 @@
                 android:textColor="@color/white" />
 
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/row_2"
             android:layout_width="match_parent"
@@ -206,7 +204,6 @@
 
 
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/row_3"
             android:layout_width="match_parent"
@@ -294,7 +291,6 @@
 
 
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/row_4"
             android:layout_width="match_parent"
@@ -324,9 +320,17 @@
                 android:textColor="@color/white" />
 
             <Button
+                android:id="@+id/btn_mic"
+                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="."
+                android:textColor="@color/white" />
+
+            <Button
                 android:id="@+id/btn_space"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:includeFontPadding="false"
                 android:text="____"
                 android:textColor="@color/white" />
@@ -342,6 +346,129 @@
 
             <Button
                 android:id="@+id/btn_enter"
+                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="Enter"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mic_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="7dp"
+        android:clickable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/main_text"
+        app:layout_constraintLeft_toLeftOf="@id/main_text"
+        app:layout_constraintRight_toRightOf="@id/main_text"
+        app:layout_constraintTop_toTopOf="@id/main_text"
+        android:focusable="true">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintBottom_toTopOf="@+id/row_key"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/mic_off_ic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/btn_backpress_mic"
+            style="@style/Root_Keyboard_Btn_2"
+            android:layout_weight="1.5"
+            android:background="@drawable/button_ripple_white_transparent_clear_bg"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            app:layout_constraintBottom_toTopOf="@+id/row_key"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:text="Mic Off"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/cardView2"
+            app:layout_constraintStart_toStartOf="@+id/cardView2"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <LinearLayout
+            android:id="@+id/row_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btn_keyboard_changer"
+                style="@style/Root_Keyboard_Btn"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:background="@drawable/button_ripple_white_transparent_keyboard_bg"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_dot_mic"
+                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="."
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_space_mic"
+                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
+                android:layout_weight="5"
+                android:includeFontPadding="false"
+                android:text="____"
+                android:textColor="@color/white" />
+
+
+            <Button
+                android:id="@+id/btn_commma_mic"
+                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text=","
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_enter_mic"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase"
                 android:layout_weight="1.5"
                 android:gravity="center"

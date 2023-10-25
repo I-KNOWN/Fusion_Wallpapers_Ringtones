@@ -28,10 +28,13 @@ public class CustomKeyboard extends InputMethodService {
     public void onWindowHidden() {
         super.onWindowHidden();
         isUppercase = false;
+        isBackPress = false;
         initAlphabetData();
         initBtnCapsRe();
         initBtnSwitcher();
         initBtnCaps();
+        binding.micParent.setVisibility(View.GONE);
+        binding.mainText.setVisibility(View.VISIBLE);
     }
 
     private void initBtnSwitcher() {
@@ -98,13 +101,13 @@ public class CustomKeyboard extends InputMethodService {
                 }
             }
         });
-        binding.btnDot.setOnClickListener(new View.OnClickListener() {
+/*        binding.btnDot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputConnection connection = getCurrentInputConnection();
                 connection.commitText(".", 1);
             }
-        });
+        });*/
 
         binding.btnCommma.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +148,31 @@ public class CustomKeyboard extends InputMethodService {
             }
         });
 
+
+
+        binding.btnDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.mainText.setVisibility(View.INVISIBLE);
+                binding.micParent.setVisibility(View.VISIBLE);
+            }
+        });
+
+        initMicButton();
+
+
+
         return binding.getRoot();
+    }
+
+    private void initMicButton() {
+        binding.btnKeyboardChanger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.micParent.setVisibility(View.GONE);
+                binding.mainText.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void initBtnCapSwitcher() {
