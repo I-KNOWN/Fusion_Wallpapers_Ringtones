@@ -7,7 +7,6 @@
             <corners android:radius="4dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/keyboard_shift_filled" android:top="12dp" android:bottom="12dp"
-        android:start="12dp" android:end="12dp"/>
+    <item android:drawable="@drawable/mic_on_ic_white" android:gravity="center" android:height="24dp" android:width="24dp"/>
 
 </ripple>

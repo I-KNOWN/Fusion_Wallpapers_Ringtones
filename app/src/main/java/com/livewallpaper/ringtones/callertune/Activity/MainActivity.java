@@ -1,9 +1,12 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.livewallpaper.ringtones.callertune.CustomViews.ConstraintWithBoolean;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.Utils.Util;
@@ -33,6 +41,40 @@ public class MainActivity extends AppCompatActivity {
         initTabAnimation();
         initStartTabAnimation();
         initTabButton();
+        initBg();
+    }
+
+    private void initBg() {
+
+        Glide.with(MainActivity.this)
+                .asBitmap()
+                .load("https://www.api.idecloudstoragepanel.com/media/Applications_Data/com.livewallpaper.ringtones.callertune/Image_Files/car/car_1.jpg")
+                .addListener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(@NonNull Bitmap resource, @NonNull Object model, Target<Bitmap> target, @NonNull DataSource dataSource, boolean isFirstResource) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.ivBg.setImageBitmap(resource);
+
+                            }
+                        });
+
+
+                        return true;
+                    }
+                }).submit();
+
+    }
+
+    private void intiTrashClicks() {
+
     }
 
     private void initStartTabAnimation() {

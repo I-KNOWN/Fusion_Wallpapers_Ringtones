@@ -41,8 +41,8 @@ public class PermissionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openKeyboardChooserSettings();
-
-/*                if(!isKeyboardEnabled()){
+/*
+                if(!isKeyboardEnabled()){
                     openKeyboardSettings();
                 }else{
                 }*/
