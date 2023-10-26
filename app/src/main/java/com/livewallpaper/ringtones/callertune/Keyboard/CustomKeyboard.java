@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
@@ -28,8 +30,11 @@ import androidx.core.app.ActivityCompat;
 
 import com.livewallpaper.ringtones.callertune.Activity.MainActivity;
 import com.livewallpaper.ringtones.callertune.R;
+import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
+import com.livewallpaper.ringtones.callertune.Utils.Constants;
 import com.livewallpaper.ringtones.callertune.databinding.ItemKeyboardBinding;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -55,6 +60,24 @@ public class CustomKeyboard extends InputMethodService {
 
         binding.micParent.setVisibility(View.GONE);
         binding.mainText.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onWindowShown() {
+        super.onWindowShown();
+        Bitmap bmp = null;
+        String filename = MyApplication.getPreferences().getString(Constants.KEYBOARD_BG, "");
+        if(!filename.equals("")){
+            try {
+                FileInputStream is = this.openFileInput(filename);
+                bmp = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            binding.ivBgKeyboard.setImageBitmap(bmp);
+        }
+
     }
 
     private void initBtnSwitcher() {

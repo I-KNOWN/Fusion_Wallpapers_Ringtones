@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -25,9 +28,13 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.livewallpaper.ringtones.callertune.CustomViews.ConstraintWithBoolean;
 import com.livewallpaper.ringtones.callertune.R;
+import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
+import com.livewallpaper.ringtones.callertune.Utils.Constants;
 import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityMainBinding;
 import com.livewallpaper.ringtones.callertune.databinding.ItemKeyboardBinding;
+
+import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,14 +76,40 @@ public class MainActivity extends AppCompatActivity {
                                 binding.item1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+
+
+                                        String filename = "savedBitmapBackground.png";
+
+                                        try {
+                                            FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                                            resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                            MyApplication.getPreferences().putString(Constants.KEYBOARD_BG, filename);
+                                            stream.close();
+                                        }catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                        startActivity(new Intent(MainActivity.this, PermissionActivity.class));
+
+/*                                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
                                         LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
                                         ItemKeyboardBinding keyboardBinding = ItemKeyboardBinding.inflate(layoutInflater);
                                         bottomSheetDialog.setContentView(keyboardBinding.getRoot());
                                         bottomSheetDialog.setCancelable(true);
-                                        ImageView iv_back = bottomSheetDialog.findViewById(R.id.iv_bg_keyboard);
-                                        iv_back.setImageBitmap(resource);
-                                        bottomSheetDialog.show();
+                                        initButtonclickEffect(keyboardBinding.btnW);
+                                        initButtonclickEffect(keyboardBinding.btnQ);
+                                        initButtonclickEffect(keyboardBinding.btnE);
+                                        initButtonclickEffect(keyboardBinding.btnR);
+                                        initButtonclickEffect(keyboardBinding.btnT);
+                                        initButtonclickEffect(keyboardBinding.btnY);
+                                        initButtonclickEffect(keyboardBinding.btnU);
+                                        initButtonclickEffect(keyboardBinding.btnI);
+                                        initButtonclickEffect(keyboardBinding.btnO);
+                                        initButtonclickEffect(keyboardBinding.btnP);
+//                                        ImageView iv_back = bottomSheetDialog.findViewById(R.id.iv_bg_keyboard);
+                                        keyboardBinding.ivBgKeyboard.setImageBitmap(resource);
+                                        bottomSheetDialog.show();*/
                                     }
                                 });
 
@@ -91,6 +124,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void intiTrashClicks() {
+
+    }
+
+
+    private void initButtonclickEffect(View view) {
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    v.setPressed(true);
+                    v.animate()
+                            .scaleX(0.8f)
+                            .scaleY(0.8f)
+                            .alpha(0.7f)
+                            .setDuration(50);
+                }else if(event.getAction() == MotionEvent.ACTION_UP){
+                    v.setPressed(false);
+                    v.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .alpha(1f)
+                            .setDuration(50);
+                }
+                return true;
+            }
+        });
 
     }
 
