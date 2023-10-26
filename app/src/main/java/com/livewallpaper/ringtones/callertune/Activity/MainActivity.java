@@ -9,21 +9,25 @@ import android.animation.AnimatorListenerAdapter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.livewallpaper.ringtones.callertune.CustomViews.ConstraintWithBoolean;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityMainBinding;
+import com.livewallpaper.ringtones.callertune.databinding.ItemKeyboardBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 binding.ivBg.setImageBitmap(resource);
+                                binding.item1.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+                                        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+                                        ItemKeyboardBinding keyboardBinding = ItemKeyboardBinding.inflate(layoutInflater);
+                                        bottomSheetDialog.setContentView(keyboardBinding.getRoot());
+                                        bottomSheetDialog.setCancelable(true);
+                                        ImageView iv_back = bottomSheetDialog.findViewById(R.id.iv_bg_keyboard);
+                                        iv_back.setImageBitmap(resource);
+                                        bottomSheetDialog.show();
+                                    }
+                                });
 
                             }
                         });

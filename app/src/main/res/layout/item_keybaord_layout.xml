@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_q"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -36,7 +36,7 @@
                 android:text="q"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_w"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -44,7 +44,7 @@
                 android:text="w"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_e"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -52,7 +52,7 @@
                 android:text="e"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_r"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -60,7 +60,7 @@
                 android:text="r"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_t"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -68,7 +68,7 @@
                 android:text="t"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_y"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -76,7 +76,7 @@
                 android:text="y"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_u"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -84,7 +84,7 @@
                 android:text="u"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_i"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -92,7 +92,7 @@
                 android:text="i"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_o"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -100,7 +100,7 @@
                 android:text="o"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_p"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -121,7 +121,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_1">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_a"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -129,7 +129,7 @@
                 android:text="a"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_s"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -137,7 +137,7 @@
                 android:text="s"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_d"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -145,7 +145,7 @@
                 android:text="d"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_f"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -153,7 +153,7 @@
                 android:text="f"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_g"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -161,7 +161,7 @@
                 android:text="g"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_h"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -169,7 +169,7 @@
                 android:text="h"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_j"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -177,7 +177,7 @@
                 android:text="j"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_k"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -185,7 +185,7 @@
                 android:text="k"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_l"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -207,14 +207,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_2">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_caps"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1.5"
                 android:gravity="center"
                 android:includeFontPadding="false" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_z"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -222,7 +222,7 @@
                 android:text="z"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_x"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -230,7 +230,7 @@
                 android:text="x"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_c"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -238,7 +238,7 @@
                 android:text="c"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_v"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -246,7 +246,7 @@
                 android:text="v"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_b"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -254,7 +254,7 @@
                 android:text="b"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_n"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -262,7 +262,7 @@
                 android:text="n"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_m"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -270,7 +270,7 @@
                 android:text="m"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_backpress"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1.5"
@@ -291,7 +291,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_3">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_num"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1.5"
@@ -300,7 +300,7 @@
                 android:text="123"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_dot"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -308,14 +308,14 @@
                 android:text="."
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_mic"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
                 android:includeFontPadding="false"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_space"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="4"
@@ -324,7 +324,7 @@
                 android:textColor="@color/white" />
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_commma"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1"
@@ -332,7 +332,7 @@
                 android:text=","
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_enter"
                 style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
                 android:layout_weight="1.5"
