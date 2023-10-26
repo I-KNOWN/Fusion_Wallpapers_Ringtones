@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.livewallpaper.ringtones.callertune.Adapter.WallpaperPreviewAdapter;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityWallpaperViewerBinding;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class WallpaperViewerActivity extends AppCompatActivity {
@@ -62,6 +64,13 @@ public class WallpaperViewerActivity extends AppCompatActivity {
                 Toast.makeText(WallpaperViewerActivity.this, "Wait For Image To Load", Toast.LENGTH_SHORT).show();
             }
         });
+
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
     
     
@@ -85,9 +94,20 @@ public class WallpaperViewerActivity extends AppCompatActivity {
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(binding.rvWalpaperPreview);
 
+        Bitmap bmp = null;
+        String filename = getIntent().getStringExtra("filename");
+        try {
+            FileInputStream is = this.openFileInput(filename);
+            bmp = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         Glide.with(WallpaperViewerActivity.this)
                 .asBitmap()
-                .load(url)
+                .load(bmp)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Bitmap> target, boolean isFirstResource) {
@@ -122,7 +142,11 @@ public class WallpaperViewerActivity extends AppCompatActivity {
         binding.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String filename = "bitmap.png";
+                Intent in1 = new Intent(WallpaperViewerActivity.this, EditorActivity.class);
+                in1.putExtra("image", getIntent().getStringExtra("filename"));
+                startActivity(in1);
+//                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                /*String filename = "bitmap.png";
 
                 try {
                     FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
@@ -130,24 +154,15 @@ public class WallpaperViewerActivity extends AppCompatActivity {
                     stream.close();
                 }catch (Exception e) {
                     e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Global.hideAlertProgressDialog();
-                        Intent in1 = new Intent(WallpaperViewerActivity.this, EditorActivity.class);
-                        in1.putExtra("image", filename);
-                        startActivity(in1);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    }
-                });
+                }*/
+
             }
         });
 
         binding.ivDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String filename = "bitmap.png";
+/*                String filename = "bitmap.png";
 
                 try {
                     FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
@@ -155,13 +170,13 @@ public class WallpaperViewerActivity extends AppCompatActivity {
                     stream.close();
                 }catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Global.hideAlertProgressDialog();
+//                        Global.hideAlertProgressDialog();
                         Intent in1 = new Intent(WallpaperViewerActivity.this, WallpaperActivity.class);
-                        in1.putExtra("image", filename);
+                        in1.putExtra("image", getIntent().getStringExtra("filename"));
                         in1.putExtra("url", url);
                         startActivity(in1);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

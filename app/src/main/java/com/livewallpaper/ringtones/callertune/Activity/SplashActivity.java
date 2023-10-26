@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.retrofit.AdsDataRequestModel;
@@ -34,7 +35,10 @@ public class SplashActivity extends AppCompatActivity {
             callAdsApi(activity, Constants.MAIN_BASE_URL, new AdsDataRequestModel(this.getPackageName(), ""), adsResponseModel -> {
                 if (adsResponseModel != null) {
                     AdUtils.showAppOpenAds(Constants.adsResponseModel.getApp_open_ads().getAdx(), activity, state_load -> {
+                        Log.d("WhatistheData", Constants.adsResponseModel.getExtra_data_field().getCategories().getTrending().getUrls().get(0).toString());
                         nextActivity();
+
+
                     });
                 } else new Handler().postDelayed(new Runnable() {
                     @Override
@@ -55,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void nextActivity() {
-        startActivity(MyApplication.getPreferences().isFirstRun()? new Intent(SplashActivity.this, MainActivity.class): new Intent(SplashActivity.this, MainActivity.class));
+        startActivity(MyApplication.getPreferences().isFirstRun()? new Intent(SplashActivity.this, PermissionActivity.class): new Intent(SplashActivity.this, MainActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

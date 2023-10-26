@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cv_external_storage"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:layout_marginTop="20dp"
@@ -82,8 +82,10 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/iv_external_arrow"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:alpha="0.3"
                 android:layout_marginHorizontal="15dp"
                 android:src="@drawable/check_confirm" />
 
@@ -101,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@+id/cv_external_storage">
 
 
         <ImageView
@@ -151,8 +153,10 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/iv_keyboard_check"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:alpha="0.3"
                 android:layout_marginHorizontal="15dp"
                 android:src="@drawable/check_confirm" />
 

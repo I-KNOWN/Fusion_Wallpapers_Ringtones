@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/iv_back"
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginStart="25dp"
@@ -39,7 +39,7 @@
         android:layout_height="0dp"
         android:transitionName="image_transition"
         app:layout_constraintBottom_toTopOf="@+id/cv_sett"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
 
     <androidx.cardview.widget.CardView

@@ -21,6 +21,7 @@ import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ import com.livewallpaper.ringtones.callertune.editor.ViewType;
 import com.steelkiwi.cropiwa.AspectRatio;
 import com.steelkiwi.cropiwa.CropIwaView;
 import com.steelkiwi.cropiwa.config.CropIwaSaveConfig;
+
+import org.wysaid.myUtils.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,7 +105,7 @@ public class EditorActivity extends AppCompatActivity {
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getOnBackPressedDispatcher().onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -138,12 +141,17 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
-    @NonNull
     @Override
-    public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
+    public void onBackPressed() {
         finish();
-        return super.getOnBackInvokedDispatcher();
     }
+
+    /*   @NonNull
+        @Override
+        public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
+            finish();
+            return super.getOnBackInvokedDispatcher();
+        }*/
     @Override
     public void finish() {
         super.finish();

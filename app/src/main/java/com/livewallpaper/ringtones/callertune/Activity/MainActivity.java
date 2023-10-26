@@ -3,6 +3,9 @@ package com.livewallpaper.ringtones.callertune.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -27,6 +30,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.livewallpaper.ringtones.callertune.CustomViews.ConstraintWithBoolean;
+import com.livewallpaper.ringtones.callertune.Fragment.WallpaperCategoryFragment;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
 import com.livewallpaper.ringtones.callertune.Utils.Constants;
@@ -52,9 +56,17 @@ public class MainActivity extends AppCompatActivity {
         initTabAnimation();
         initStartTabAnimation();
         initTabButton();
-        initBg();
+        chageFragment(new WallpaperCategoryFragment());
     }
 
+    private void chageFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragcontainer, fragment);
+        fragmentTransaction.commit();
+    }
+
+/*
     private void initBg() {
 
         Glide.with(MainActivity.this)
@@ -92,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         startActivity(new Intent(MainActivity.this, PermissionActivity.class));
 
+*/
 /*                                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
                                         LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
                                         ItemKeyboardBinding keyboardBinding = ItemKeyboardBinding.inflate(layoutInflater);
@@ -109,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
                                         initButtonclickEffect(keyboardBinding.btnP);
 //                                        ImageView iv_back = bottomSheetDialog.findViewById(R.id.iv_bg_keyboard);
                                         keyboardBinding.ivBgKeyboard.setImageBitmap(resource);
-                                        bottomSheetDialog.show();*/
+                                        bottomSheetDialog.show();*//*
+
                                     }
                                 });
 
@@ -122,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 }).submit();
 
     }
+*/
 
     private void intiTrashClicks() {
 

@@ -32,7 +32,7 @@ public class PreferencesActivity extends AppCompatActivity {
         binding.tvProgressIncrement.setText(Integer.toString(count));
         initPrefereneSelector();
 
-//        initBtn();
+        initBtn();
     }
 
     private void initBtn() {

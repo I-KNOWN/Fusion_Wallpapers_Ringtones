@@ -176,7 +176,7 @@ public class WallpaperActivity extends AppCompatActivity {
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getOnBackPressedDispatcher().onBackPressed();
+                onBackPressed();
             }
         });
     }
@@ -445,11 +445,9 @@ public class WallpaperActivity extends AppCompatActivity {
         }
     }
 
-    @NonNull
     @Override
-    public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
+    public void onBackPressed() {
         finish();
-        return super.getOnBackInvokedDispatcher();
     }
 
     @Override

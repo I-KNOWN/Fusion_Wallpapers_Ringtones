@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -25,7 +26,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.app.ActivityCompat;
 
 import com.livewallpaper.ringtones.callertune.Activity.MainActivity;
@@ -33,6 +36,7 @@ import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
 import com.livewallpaper.ringtones.callertune.Utils.Constants;
 import com.livewallpaper.ringtones.callertune.databinding.ItemKeyboardBinding;
+import com.permissionx.guolindev.PermissionX;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -210,8 +214,13 @@ public class CustomKeyboard extends InputMethodService {
         binding.btnMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.mainText.setVisibility(View.INVISIBLE);
-                binding.micParent.setVisibility(View.VISIBLE);
+                if(checkPermission(Manifest.permission.RECORD_AUDIO)){
+                    binding.mainText.setVisibility(View.INVISIBLE);
+                    binding.micParent.setVisibility(View.VISIBLE);
+                }
+
+
+
             }
         });
 
@@ -222,14 +231,20 @@ public class CustomKeyboard extends InputMethodService {
         return binding.getRoot();
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     private void initMicButton() {
+        SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+
         binding.btnKeyboardChanger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                speechRecognizer.stopListening();
+                speechRecognizer.cancel();
+                speechRecognizer.destroy();
+                binding.tvMic.setText("Mic Off");
                 binding.micParent.setVisibility(View.GONE);
                 binding.mainText.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -237,16 +252,17 @@ public class CustomKeyboard extends InputMethodService {
         binding.cvMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(onCreateInputView().getContext());
-                final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                binding.tvMic.setText("Mic Off");
+                Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getClass().getPackage().getName());
                 speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
                 speechRecognizer.startListening(speechRecognizerIntent);
 
                 speechRecognizer.setRecognitionListener(new RecognitionListener() {
                     @Override
                     public void onReadyForSpeech(Bundle params) {
-
+                        binding.tvMic.setText("Mic On");
                     }
 
                     @Override
@@ -266,47 +282,33 @@ public class CustomKeyboard extends InputMethodService {
 
                     @Override
                     public void onEndOfSpeech() {
+                        binding.tvMic.setText("Mic Off");
                         currentString = "";
                     }
 
                     @Override
                     public void onError(int error) {
+                        binding.tvMic.setText("Mic Off");
 
                     }
 
                     @Override
                     public void onResults(Bundle results) {
-                        if(currentString.isEmpty()){
                             InputConnection connection = getCurrentInputConnection();
                             ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                             connection.commitText(" "+data.get(0), 1);
-                        }
+
                     }
 
                     @Override
                     public void onPartialResults(Bundle partialResults) {
-                        InputConnection connection = getCurrentInputConnection();
+/*                        InputConnection connection = getCurrentInputConnection();
                         ArrayList<String> data = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                         String value = data.get(0);
-                        Log.d("WhatistheData", currentString);
-/*                        while (true){
-                            if(!currentString.isEmpty()){
-                                value = value.replace(currentString, "");
-
-                                if(value.equals(data.get(0))){
-                                    currentString = currentString.substring(0, currentString.length() - 2);
-                                }else{
-                                    break;
-                                }
-                            }else{
-                                break;
-                            }
-                        }*/
                         value = value.replace(currentString, "");
-
                         currentString = currentString+value;
                         Log.d("WhatistheData", value);
-                        connection.commitText(value, 1);
+                        connection.commitText(value, 1);*/
                     }
 
                     @Override

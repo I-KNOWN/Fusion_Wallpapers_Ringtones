@@ -11,5 +11,7 @@
     <string name="boarding_title_3">KEYBOARD</string>
     <string name="tmc_"><u>Terms &amp; Condition</u></string>
     <string name="privacy_"><u>Privacy Policy</u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

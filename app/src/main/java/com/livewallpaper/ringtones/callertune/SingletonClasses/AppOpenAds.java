@@ -47,7 +47,7 @@ public class AppOpenAds implements LifecycleObserver, Application.ActivityLifecy
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
-        if (activity.getPackageName().equals("com.livewallpaper.ringtones.callertune")){
+        if (activity.getComponentName().getClassName().contains("com.livewallpaper.ringtones.callertune")){
             MyApplication.makeStatusBarTransparentLight(activity);
         }
         AppOpenAds.activity = activity;
