@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
+import com.adsmodule.api.adsModule.utils.Constants;
+import com.google.gson.JsonObject;
+import com.livewallpaper.ringtones.callertune.Activity.AllCategoriesActivity;
 import com.livewallpaper.ringtones.callertune.Activity.SeeAllActivity;
 import com.livewallpaper.ringtones.callertune.Adapter.SomeCategoryAdapter;
 import com.livewallpaper.ringtones.callertune.Adapter.WallpaperItemAdapter;
@@ -24,6 +28,7 @@ import com.livewallpaper.ringtones.callertune.Retrofit.ImageRetrofit;
 import com.livewallpaper.ringtones.callertune.databinding.FragmentWallpaperCategoryBinding;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,12 +59,25 @@ public class WallpaperCategoryFragment extends Fragment {
 
     private void initBtn() {
 
+        binding.tvSeeallCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+
+                Intent intent = new Intent(requireActivity(), AllCategoriesActivity.class);
+                intent.putExtra("type", "wallpaper");
+                startActivity(intent);
+            }
+        });
+
         binding.tvSeeallPopular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+
                 Intent intent = new Intent(requireActivity(), SeeAllActivity.class);
                 intent.putExtra("type", "wallpaper");
-                intent.putExtra("category", "kpop");
+                intent.putExtra("category", dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularWallpaperIndex()).getCategory_name());
                 startActivity(intent);
             }
         });
@@ -67,7 +85,25 @@ public class WallpaperCategoryFragment extends Fragment {
     }
 
     private void getData() {
-        ImageCall imageCall = ImageRetrofit.getClient().create(ImageCall.class);
+
+        List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+        List<String> data = new ArrayList<>();
+        List<String> id = dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularWallpaperIndex()).getIds();
+        binding.tvCatPop.setText(dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularWallpaperIndex()).getCategory_name());
+        String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+
+        for(int i = 0; i < id.size(); i++){
+            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+            JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+            String urlKpop = kpop1.get("url").getAsString();
+
+            data.add(baseUrl+urlKpop);
+        }
+
+        intRecyclerView(data);
+
+
+/*        ImageCall imageCall = ImageRetrofit.getClient().create(ImageCall.class);
         List<String> data = new ArrayList<>();
         data.add("kpop");
         Call<List<ImageModel>> call = imageCall.getSpecificImageCategory(new BodyModel(getActivity().getPackageName(), data));
@@ -90,10 +126,10 @@ public class WallpaperCategoryFragment extends Fragment {
 
 
             }
-        });
+        });*/
     }
 
-    private void intRecyclerView(List<ImageModel> imageModels) {
+    private void intRecyclerView(List<String> imageModels) {
         wallpaperItemAdapter = new WallpaperItemAdapter(requireContext(), imageModels);
         binding.rvPopular.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         binding.rvPopular.setAdapter(wallpaperItemAdapter);
@@ -101,30 +137,24 @@ public class WallpaperCategoryFragment extends Fragment {
 
 
     private void initSomeCategoryData() {
-
+        List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
         data = new ArrayList<>();
-/*        data.add(new CategoryModel(
-                "Abstract",
-                "Abstracts, Dark Wallpaper",
-                R.drawable.abstract_sample
-        ));
-
-        data.add(new CategoryModel(
-                "Cars",
-                "Cool, Attractive, Expensive",
-                R.drawable.cars
-        ));
-
-        data.add(new CategoryModel(
-                "Cartoon",
-                "Cute, Charming, innocent",
-                R.drawable.cartoon
-        ));*/
-
+        int size = Math.min(dto.size(), 4);
+        for(int i = 0; i < size; i++){
+            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+            JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
+            String urlKpop = kpop1.get("url").getAsString();
+            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+            data.add(new CategoryModel(
+                    dto.get(i).getCategory_name(),
+                    dto.get(i).getCategory_desc(),
+                    baseUrl+urlKpop
+            ));
+        }
     }
 
     private void initSomeCategoryRecyclerView() {
-        someCategoryAdapter = new SomeCategoryAdapter(requireContext(), data);
+        someCategoryAdapter = new SomeCategoryAdapter(requireContext(), data, "wallpaper");
         binding.rvSomeCat.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvSomeCat.setAdapter(someCategoryAdapter);
     }

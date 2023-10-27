@@ -1,358 +1,422 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginVertical="10dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="7dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/row_1"
+        <ImageView
+            android:id="@+id/iv_cat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/cl_root_te"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cl_root_te"
+            app:layout_constraintVertical_bias="0.5" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_root_te"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_q"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="q"
-                android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_w"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="w"
-                android:textColor="@color/white" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_e"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="e"
-                android:textColor="@color/white" />
+                <LinearLayout
+                    android:id="@+id/row_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_r"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="r"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_q"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="q"
+                        android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_t"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="t"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_w"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="w"
+                        android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_y"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="y"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_e"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="e"
+                        android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_u"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="u"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_r"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="r"
+                        android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_i"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="i"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_t"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="t"
+                        android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_o"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="o"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_y"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="y"
+                        android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_p"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="p"
-                android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_u"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="u"
+                        android:textColor="@color/white" />
 
-        </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_i"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="i"
+                        android:textColor="@color/white" />
 
-        <LinearLayout
-            android:id="@+id/row_2"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_o"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="o"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_p"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="p"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/row_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:weightSum="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/row_1">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_a"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="a"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_s"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="s"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_d"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="d"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_f"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="f"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_g"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="g"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_h"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="h"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_j"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="j"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_k"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="k"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_l"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="l"
+                        android:textColor="@color/white" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/row_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:weightSum="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/row_2">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_caps"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_z"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="z"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_x"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="x"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_c"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="c"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_v"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="v"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_b"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="b"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_n"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="n"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_m"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="m"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_backpress"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/row_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:weightSum="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/row_3">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_num"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="123"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_dot"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text="."
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_mic"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_space"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="4"
+                        android:includeFontPadding="false"
+                        android:text="____"
+                        android:textColor="@color/white" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_commma"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text=","
+                        android:textColor="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_enter"
+                        style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:includeFontPadding="false" />
+
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:src="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:weightSum="10"
+            android:layout_height="40dp"
+            android:background="#001662"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_1">
+            app:layout_constraintTop_toBottomOf="@id/cl_root_te">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_a"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="a"
-                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Dolphin Keyboard"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_s"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="s"
-                android:textColor="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_d"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="d"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_f"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="f"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_g"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="g"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_h"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="h"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_j"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="j"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_k"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="k"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_l"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="l"
-                android:textColor="@color/white" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/row_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:weightSum="10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_2">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_caps"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:includeFontPadding="false" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_z"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="z"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_x"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="x"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_c"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="c"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_v"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="v"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_b"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="b"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_n"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="n"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_m"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="m"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_backpress"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:includeFontPadding="false" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/row_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:weightSum="10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_3">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_num"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="123"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_dot"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text="."
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_mic"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_space"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="4"
-                android:includeFontPadding="false"
-                android:text="____"
-                android:textColor="@color/white" />
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_commma"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:text=","
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_enter"
-                style="@style/Keyboard_Btn_Half_Transparent_White_lowercase_preview"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:includeFontPadding="false" />
-
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@android:color/transparent"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

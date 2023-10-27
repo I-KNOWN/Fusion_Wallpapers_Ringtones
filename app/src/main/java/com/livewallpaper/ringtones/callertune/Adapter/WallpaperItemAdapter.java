@@ -37,9 +37,9 @@ public class WallpaperItemAdapter extends RecyclerView.Adapter<WallpaperItemAdap
 
 
     Context context;
-    List<ImageModel> data;
+    List<String> data;
 
-    public WallpaperItemAdapter(Context context, List<ImageModel> data){
+    public WallpaperItemAdapter(Context context, List<String> data){
         this.context = context;
         this.data = data;
     }
@@ -53,12 +53,9 @@ public class WallpaperItemAdapter extends RecyclerView.Adapter<WallpaperItemAdap
 
     @Override
     public void onBindViewHolder(@NonNull SomeCategoryViewHolder holder, int position) {
-
-        ImageModel model = data.get(holder.getAdapterPosition());
-
         Glide.with(context)
                 .asBitmap()
-                        .load(model.getAppImage())
+                        .load(data.get(holder.getAdapterPosition()))
                                 .addListener(new RequestListener<Bitmap>() {
                                     @Override
                                     public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Bitmap> target, boolean isFirstResource) {

@@ -1,5 +1,11 @@
 package com.adsmodule.api.adsModule.retrofit;
 
+import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
 public class AdsResponseModel {
 
     private String url;
@@ -341,6 +347,8 @@ public class AdsResponseModel {
     }
 
     public static class ExtraDataFieldDTO {
+
+
     }
 
     private class MobileStickyAdsDTO {

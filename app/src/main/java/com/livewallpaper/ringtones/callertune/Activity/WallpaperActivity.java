@@ -61,6 +61,7 @@ public class WallpaperActivity extends AppCompatActivity {
         initWallpaper();
         initBehaviour();
         initBtn();
+        setUpWalpperBtn();
     }
 
     private void setUpWalpperBtn() {
@@ -195,6 +196,12 @@ public class WallpaperActivity extends AppCompatActivity {
         }
 
         binding.ivWallpaper.setImageBitmap(loadedBitmap);
+        binding.cvWatchAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBtnSavePng();
+            }
+        });
 
 /*        Glide.with(WallpaperActivity.this)
                 .asBitmap()
@@ -221,6 +228,8 @@ public class WallpaperActivity extends AppCompatActivity {
                 })
                 .into(binding.ivWallpaper);*/
     }
+
+
 
     private void initBehaviour() {
         behaviorSetter = BottomSheetBehavior.from(binding.llSetter);
@@ -413,12 +422,7 @@ public class WallpaperActivity extends AppCompatActivity {
             }
         });
 
-        binding.cvWatchAd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(WallpaperActivity.this, "Wait For Image To Load", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     public void onBtnSavePng() {

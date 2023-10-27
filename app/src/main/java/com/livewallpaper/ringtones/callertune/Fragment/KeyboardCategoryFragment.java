@@ -1,0 +1,69 @@
+package com.livewallpaper.ringtones.callertune.Fragment;
+
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
+import com.adsmodule.api.adsModule.utils.Constants;
+import com.google.gson.JsonObject;
+import com.livewallpaper.ringtones.callertune.Adapter.SomeCategoryAdapter;
+import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
+import com.livewallpaper.ringtones.callertune.R;
+import com.livewallpaper.ringtones.callertune.databinding.FragmentKeyboardCategoryBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class KeyboardCategoryFragment extends Fragment {
+
+    FragmentKeyboardCategoryBinding binding;
+    ArrayList<CategoryModel> data;
+    SomeCategoryAdapter someCategoryAdapter;
+    public KeyboardCategoryFragment(){}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        binding = FragmentKeyboardCategoryBinding.inflate(inflater, container, false);
+        View view= binding.getRoot();
+
+        initSomeCategoryData();
+        initSomeCategoryRecyclerView();
+
+
+
+        return view;
+    }
+
+
+    private void initSomeCategoryData() {
+        List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
+        data = new ArrayList<>();
+        int size = Math.min(dto.size(), 4);
+        for(int i = 0; i < size; i++){
+            JsonObject keyboardData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
+            JsonObject kpop1 = keyboardData.getAsJsonObject(dto.get(i).getIds().get(i));
+            String urlKpop = kpop1.get("url").getAsString();
+            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+            data.add(new CategoryModel(
+                    dto.get(i).getCategory_name(),
+                    dto.get(i).getCategory_desc(),
+                    baseUrl+urlKpop
+            ));
+        }
+    }
+
+    private void initSomeCategoryRecyclerView() {
+        someCategoryAdapter = new SomeCategoryAdapter(requireContext(), data, "keyboard");
+        binding.rvSomeCat.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvSomeCat.setAdapter(someCategoryAdapter);
+    }
+
+}

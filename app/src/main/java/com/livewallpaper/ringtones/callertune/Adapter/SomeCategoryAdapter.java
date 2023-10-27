@@ -1,6 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.bumptech.glide.Glide;
+import com.livewallpaper.ringtones.callertune.Activity.SeeAllActivity;
 import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
 
@@ -23,10 +26,11 @@ public class SomeCategoryAdapter extends RecyclerView.Adapter<SomeCategoryAdapte
 
     Context context;
     ArrayList<CategoryModel> data;
-
-    public SomeCategoryAdapter(Context context, ArrayList<CategoryModel> data){
+    String type;
+    public SomeCategoryAdapter(Context context, ArrayList<CategoryModel> data, String type){
         this.context = context;
         this.data = data;
+        this.type = type;
     }
 
     @NonNull
@@ -45,6 +49,15 @@ public class SomeCategoryAdapter extends RecyclerView.Adapter<SomeCategoryAdapte
 //        holder.iv_cat_bg.setImageDrawable(ContextCompat.getDrawable(context, model.getCategoryImage()));
         holder.tv_title.setText(model.getCategoryName());
         holder.tv_desc.setText(model.getCategoryDesc());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SeeAllActivity.class);
+                intent.putExtra("type", type);
+                intent.putExtra("category", model.getCategoryName());
+                context.startActivity(intent);
+            }
+        });
 
     }
 

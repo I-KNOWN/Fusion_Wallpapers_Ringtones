@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
-    tools:context=".Fragment.WallpaperCategoryFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.KeyboardCategoryFragment">
 
     <TextView
         android:id="@+id/textView10"
@@ -29,7 +29,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_some_cat"
         android:layout_width="match_parent"
@@ -39,43 +38,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-
-    <TextView
-        android:id="@+id/tv_cat_pop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Kpop"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_some_cat" />
-
-    <TextView
-        android:id="@+id/tv_seeall_popular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:text="See All"
-        android:textColor="#CCFFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_cat_pop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_cat_pop" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_popular"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="30dp"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cat_pop" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

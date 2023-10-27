@@ -1,6 +1,9 @@
 package com.adsmodule.api.adsModule.retrofit;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -413,12 +416,32 @@ public class AdsResponseModel {
 
         private String wallpaper_base_url;
         private String keyboard_base_url;
+        private int popularWallpaperIndex;
+        private int popularkeyboardIndex;
+
         private List<WallpaperColorsDTO> wallpaper_colors;
         private List<WallpaperCategoriesDTO> wallpaper_categories;
-        private List<WallpaperDataDTO> wallpaper_data;
+        private JsonObject wallpaper_data;
         private List<KeyboardColorsDTO> keyboard_colors;
         private List<KeyboardCategoriesDTO> keyboard_categories;
-        private KeyboardDataDTO keyboard_data;
+        private JsonObject keyboard_data;
+
+
+        public int getPopularWallpaperIndex() {
+            return popularWallpaperIndex;
+        }
+
+        public void setPopularWallpaperIndex(int popularWallpaperIndex) {
+            this.popularWallpaperIndex = popularWallpaperIndex;
+        }
+
+        public int getPopularkeyboardIndex() {
+            return popularkeyboardIndex;
+        }
+
+        public void setPopularkeyboardIndex(int popularkeyboardIndex) {
+            this.popularkeyboardIndex = popularkeyboardIndex;
+        }
 
         public String getWallpaper_base_url() {
             return wallpaper_base_url;
@@ -452,11 +475,11 @@ public class AdsResponseModel {
             this.wallpaper_categories = wallpaper_categories;
         }
 
-        public List<WallpaperDataDTO> getWallpaper_data() {
+        public JsonObject getWallpaper_data() {
             return wallpaper_data;
         }
 
-        public void setWallpaper_data(List<WallpaperDataDTO> wallpaper_data) {
+        public void setWallpaper_data(JsonObject wallpaper_data) {
             this.wallpaper_data = wallpaper_data;
         }
 
@@ -476,75 +499,12 @@ public class AdsResponseModel {
             this.keyboard_categories = keyboard_categories;
         }
 
-        public KeyboardDataDTO getKeyboard_data() {
+        public JsonObject getKeyboard_data() {
             return keyboard_data;
         }
 
-        public void setKeyboard_data(KeyboardDataDTO keyboard_data) {
+        public void setKeyboard_data(JsonObject keyboard_data) {
             this.keyboard_data = keyboard_data;
-        }
-
-        public static class KeyboardDataDTO {
-            private Nature1DTO nature1;
-            private Nature2DTO nature2;
-
-            public Nature1DTO getNature1() {
-                return nature1;
-            }
-
-            public void setNature1(Nature1DTO nature1) {
-                this.nature1 = nature1;
-            }
-
-            public Nature2DTO getNature2() {
-                return nature2;
-            }
-
-            public void setNature2(Nature2DTO nature2) {
-                this.nature2 = nature2;
-            }
-
-            public static class Nature1DTO {
-                private String category;
-                private String url;
-
-                public String getCategory() {
-                    return category;
-                }
-
-                public void setCategory(String category) {
-                    this.category = category;
-                }
-
-                public String getUrl() {
-                    return url;
-                }
-
-                public void setUrl(String url) {
-                    this.url = url;
-                }
-            }
-
-            public static class Nature2DTO {
-                private String category;
-                private String url;
-
-                public String getCategory() {
-                    return category;
-                }
-
-                public void setCategory(String category) {
-                    this.category = category;
-                }
-
-                public String getUrl() {
-                    return url;
-                }
-
-                public void setUrl(String url) {
-                    this.url = url;
-                }
-            }
         }
 
         public static class WallpaperColorsDTO {
@@ -598,36 +558,6 @@ public class AdsResponseModel {
             }
         }
 
-        public static class WallpaperDataDTO {
-            private String id;
-            private String category;
-            private String url;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getCategory() {
-                return category;
-            }
-
-            public void setCategory(String category) {
-                this.category = category;
-            }
-
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-        }
-
         public static class KeyboardColorsDTO {
             private String color_name;
             private List<String> ids;
@@ -651,7 +581,16 @@ public class AdsResponseModel {
 
         public static class KeyboardCategoriesDTO {
             private String category_name;
+            private String category_desc;
             private List<String> ids;
+
+            public String getCategory_desc() {
+                return category_desc;
+            }
+
+            public void setCategory_desc(String category_desc) {
+                this.category_desc = category_desc;
+            }
 
             public String getCategory_name() {
                 return category_name;

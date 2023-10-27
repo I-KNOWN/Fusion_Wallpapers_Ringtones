@@ -1,6 +1,8 @@
 package com.livewallpaper.ringtones.callertune.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.livewallpaper.ringtones.callertune.Activity.SeeAllActivity;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
 
@@ -37,8 +45,33 @@ public class CircularCategoryAdapter extends RecyclerView.Adapter<CircularCatego
     public void onBindViewHolder(@NonNull CircularViewHolder holder, int position) {
         holder.tv_name.setText(data.get(holder.getAdapterPosition()).getCatName());
         Glide.with(context)
+                .asBitmap()
                 .load(data.get(holder.getAdapterPosition()).getCatPreivewImageUrl())
-                .into(holder.iv_preview);
+                .addListener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(@NonNull Bitmap resource, @NonNull Object model, Target<Bitmap> target, @NonNull DataSource dataSource, boolean isFirstResource) {
+                        holder.iv_preview.setImageBitmap(resource);
+
+                        return true;
+                    }
+                }).submit();
+
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SeeAllActivity.class);
+                intent.putExtra("type", "wallpaper");
+                intent.putExtra("category", data.get(holder.getAdapterPosition()).getCatName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

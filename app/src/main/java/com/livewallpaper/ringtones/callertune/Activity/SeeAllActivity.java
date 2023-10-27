@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
+import com.adsmodule.api.adsModule.utils.Constants;
+import com.google.gson.JsonObject;
 import com.livewallpaper.ringtones.callertune.Adapter.SeeAllItemAdapter;
+import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
+import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.Model.ImageModel;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.Retrofit.BodyModel;
@@ -35,6 +40,7 @@ public class SeeAllActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         category = getIntent().getStringExtra("category");
+        binding.tvTitle.setText(category);
         initBtn();
         getData();
 
@@ -50,7 +56,63 @@ public class SeeAllActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        ImageCall imageCall = ImageRetrofit.getClient().create(ImageCall.class);
+
+        List<ExtraCategoryModel> data = new ArrayList<>();
+
+
+        if(type.equals("wallpaper")){
+
+            List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+            int currentIndex = 0;
+            for(int i = 0; i < dto.size(); i++){
+                if(dto.get(i).getCategory_name().equals(category)){
+                    currentIndex = i;
+                }
+            }
+
+            List<String> id = dto.get(currentIndex).getIds();
+            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+
+            for(int i = 0; i < id.size(); i++){
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                String urlKpop = kpop1.get("url").getAsString();
+
+                data.add(new ExtraCategoryModel(
+                        "",
+                        baseUrl+urlKpop
+                ));
+            }
+        } else if (type.equals("keyboard")) {
+
+            List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
+            int currentIndex = 0;
+            for(int i = 0; i < dto.size(); i++){
+                if(dto.get(i).getCategory_name().equals(category)){
+                    currentIndex = i;
+                }
+            }
+
+            List<String> id = dto.get(currentIndex).getIds();
+            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+
+            for(int i = 0; i < id.size(); i++){
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
+                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                String urlKpop = kpop1.get("url").getAsString();
+
+                data.add(new ExtraCategoryModel(
+                        kpop1.get("category").getAsString(),
+                        baseUrl+urlKpop
+                ));
+            }
+        }
+
+
+        intRecyclerView(data);
+
+
+/*        ImageCall imageCall = ImageRetrofit.getClient().create(ImageCall.class);
         List<String> data = new ArrayList<>();
         data.add(category.toLowerCase());
         Call<List<ImageModel>> call = imageCall.getSpecificImageCategory(new BodyModel(getPackageName(), data));
@@ -74,10 +136,10 @@ public class SeeAllActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
     }
 
-    private void intRecyclerView(List<ImageModel> imageModels) {
+    private void intRecyclerView(List<ExtraCategoryModel> imageModels) {
         adapter = new SeeAllItemAdapter(SeeAllActivity.this, imageModels, type);
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
         binding.rvAll.setAdapter(adapter);
