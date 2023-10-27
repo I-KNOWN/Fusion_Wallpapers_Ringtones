@@ -26,6 +26,9 @@
         android:theme="@style/Theme.Fusion_Wallpapers_Ringtones"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.AllCategoriesActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SeeAllActivity"
             android:exported="false" />
         <activity

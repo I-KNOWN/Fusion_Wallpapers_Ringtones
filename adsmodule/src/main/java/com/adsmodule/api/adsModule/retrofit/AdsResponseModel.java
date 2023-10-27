@@ -411,546 +411,262 @@ public class AdsResponseModel {
 
     public static class ExtraDataFieldDTO {
 
+        private String wallpaper_base_url;
+        private String keyboard_base_url;
+        private List<WallpaperColorsDTO> wallpaper_colors;
+        private List<WallpaperCategoriesDTO> wallpaper_categories;
+        private List<WallpaperDataDTO> wallpaper_data;
+        private List<KeyboardColorsDTO> keyboard_colors;
+        private List<KeyboardCategoriesDTO> keyboard_categories;
+        private KeyboardDataDTO keyboard_data;
 
-        @SerializedName("Categories")
-        private CategoriesDTO categories;
-
-        public CategoriesDTO getCategories() {
-            return categories;
+        public String getWallpaper_base_url() {
+            return wallpaper_base_url;
         }
 
-        public void setCategories(CategoriesDTO categories) {
-            this.categories = categories;
+        public void setWallpaper_base_url(String wallpaper_base_url) {
+            this.wallpaper_base_url = wallpaper_base_url;
         }
 
-        public static class CategoriesDTO {
-            @SerializedName("Trending")
-            private TrendingDTO trending;
-            @SerializedName("Christmas")
-            private ChristmasDTO christmas;
-            @SerializedName("Kpop")
-            private KpopDTO kpop;
-            @SerializedName("Animal")
-            private AnimalDTO animal;
-            @SerializedName("Nature")
-            private NatureDTO nature;
-            @SerializedName("Modern")
-            private ModernDTO modern;
-            @SerializedName("CuteAndFunny")
-            private CuteAndFunnyDTO cuteAndFunny;
-            @SerializedName("Neon")
-            private NeonDTO neon;
-            @SerializedName("Love")
-            private LoveDTO love;
-            @SerializedName("CallOfDuty")
-            private CallOfDutyDTO callOfDuty;
-            @SerializedName("Anime")
-            private AnimeDTO anime;
-            @SerializedName("Soccer")
-            private SoccerDTO soccer;
-            @SerializedName("LiveTrending")
-            private LiveTrendingDTO liveTrending;
-            @SerializedName("LiveChristmas")
-            private LiveChristmasDTO liveChristmas;
-            @SerializedName("LiveKpop")
-            private LiveKpopDTO liveKpop;
-            @SerializedName("LiveNeon")
-            private LiveNeonDTO liveNeon;
-            @SerializedName("LiveLove")
-            private LiveLoveDTO liveLove;
-            @SerializedName("LiveCallOfDuty")
-            private LiveCallOfDutyDTO liveCallOfDuty;
-            @SerializedName("LiveAnime")
-            private LiveAnimeDTO liveAnime;
-            @SerializedName("LiveSoccer")
-            private LiveSoccerDTO liveSoccer;
-            @SerializedName("LiveCuteAndFunny")
-            private LiveCuteAndFunnyDTO liveCuteAndFunny;
-            @SerializedName("LiveNature")
-            private LiveNatureDTO liveNature;
-            @SerializedName("LiveModern")
-            private LiveModernDTO liveModern;
-            @SerializedName("LiveAnimal")
-            private LiveAnimalDTO liveAnimal;
+        public String getKeyboard_base_url() {
+            return keyboard_base_url;
+        }
 
-            public TrendingDTO getTrending() {
-                return trending;
+        public void setKeyboard_base_url(String keyboard_base_url) {
+            this.keyboard_base_url = keyboard_base_url;
+        }
+
+        public List<WallpaperColorsDTO> getWallpaper_colors() {
+            return wallpaper_colors;
+        }
+
+        public void setWallpaper_colors(List<WallpaperColorsDTO> wallpaper_colors) {
+            this.wallpaper_colors = wallpaper_colors;
+        }
+
+        public List<WallpaperCategoriesDTO> getWallpaper_categories() {
+            return wallpaper_categories;
+        }
+
+        public void setWallpaper_categories(List<WallpaperCategoriesDTO> wallpaper_categories) {
+            this.wallpaper_categories = wallpaper_categories;
+        }
+
+        public List<WallpaperDataDTO> getWallpaper_data() {
+            return wallpaper_data;
+        }
+
+        public void setWallpaper_data(List<WallpaperDataDTO> wallpaper_data) {
+            this.wallpaper_data = wallpaper_data;
+        }
+
+        public List<KeyboardColorsDTO> getKeyboard_colors() {
+            return keyboard_colors;
+        }
+
+        public void setKeyboard_colors(List<KeyboardColorsDTO> keyboard_colors) {
+            this.keyboard_colors = keyboard_colors;
+        }
+
+        public List<KeyboardCategoriesDTO> getKeyboard_categories() {
+            return keyboard_categories;
+        }
+
+        public void setKeyboard_categories(List<KeyboardCategoriesDTO> keyboard_categories) {
+            this.keyboard_categories = keyboard_categories;
+        }
+
+        public KeyboardDataDTO getKeyboard_data() {
+            return keyboard_data;
+        }
+
+        public void setKeyboard_data(KeyboardDataDTO keyboard_data) {
+            this.keyboard_data = keyboard_data;
+        }
+
+        public static class KeyboardDataDTO {
+            private Nature1DTO nature1;
+            private Nature2DTO nature2;
+
+            public Nature1DTO getNature1() {
+                return nature1;
             }
 
-            public void setTrending(TrendingDTO trending) {
-                this.trending = trending;
+            public void setNature1(Nature1DTO nature1) {
+                this.nature1 = nature1;
             }
 
-            public ChristmasDTO getChristmas() {
-                return christmas;
+            public Nature2DTO getNature2() {
+                return nature2;
             }
 
-            public void setChristmas(ChristmasDTO christmas) {
-                this.christmas = christmas;
+            public void setNature2(Nature2DTO nature2) {
+                this.nature2 = nature2;
             }
 
-            public KpopDTO getKpop() {
-                return kpop;
-            }
+            public static class Nature1DTO {
+                private String category;
+                private String url;
 
-            public void setKpop(KpopDTO kpop) {
-                this.kpop = kpop;
-            }
-
-            public AnimalDTO getAnimal() {
-                return animal;
-            }
-
-            public void setAnimal(AnimalDTO animal) {
-                this.animal = animal;
-            }
-
-            public NatureDTO getNature() {
-                return nature;
-            }
-
-            public void setNature(NatureDTO nature) {
-                this.nature = nature;
-            }
-
-            public ModernDTO getModern() {
-                return modern;
-            }
-
-            public void setModern(ModernDTO modern) {
-                this.modern = modern;
-            }
-
-            public CuteAndFunnyDTO getCuteAndFunny() {
-                return cuteAndFunny;
-            }
-
-            public void setCuteAndFunny(CuteAndFunnyDTO cuteAndFunny) {
-                this.cuteAndFunny = cuteAndFunny;
-            }
-
-            public NeonDTO getNeon() {
-                return neon;
-            }
-
-            public void setNeon(NeonDTO neon) {
-                this.neon = neon;
-            }
-
-            public LoveDTO getLove() {
-                return love;
-            }
-
-            public void setLove(LoveDTO love) {
-                this.love = love;
-            }
-
-            public CallOfDutyDTO getCallOfDuty() {
-                return callOfDuty;
-            }
-
-            public void setCallOfDuty(CallOfDutyDTO callOfDuty) {
-                this.callOfDuty = callOfDuty;
-            }
-
-            public AnimeDTO getAnime() {
-                return anime;
-            }
-
-            public void setAnime(AnimeDTO anime) {
-                this.anime = anime;
-            }
-
-            public SoccerDTO getSoccer() {
-                return soccer;
-            }
-
-            public void setSoccer(SoccerDTO soccer) {
-                this.soccer = soccer;
-            }
-
-            public LiveTrendingDTO getLiveTrending() {
-                return liveTrending;
-            }
-
-            public void setLiveTrending(LiveTrendingDTO liveTrending) {
-                this.liveTrending = liveTrending;
-            }
-
-            public LiveChristmasDTO getLiveChristmas() {
-                return liveChristmas;
-            }
-
-            public void setLiveChristmas(LiveChristmasDTO liveChristmas) {
-                this.liveChristmas = liveChristmas;
-            }
-
-            public LiveKpopDTO getLiveKpop() {
-                return liveKpop;
-            }
-
-            public void setLiveKpop(LiveKpopDTO liveKpop) {
-                this.liveKpop = liveKpop;
-            }
-
-            public LiveNeonDTO getLiveNeon() {
-                return liveNeon;
-            }
-
-            public void setLiveNeon(LiveNeonDTO liveNeon) {
-                this.liveNeon = liveNeon;
-            }
-
-            public LiveLoveDTO getLiveLove() {
-                return liveLove;
-            }
-
-            public void setLiveLove(LiveLoveDTO liveLove) {
-                this.liveLove = liveLove;
-            }
-
-            public LiveCallOfDutyDTO getLiveCallOfDuty() {
-                return liveCallOfDuty;
-            }
-
-            public void setLiveCallOfDuty(LiveCallOfDutyDTO liveCallOfDuty) {
-                this.liveCallOfDuty = liveCallOfDuty;
-            }
-
-            public LiveAnimeDTO getLiveAnime() {
-                return liveAnime;
-            }
-
-            public void setLiveAnime(LiveAnimeDTO liveAnime) {
-                this.liveAnime = liveAnime;
-            }
-
-            public LiveSoccerDTO getLiveSoccer() {
-                return liveSoccer;
-            }
-
-            public void setLiveSoccer(LiveSoccerDTO liveSoccer) {
-                this.liveSoccer = liveSoccer;
-            }
-
-            public LiveCuteAndFunnyDTO getLiveCuteAndFunny() {
-                return liveCuteAndFunny;
-            }
-
-            public void setLiveCuteAndFunny(LiveCuteAndFunnyDTO liveCuteAndFunny) {
-                this.liveCuteAndFunny = liveCuteAndFunny;
-            }
-
-            public LiveNatureDTO getLiveNature() {
-                return liveNature;
-            }
-
-            public void setLiveNature(LiveNatureDTO liveNature) {
-                this.liveNature = liveNature;
-            }
-
-            public LiveModernDTO getLiveModern() {
-                return liveModern;
-            }
-
-            public void setLiveModern(LiveModernDTO liveModern) {
-                this.liveModern = liveModern;
-            }
-
-            public LiveAnimalDTO getLiveAnimal() {
-                return liveAnimal;
-            }
-
-            public void setLiveAnimal(LiveAnimalDTO liveAnimal) {
-                this.liveAnimal = liveAnimal;
-            }
-
-            public static class TrendingDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
+                public String getCategory() {
+                    return category;
                 }
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
+                public void setCategory(String category) {
+                    this.category = category;
+                }
+
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
                 }
             }
 
-            public static class ChristmasDTO {
-                private List<String> urls;
+            public static class Nature2DTO {
+                private String category;
+                private String url;
 
-                public List<String> getUrls() {
-                    return urls;
+                public String getCategory() {
+                    return category;
                 }
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
-            }
-
-            public static class KpopDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
+                public void setCategory(String category) {
+                    this.category = category;
                 }
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
                 }
             }
+        }
 
-            public static class AnimalDTO {
-                private List<String> urls;
+        public static class WallpaperColorsDTO {
+            private String color_name;
+            private List<String> ids;
 
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getColor_name() {
+                return color_name;
             }
 
-            public static class NatureDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setColor_name(String color_name) {
+                this.color_name = color_name;
             }
 
-            public static class ModernDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public List<String> getIds() {
+                return ids;
             }
 
-            public static class CuteAndFunnyDTO {
-                private List<String> urls;
+            public void setIds(List<String> ids) {
+                this.ids = ids;
+            }
+        }
 
-                public List<String> getUrls() {
-                    return urls;
-                }
+        public static class WallpaperCategoriesDTO {
+            private String category_name;
+            private String category_desc;
+            private List<String> ids;
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getCategory_name() {
+                return category_name;
             }
 
-            public static class NeonDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setCategory_name(String category_name) {
+                this.category_name = category_name;
             }
 
-            public static class LoveDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getCategory_desc() {
+                return category_desc;
             }
 
-            public static class CallOfDutyDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setCategory_desc(String category_desc) {
+                this.category_desc = category_desc;
             }
 
-            public static class AnimeDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public List<String> getIds() {
+                return ids;
             }
 
-            public static class SoccerDTO {
-                private List<String> urls;
+            public void setIds(List<String> ids) {
+                this.ids = ids;
+            }
+        }
 
-                public List<String> getUrls() {
-                    return urls;
-                }
+        public static class WallpaperDataDTO {
+            private String id;
+            private String category;
+            private String url;
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getId() {
+                return id;
             }
 
-            public static class LiveTrendingDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setId(String id) {
+                this.id = id;
             }
 
-            public static class LiveChristmasDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getCategory() {
+                return category;
             }
 
-            public static class LiveKpopDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setCategory(String category) {
+                this.category = category;
             }
 
-            public static class LiveNeonDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getUrl() {
+                return url;
             }
 
-            public static class LiveLoveDTO {
-                private List<String> urls;
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
 
-                public List<String> getUrls() {
-                    return urls;
-                }
+        public static class KeyboardColorsDTO {
+            private String color_name;
+            private List<String> ids;
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getColor_name() {
+                return color_name;
             }
 
-            public static class LiveCallOfDutyDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setColor_name(String color_name) {
+                this.color_name = color_name;
             }
 
-            public static class LiveAnimeDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public List<String> getIds() {
+                return ids;
             }
 
-            public static class LiveSoccerDTO {
-                private List<String> urls;
+            public void setIds(List<String> ids) {
+                this.ids = ids;
+            }
+        }
 
-                public List<String> getUrls() {
-                    return urls;
-                }
+        public static class KeyboardCategoriesDTO {
+            private String category_name;
+            private List<String> ids;
 
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public String getCategory_name() {
+                return category_name;
             }
 
-            public static class LiveCuteAndFunnyDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setCategory_name(String category_name) {
+                this.category_name = category_name;
             }
 
-            public static class LiveNatureDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public List<String> getIds() {
+                return ids;
             }
 
-            public static class LiveModernDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
-            }
-
-            public static class LiveAnimalDTO {
-                private List<String> urls;
-
-                public List<String> getUrls() {
-                    return urls;
-                }
-
-                public void setUrls(List<String> urls) {
-                    this.urls = urls;
-                }
+            public void setIds(List<String> ids) {
+                this.ids = ids;
             }
         }
     }

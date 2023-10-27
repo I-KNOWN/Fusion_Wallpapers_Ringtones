@@ -103,7 +103,7 @@ public class WallpaperCategoryFragment extends Fragment {
     private void initSomeCategoryData() {
 
         data = new ArrayList<>();
-        data.add(new CategoryModel(
+/*        data.add(new CategoryModel(
                 "Abstract",
                 "Abstracts, Dark Wallpaper",
                 R.drawable.abstract_sample
@@ -119,7 +119,7 @@ public class WallpaperCategoryFragment extends Fragment {
                 "Cartoon",
                 "Cute, Charming, innocent",
                 R.drawable.cartoon
-        ));
+        ));*/
 
     }
 
