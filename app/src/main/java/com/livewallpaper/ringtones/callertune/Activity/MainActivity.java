@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,6 +42,8 @@ import com.livewallpaper.ringtones.callertune.databinding.ActivityMainBinding;
 import com.livewallpaper.ringtones.callertune.databinding.ItemKeyboardBinding;
 
 import java.io.FileOutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,10 +65,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void chageFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragcontainer, fragment);
-        fragmentTransaction.commit();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.fragcontainer, fragment);
+                fragmentTransaction.commit();
+
+
     }
 
 /*
@@ -248,7 +256,9 @@ public class MainActivity extends AppCompatActivity {
                 if(!currentFrag.equals("wallpaper")){
                     undoClick();
                     currentFrag = "wallpaper";
-                    chageFragment(new WallpaperCategoryFragment());
+
+                            chageFragment(new WallpaperCategoryFragment());
+
                     ConstraintWithBoolean constraintWithBoolean = (ConstraintWithBoolean) view;
                     animateTabButton(constraintWithBoolean);
                 }
@@ -260,7 +270,9 @@ public class MainActivity extends AppCompatActivity {
                 if(!currentFrag.equals("keyboard")){
                     undoClick();
                     currentFrag = "keyboard";
-                    chageFragment(new KeyboardCategoryFragment());
+
+                            chageFragment(new KeyboardCategoryFragment());
+
                     ConstraintWithBoolean constraintWithBoolean = (ConstraintWithBoolean) view;
                     animateTabButton(constraintWithBoolean);
                 }

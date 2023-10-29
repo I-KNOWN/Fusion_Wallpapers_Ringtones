@@ -28,9 +28,11 @@ public class CircularCategoryAdapter extends RecyclerView.Adapter<CircularCatego
 
     Context context;
     List<ExtraCategoryModel> data;
-    public CircularCategoryAdapter(Context context, List<ExtraCategoryModel> data){
+    String type;
+    public CircularCategoryAdapter(Context context, List<ExtraCategoryModel> data, String type){
         this.context = context;
         this.data = data;
+        this.type = type;
     }
 
 
@@ -67,7 +69,7 @@ public class CircularCategoryAdapter extends RecyclerView.Adapter<CircularCatego
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SeeAllActivity.class);
-                intent.putExtra("type", "wallpaper");
+                intent.putExtra("type", type);
                 intent.putExtra("category", data.get(holder.getAdapterPosition()).getCatName());
                 context.startActivity(intent);
             }

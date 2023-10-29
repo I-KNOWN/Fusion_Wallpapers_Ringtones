@@ -26,12 +26,14 @@
         app:cardElevation="0dp"
         android:elevation="0dp"
         android:layout_margin="10dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5">
+
         <ImageView
             android:id="@+id/iv_cat"
             android:layout_width="match_parent"
@@ -51,6 +53,28 @@
             android:layout_gravity="center"
             android:src="@drawable/wallpaper_outline_white"
             android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:id="@+id/ll_cont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/custom_add_btn"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Custom"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <TextView

@@ -23,5 +23,8 @@
     <color name="purple_500">#6686F8</color>
 
     <color name="grey_600">#939393</color>
+    <color name="red">#FF7268</color>
+    <color name="colorAccent">#333333</color>
+    <color name="blue">#439EFF</color>
 
 </resources>

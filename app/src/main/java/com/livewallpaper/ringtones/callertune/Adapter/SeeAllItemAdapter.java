@@ -2,12 +2,14 @@ package com.livewallpaper.ringtones.callertune.Adapter;
 
 import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,10 +48,12 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
     Context context;
     List<ExtraCategoryModel> data;
     String type;
-    public SeeAllItemAdapter(Context context, List<ExtraCategoryModel> data, String type){
+    onClickInputMethod onClickInputMethod;
+    public SeeAllItemAdapter(Context context, List<ExtraCategoryModel> data, String type, onClickInputMethod onClickInputMethod){
         this.context = context;
         this.data = data;
         this.type = type;
+        this.onClickInputMethod = onClickInputMethod;
     }
 
     @NonNull
@@ -116,7 +121,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                     }).submit();
         } else if (type.equals("keyboard")) {
             Log.d("dataisnotshowing", "onBindViewHolder: "+ data.get(holder.getAdapterPosition()));
-            holder.tv_title.setText(data.get(holder.getAdapterPosition()).getCatName());
+            holder.tv_title.setText(data.get(holder.getAdapterPosition()).getCatName()+" Keyboard");
             Glide.with(context)
                     .asBitmap()
                     .load(data.get(holder.getAdapterPosition()).getCatPreivewImageUrl())
@@ -142,11 +147,14 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                                             dialog.setCancelable(true);
                                             View view = dialog.findViewById(R.id.include);
                                             ImageView iv_bg = view.findViewById(R.id.iv_bg_keyboard);
+                                            TextView tv_title = dialog.findViewById(R.id.tv_title);
                                             Glide.with(context)
                                                     .load(resource)
                                                     .into(iv_bg);
                                             ImageView iv_close = dialog.findViewById(R.id.iv_close);
                                             CardView cv_apply = dialog.findViewById(R.id.cv_apply);
+                                            tv_title.setText(data.get(holder.getAdapterPosition()).getCatName()+" Keyboard");
+
                                             cv_apply.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -163,10 +171,22 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                                                             MyApplication.getPreferences().putString(Constants.KEYBOARD_BG, filename);
                                                             stream.close();
                                                         }catch (Exception e) {
+                                                            Global.hideAlertProgressDialog();
+                                                            Toast.makeText(context, "Failed To Set Keyboard", Toast.LENGTH_SHORT).show();
                                                             e.printStackTrace();
                                                         }
-                                                        openKeyboardChooserSettings();
-                                                        Global.hideAlertProgressDialog();
+                                                        if(!isThisKeyboardSetAsDefaultIME(context)){
+                                                            Global.hideAlertProgressDialog();
+                                                            openKeyboardChooserSettings();
+                                                        }else{
+                                                            Global.hideAlertProgressDialog();
+                                                            dialog.dismiss();
+                                                            Toast.makeText(context, "Keyboard Set Successfully", Toast.LENGTH_SHORT).show();
+                                                        }
+//                                                        dialog.dismiss();
+
+//                                                        openKeyboardChooserSettings();
+//                                                        isKeyboardEnabled();
                                                     }
 
 
@@ -201,6 +221,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         List<InputMethodInfo> enabledInputMethodIds = inputMethodManager.getEnabledInputMethodList();
         for(InputMethodInfo info: enabledInputMethodIds){
+            Log.d("whaistheinfo", info.toString());
             if(info.getId().contains("com.livewallpaper.ringtones.callertune/.Keyboard.CustomKeyboard")){
                 return true;
             }
@@ -208,6 +229,24 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
         return false;
     }
 
+
+    public static boolean isThisKeyboardSetAsDefaultIME(Context context) {
+        final String defaultIME = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+        return isThisKeyboardSetAsDefaultIME(defaultIME, context.getPackageName());
+    }
+
+
+    public static boolean isThisKeyboardSetAsDefaultIME(String defaultIME, String myPackageName) {
+        if (TextUtils.isEmpty(defaultIME))
+            return false;
+
+        ComponentName defaultInputMethod = ComponentName.unflattenFromString(defaultIME);
+        if (defaultInputMethod.getPackageName().equals(myPackageName)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private void openKeyboardSettings() {
         Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
@@ -238,5 +277,9 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             tv_title = itemView.findViewById(R.id.tv_title);
 
         }
+    }
+
+    public interface onClickInputMethod{
+        void onClickIdentifyKeyboard();
     }
 }

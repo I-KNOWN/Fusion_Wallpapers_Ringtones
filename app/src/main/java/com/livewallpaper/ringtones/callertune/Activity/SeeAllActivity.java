@@ -1,10 +1,23 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
@@ -32,6 +45,8 @@ public class SeeAllActivity extends AppCompatActivity {
     ActivitySeeAllBinding binding;
     String type, category;
     SeeAllItemAdapter adapter;
+    boolean isCustomEnable = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,9 +155,70 @@ public class SeeAllActivity extends AppCompatActivity {
     }
 
     private void intRecyclerView(List<ExtraCategoryModel> imageModels) {
-        adapter = new SeeAllItemAdapter(SeeAllActivity.this, imageModels, type);
+        adapter = new SeeAllItemAdapter(SeeAllActivity.this, imageModels, type, new SeeAllItemAdapter.onClickInputMethod() {
+            @Override
+            public void onClickIdentifyKeyboard() {
+                mState = NONE;
+                pickInput();
+            }
+        });
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
         binding.rvAll.setAdapter(adapter);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.d("focusChaged", "focus: "+hasFocus);
+        if(mState == PICKING) {
+            mState = CHOSEN;
+        }
+        else if(mState == CHOSEN) {
+
+            Log.d("Whatisthebool", "Activated"+ isThisKeyboardSetAsDefaultIME(SeeAllActivity.this));
+
+        }
+    }
+
+    private static final int NONE = 0;
+    private static final int PICKING = 1;
+    private static final int CHOSEN = 2;
+    private int mState;
+    protected final void pickInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showInputMethodPicker();
+        mState = PICKING;
+//        Log.d("Whatisthebool", "Activated"+ isThisKeyboardSetAsDefaultIME(SeeAllActivity.this));
+    }
+
+    public boolean isCustomKeyboardSet(Context context, String customKeyboardPackageName) {
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        String defaultInputMethod = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+
+        // The defaultInputMethod is the package name of the currently selected keyboard
+        if (defaultInputMethod != null && defaultInputMethod.contains(customKeyboardPackageName)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isThisKeyboardSetAsDefaultIME(Context context) {
+        final String defaultIME = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+        return isThisKeyboardSetAsDefaultIME(defaultIME, context.getPackageName());
+    }
+
+
+    public static boolean isThisKeyboardSetAsDefaultIME(String defaultIME, String myPackageName) {
+        if (TextUtils.isEmpty(defaultIME))
+            return false;
+
+        ComponentName defaultInputMethod = ComponentName.unflattenFromString(defaultIME);
+        if (defaultInputMethod.getPackageName().equals(myPackageName)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

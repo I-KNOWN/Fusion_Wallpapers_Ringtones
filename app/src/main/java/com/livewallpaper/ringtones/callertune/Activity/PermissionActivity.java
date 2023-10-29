@@ -176,7 +176,7 @@ public class PermissionActivity extends AppCompatActivity {
         int res1 = checkSelfPermission(permission1);
 
         int res2  = checkSelfPermission(permission2);
-        if(res1 == res2){
+        if(res1 == res2 && res1 != -1 && res2 != -1){
             return 0;
         }
         return -1;
