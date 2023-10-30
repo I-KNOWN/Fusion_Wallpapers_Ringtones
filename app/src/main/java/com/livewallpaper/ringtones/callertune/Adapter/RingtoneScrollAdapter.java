@@ -1,15 +1,27 @@
 package com.livewallpaper.ringtones.callertune.Adapter;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.livewallpaper.ringtones.callertune.R;
 
 import java.util.ArrayList;
@@ -17,8 +29,8 @@ import java.util.ArrayList;
 public class RingtoneScrollAdapter extends RecyclerView.Adapter<RingtoneScrollAdapter.RingtoneViewHolder> {
 
     Context context;
-    ArrayList<Integer> data;
-    public RingtoneScrollAdapter(Context context, ArrayList<Integer> data){
+    ArrayList<String> data;
+    public RingtoneScrollAdapter(Context context, ArrayList<String> data){
         this.context = context;
         this.data = data;
     }
@@ -32,12 +44,45 @@ public class RingtoneScrollAdapter extends RecyclerView.Adapter<RingtoneScrollAd
 
     @Override
     public void onBindViewHolder(@NonNull RingtoneViewHolder holder, int position) {
-        holder.iv_ring_bg.setImageDrawable(ContextCompat.getDrawable(context, data.get(holder.getAdapterPosition())));
+        Glide.with(context)
+                .asBitmap()
+                .load(data.get(holder.getAdapterPosition()))
+                .addListener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Bitmap> target, boolean isFirstResource) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Failed to load data", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(@NonNull Bitmap resource, @NonNull Object model, Target<Bitmap> target, @NonNull DataSource dataSource, boolean isFirstResource) {
+
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.iv_ring_bg.setImageBitmap(resource);
+                            }
+                        });
+
+                        return true;
+                    }
+                }).submit();
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+
+    public void initDataAgain(ArrayList<String> data){
+        this.data = data;
+        notifyDataSetChanged();
     }
 
     static class RingtoneViewHolder extends RecyclerView.ViewHolder{

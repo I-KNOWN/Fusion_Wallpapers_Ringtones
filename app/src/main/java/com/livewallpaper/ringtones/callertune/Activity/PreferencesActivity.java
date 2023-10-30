@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.livewallpaper.ringtones.callertune.R;
+import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityPreferencesBinding;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
                 if(count != 0){
                     Toast.makeText(PreferencesActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                    MyApplication.getPreferences().setFirstRun(false);
                     startActivity(new Intent(PreferencesActivity.this, MainActivity.class));
                     finish();
                 }else {

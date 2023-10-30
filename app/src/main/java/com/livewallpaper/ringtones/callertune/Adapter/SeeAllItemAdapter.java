@@ -32,6 +32,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.livewallpaper.ringtones.callertune.Activity.RingtoneActivity;
 import com.livewallpaper.ringtones.callertune.Activity.WallpaperViewerActivity;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.Model.ImageModel;
@@ -221,6 +222,16 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                     .asBitmap()
                     .load(data.get(holder.getAdapterPosition()).getRingtoneImg())
                     .into(holder.tv_img);
+
+            holder.tv_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, RingtoneActivity.class);
+                    intent.putExtra("category",data.get(holder.getAdapterPosition()).getCategory());
+                    intent.putExtra("pos", holder.getAdapterPosition());
+                    context.startActivity(intent);
+                }
+            });
         }
 
 

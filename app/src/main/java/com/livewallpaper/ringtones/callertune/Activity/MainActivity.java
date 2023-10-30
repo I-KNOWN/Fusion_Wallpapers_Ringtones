@@ -271,9 +271,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!currentFrag.equals("keyboard")){
                     undoClick();
                     currentFrag = "keyboard";
-
-                            chageFragment(new KeyboardCategoryFragment());
-
+                    chageFragment(new KeyboardCategoryFragment());
                     ConstraintWithBoolean constraintWithBoolean = (ConstraintWithBoolean) view;
                     animateTabButton(constraintWithBoolean);
                 }

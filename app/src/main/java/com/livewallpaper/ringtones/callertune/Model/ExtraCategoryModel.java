@@ -2,6 +2,7 @@ package com.livewallpaper.ringtones.callertune.Model;
 
 public class ExtraCategoryModel {
     String catName;
+    String category;
     String catAuthor;
     String catTime;
     String ringtoneImg;
@@ -12,6 +13,14 @@ public class ExtraCategoryModel {
         this.catAuthor = catAuthor;
         this.catTime = catTime;
         this.catPreivewImageUrl = catPreivewImageUrl;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getRingtoneImg() {

@@ -153,6 +153,7 @@ public class SeeAllActivity extends AppCompatActivity {
 
                 );
                 extraCategoryModel.setRingtoneImg(kpop1.get("ringtone_img").getAsString());
+                extraCategoryModel.setCategory(dto.get(currentIndex).getCategory_name());
                 data.add(extraCategoryModel);
             }
 

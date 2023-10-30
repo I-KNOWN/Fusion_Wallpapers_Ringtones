@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
                     AdUtils.showAppOpenAds(Constants.adsResponseModel.getApp_open_ads().getAdx(), activity, state_load -> {
 
 /*                        JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
-                            JsonObject kpop1 = wallpaperData.getAsJsonObject("Kpop1");
+                            JsonObject   = wallpaperData.getAsJsonObject("Kpop1");
                             String category = kpop1.get("category").getAsString();
                             String url = kpop1.get("url").getAsString();
 

@@ -70,8 +70,11 @@ public class AllCategoriesActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         if(type.equals("keyboard")){
+            binding.tvTitle.setText("Keyboard Categories");
         } else if (type.equals("wallpaper")) {
             binding.tvTitle.setText("Wallpaper Categories");   
+        } else if (type.equals("ringtone")) {
+            binding.tvTitle.setText("Ringtone Categories");
         }
 
         initColorCatergory();
@@ -118,12 +121,14 @@ public class AllCategoriesActivity extends AppCompatActivity {
                         baseUrl+urlKpop
                 ));
             }
+        } else if (type.equals("ringtone")) {
+
         }
 
 
-
-        initRecyclerViewCategory();
+//        initRecyclerViewCategory();
     }
+
 
     private void initRecyclerViewCategory() {
         allCategoryAdapter = new AllCategoryAdapter(AllCategoriesActivity.this, data2, type, new AllCategoryAdapter.onClickGalleryIntent() {
@@ -309,6 +314,20 @@ public class AllCategoriesActivity extends AppCompatActivity {
                         "",
                         "",
                         baseUrl+urlKpop
+                ));
+            }
+        } else if (type.equals("ringtone")) {
+            List<AdsResponseModel.ExtraDataFieldDTO.RingtoneMoodsDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_moods();
+            data = new ArrayList<>();
+            for(int i = 0; i < dto.size(); i++){
+                String colorName = dto.get(i).getRingtone_name();
+                String moode_img = dto.get(i).getMoode_img();
+
+                data.add(new ExtraCategoryModel(
+                        colorName,
+                        "",
+                        "",
+                        moode_img
                 ));
             }
         }
