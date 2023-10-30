@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.livewallpaper.ringtones.callertune.CustomViews.ConstraintWithBoolean;
 import com.livewallpaper.ringtones.callertune.Fragment.KeyboardCategoryFragment;
+import com.livewallpaper.ringtones.callertune.Fragment.RingtoneCategoryFragment;
 import com.livewallpaper.ringtones.callertune.Fragment.WallpaperCategoryFragment;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
@@ -284,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!currentFrag.equals("ringtone")){
                     undoClick();
                     currentFrag = "ringtone";
+                    chageFragment(new RingtoneCategoryFragment());
                     ConstraintWithBoolean constraintWithBoolean = (ConstraintWithBoolean) view;
                     animateTabButton(constraintWithBoolean);
                 }

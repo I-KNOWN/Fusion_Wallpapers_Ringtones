@@ -3,8 +3,6 @@ package com.adsmodule.api.adsModule.retrofit;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONObject;
-
 import java.util.List;
 
 public class AdsResponseModel {
@@ -416,6 +414,7 @@ public class AdsResponseModel {
 
         private String wallpaper_base_url;
         private String keyboard_base_url;
+        private String ringtone_base_url;
         private int popularWallpaperIndex;
         private int popularkeyboardIndex;
 
@@ -425,7 +424,25 @@ public class AdsResponseModel {
         private List<KeyboardColorsDTO> keyboard_colors;
         private List<KeyboardCategoriesDTO> keyboard_categories;
         private JsonObject keyboard_data;
+        private JsonObject ringtone_data;
+        private List<RingtoneMoodsDTO> ringtone_moods;
+        private List<RingtoneCategoriesDTO> ringtone_categories;
 
+        public String getRingtone_base_url() {
+            return ringtone_base_url;
+        }
+
+        public void setRingtone_base_url(String ringtone_base_url) {
+            this.ringtone_base_url = ringtone_base_url;
+        }
+
+        public JsonObject getRingtone_data() {
+            return ringtone_data;
+        }
+
+        public void setRingtone_data(JsonObject ringtone_data) {
+            this.ringtone_data = ringtone_data;
+        }
 
         public int getPopularWallpaperIndex() {
             return popularWallpaperIndex;
@@ -505,6 +522,22 @@ public class AdsResponseModel {
 
         public void setKeyboard_data(JsonObject keyboard_data) {
             this.keyboard_data = keyboard_data;
+        }
+
+        public List<RingtoneMoodsDTO> getRingtone_moods() {
+            return ringtone_moods;
+        }
+
+        public void setRingtone_moods(List<RingtoneMoodsDTO> ringtone_moods) {
+            this.ringtone_moods = ringtone_moods;
+        }
+
+        public List<RingtoneCategoriesDTO> getRingtone_categories() {
+            return ringtone_categories;
+        }
+
+        public void setRingtone_categories(List<RingtoneCategoriesDTO> ringtone_categories) {
+            this.ringtone_categories = ringtone_categories;
         }
 
         public static class WallpaperColorsDTO {
@@ -598,6 +631,75 @@ public class AdsResponseModel {
 
             public void setCategory_name(String category_name) {
                 this.category_name = category_name;
+            }
+
+            public List<String> getIds() {
+                return ids;
+            }
+
+            public void setIds(List<String> ids) {
+                this.ids = ids;
+            }
+        }
+
+        public static class RingtoneMoodsDTO {
+            private String ringtone_name;
+            private String moode_img;
+            private List<String> ids;
+
+            public String getRingtone_name() {
+                return ringtone_name;
+            }
+
+            public void setRingtone_name(String ringtone_name) {
+                this.ringtone_name = ringtone_name;
+            }
+
+            public String getMoode_img() {
+                return moode_img;
+            }
+
+            public void setMoode_img(String moode_img) {
+                this.moode_img = moode_img;
+            }
+
+            public List<String> getIds() {
+                return ids;
+            }
+
+            public void setIds(List<String> ids) {
+                this.ids = ids;
+            }
+        }
+
+        public static class RingtoneCategoriesDTO {
+            private String category_name;
+            private String category_desc;
+            private String category_img;
+            private List<String> ids;
+
+            public String getCategory_name() {
+                return category_name;
+            }
+
+            public void setCategory_name(String category_name) {
+                this.category_name = category_name;
+            }
+
+            public String getCategory_desc() {
+                return category_desc;
+            }
+
+            public void setCategory_desc(String category_desc) {
+                this.category_desc = category_desc;
+            }
+
+            public String getCategory_img() {
+                return category_img;
+            }
+
+            public void setCategory_img(String category_img) {
+                this.category_img = category_img;
             }
 
             public List<String> getIds() {

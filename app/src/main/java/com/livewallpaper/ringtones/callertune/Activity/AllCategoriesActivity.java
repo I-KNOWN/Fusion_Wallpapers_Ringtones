@@ -288,6 +288,8 @@ public class AllCategoriesActivity extends AppCompatActivity {
                 String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
                 data.add(new ExtraCategoryModel(
                         colorName,
+                        "",
+                        "",
                         baseUrl+urlKpop
                 ));
             }
@@ -304,6 +306,8 @@ public class AllCategoriesActivity extends AppCompatActivity {
 
                 data.add(new ExtraCategoryModel(
                         colorName,
+                        "",
+                        "",
                         baseUrl+urlKpop
                 ));
             }

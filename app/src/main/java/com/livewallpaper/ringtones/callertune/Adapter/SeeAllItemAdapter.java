@@ -66,7 +66,8 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_keybaord_layout, parent, false);
             return new SomeCategoryViewHolder(view);
         } else if (type.equals("ringtone")) {
-
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ringtone_layout, parent, false);
+            return new SomeCategoryViewHolder(view);
         }
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallpaper_item, parent, false);
         return new SomeCategoryViewHolder(view);
@@ -212,6 +213,14 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             return true;
                         }
                     }).submit();
+        } else if (type.equals("ringtone")) {
+            holder.tv_song_name.setText(data.get(holder.getAdapterPosition()).getCatName());
+            holder.tv_author.setText(data.get(holder.getAdapterPosition()).getCatAuthor());
+            holder.tv_sec.setText(data.get(holder.getAdapterPosition()).getCatTime());
+            Glide.with(context)
+                    .asBitmap()
+                    .load(data.get(holder.getAdapterPosition()).getRingtoneImg())
+                    .into(holder.tv_img);
         }
 
 
@@ -266,8 +275,8 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
     static class SomeCategoryViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView iv_cat_bg;
-        TextView tv_title, tv_desc;
+        ImageView iv_cat_bg, tv_img;
+        TextView tv_title, tv_desc, tv_song_name, tv_author, tv_sec;
 
         public SomeCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -275,7 +284,10 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             iv_cat_bg = itemView.findViewById(R.id.iv_cat);
             tv_desc = itemView.findViewById(R.id.tv_dec_);
             tv_title = itemView.findViewById(R.id.tv_title);
-
+            tv_song_name = itemView.findViewById(R.id.tv_song_name);
+            tv_author = itemView.findViewById(R.id.tv_author);
+            tv_sec = itemView.findViewById(R.id.tv_sec);
+            tv_img = itemView.findViewById(R.id.tv_img);
         }
     }
 

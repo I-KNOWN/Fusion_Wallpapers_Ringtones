@@ -90,6 +90,8 @@ public class KeyboardCategoryFragment extends Fragment {
 
             data.add(new ExtraCategoryModel(
                     name,
+                    "",
+                    "",
                     baseUrl+urlKpop
             ));
         }

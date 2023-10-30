@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -95,9 +96,13 @@ public class SeeAllActivity extends AppCompatActivity {
 
                 data.add(new ExtraCategoryModel(
                         "",
+                        "",
+                        "",
                         baseUrl+urlKpop
                 ));
             }
+            intRecyclerView(data);
+
         } else if (type.equals("keyboard")) {
 
             List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
@@ -118,13 +123,44 @@ public class SeeAllActivity extends AppCompatActivity {
 
                 data.add(new ExtraCategoryModel(
                         kpop1.get("category").getAsString(),
+                        "",
+                        "",
                         baseUrl+urlKpop
                 ));
             }
+            intRecyclerView(data);
+
+        } else if (type.equals("ringtone")) {
+            List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
+            int currentIndex = 0;
+            for(int i = 0; i < dto.size(); i++){
+                if(dto.get(i).getCategory_name().equals(category)){
+                    currentIndex = i;
+                }
+            }
+
+            List<String> id = dto.get(currentIndex).getIds();
+//            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+            for(int i = 0; i < id.size(); i++){
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                String urlKpop = kpop1.get("url").getAsString();
+                ExtraCategoryModel extraCategoryModel = new ExtraCategoryModel(
+                        kpop1.get("ringtone_name").getAsString(),
+                        kpop1.get("ringtone_author").getAsString(),
+                        kpop1.get("ringtone_duration").getAsString(),
+                        ""
+
+                );
+                extraCategoryModel.setRingtoneImg(kpop1.get("ringtone_img").getAsString());
+                data.add(extraCategoryModel);
+            }
+
+            intRecyclerView2(data);
+
         }
 
 
-        intRecyclerView(data);
 
 
 /*        ImageCall imageCall = ImageRetrofit.getClient().create(ImageCall.class);
@@ -165,6 +201,19 @@ public class SeeAllActivity extends AppCompatActivity {
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
         binding.rvAll.setAdapter(adapter);
     }
+
+    private void intRecyclerView2(List<ExtraCategoryModel> imageModels) {
+        adapter = new SeeAllItemAdapter(SeeAllActivity.this, imageModels, type, new SeeAllItemAdapter.onClickInputMethod() {
+            @Override
+            public void onClickIdentifyKeyboard() {
+                mState = NONE;
+                pickInput();
+            }
+        });
+        binding.rvAll.setLayoutManager(new LinearLayoutManager(SeeAllActivity.this));
+        binding.rvAll.setAdapter(adapter);
+    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

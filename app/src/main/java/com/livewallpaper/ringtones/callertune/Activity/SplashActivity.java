@@ -71,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void nextActivity() {
-        startActivity(MyApplication.getPreferences().isFirstRun()? new Intent(SplashActivity.this, OnboardingActivity.class): new Intent(SplashActivity.this, RingtoneActivity.class));
+        startActivity(MyApplication.getPreferences().isFirstRun()? new Intent(SplashActivity.this, OnboardingActivity.class): new Intent(SplashActivity.this, MainActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
