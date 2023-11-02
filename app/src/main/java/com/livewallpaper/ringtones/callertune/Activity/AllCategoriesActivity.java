@@ -13,10 +13,12 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -47,6 +49,8 @@ import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityAllCategoriesBinding;
+import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.RequestCallback;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -59,7 +63,6 @@ public class AllCategoriesActivity extends AppCompatActivity {
     ArrayList<CategoryModel> data2;
     CircularCategoryAdapter circularCategoryAdapter;
     AllCategoryAdapter allCategoryAdapter;
-
     String type;
 
     @Override
@@ -74,16 +77,16 @@ public class AllCategoriesActivity extends AppCompatActivity {
         } else if (type.equals("wallpaper")) {
             binding.tvTitle.setText("Wallpaper Categories");   
         } else if (type.equals("ringtone")) {
+            binding.tvColor.setText("Moods");
             binding.tvTitle.setText("Ringtone Categories");
         }
-
         initColorCatergory();
         initAllCategory();
         initBtn();
     }
 
     private void initAllCategory() {
-        
+
         if(type.equals("keyboard")){
             binding.tvTitle.setText("Keyboard Categories");
 
@@ -122,11 +125,23 @@ public class AllCategoriesActivity extends AppCompatActivity {
                 ));
             }
         } else if (type.equals("ringtone")) {
-
+            List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
+            data2 = new ArrayList<>();
+            for(int i = 0; i < dto.size(); i++){
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
+                String urlKpop = kpop1.get("ringtone_img").getAsString();
+//                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+                data2.add(new CategoryModel(
+                        dto.get(i).getCategory_name(),
+                        dto.get(i).getCategory_desc(),
+                        urlKpop
+                ));
+            }
         }
 
 
-//        initRecyclerViewCategory();
+        initRecyclerViewCategory();
     }
 
 
@@ -206,8 +221,23 @@ public class AllCategoriesActivity extends AppCompatActivity {
                                                                 openKeyboardChooserSettings();
                                                             }else{
                                                                 Global.hideAlertProgressDialog();
-                                                                dialog.dismiss();
-                                                                Toast.makeText(AllCategoriesActivity.this, "Keyboard Set Successfully", Toast.LENGTH_SHORT).show();
+                                                                if(checkReadPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+                                                                    PermissionX.init(AllCategoriesActivity.this)
+                                                                            .permissions(Manifest.permission.RECORD_AUDIO)
+                                                                            .request(new RequestCallback() {
+                                                                                @Override
+                                                                                public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
+                                                                                    if(allGranted){
+                                                                                    }else {
+                                                                                        Toast.makeText(AllCategoriesActivity.this, "Permission Needed", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                }else{
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(AllCategoriesActivity.this, "Keyboard Set Successfully", Toast.LENGTH_SHORT).show();
+                                                                }
+
                                                             }
 //                                                        dialog.dismiss();
 
@@ -247,6 +277,10 @@ public class AllCategoriesActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private int checkReadPermission(String permission1) {
+        return checkSelfPermission(permission1);
     }
 
 

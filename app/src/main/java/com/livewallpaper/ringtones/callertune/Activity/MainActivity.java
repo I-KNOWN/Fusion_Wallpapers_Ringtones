@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -62,7 +65,23 @@ public class MainActivity extends AppCompatActivity {
         initTabAnimation();
         initStartTabAnimation();
         initTabButton();
+        initDrawer();
+
         chageFragment(new WallpaperCategoryFragment());
+    }
+
+    private void initDrawer() {
+        binding.ivDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.drawer.open();
+
+            }
+        });
+    }
+
+    public void initshare(View v){
+        Util.shareApp(activity);
     }
 
     private void chageFragment(Fragment fragment) {

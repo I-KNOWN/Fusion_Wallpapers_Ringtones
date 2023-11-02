@@ -1,11 +1,16 @@
 package com.livewallpaper.ringtones.callertune.Adapter;
 
 import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_DOWNLOAD;
+import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_PATH;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -32,6 +37,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.livewallpaper.ringtones.callertune.Activity.AllCategoriesActivity;
 import com.livewallpaper.ringtones.callertune.Activity.RingtoneActivity;
 import com.livewallpaper.ringtones.callertune.Activity.WallpaperViewerActivity;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
@@ -39,9 +45,21 @@ import com.livewallpaper.ringtones.callertune.Model.ImageModel;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
 import com.livewallpaper.ringtones.callertune.Utils.Constants;
+import com.livewallpaper.ringtones.callertune.Utils.Util;
+import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.RequestCallback;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.SomeCategoryViewHolder> {
 
@@ -50,6 +68,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
     List<ExtraCategoryModel> data;
     String type;
     onClickInputMethod onClickInputMethod;
+
     public SeeAllItemAdapter(Context context, List<ExtraCategoryModel> data, String type, onClickInputMethod onClickInputMethod){
         this.context = context;
         this.data = data;
@@ -121,7 +140,8 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             return true;
                         }
                     }).submit();
-        } else if (type.equals("keyboard")) {
+        }
+        else if (type.equals("keyboard")) {
             Log.d("dataisnotshowing", "onBindViewHolder: "+ data.get(holder.getAdapterPosition()));
             holder.tv_title.setText(data.get(holder.getAdapterPosition()).getCatName()+" Keyboard");
             Glide.with(context)
@@ -181,9 +201,16 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                                                             Global.hideAlertProgressDialog();
                                                             openKeyboardChooserSettings();
                                                         }else{
+
                                                             Global.hideAlertProgressDialog();
-                                                            dialog.dismiss();
-                                                            Toast.makeText(context, "Keyboard Set Successfully", Toast.LENGTH_SHORT).show();
+                                                            if(checkReadPermission(android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+                                                                onClickInputMethod.onClickIdentifyKeyboard();
+                                                            }else{
+                                                                dialog.dismiss();
+                                                                Toast.makeText(context, "Keyboard Set Successfully", Toast.LENGTH_SHORT).show();
+                                                            }
+
+
                                                         }
 //                                                        dialog.dismiss();
 
@@ -214,7 +241,8 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             return true;
                         }
                     }).submit();
-        } else if (type.equals("ringtone")) {
+        }
+        else if (type.equals("ringtone")) {
             holder.tv_song_name.setText(data.get(holder.getAdapterPosition()).getCatName());
             holder.tv_author.setText(data.get(holder.getAdapterPosition()).getCatAuthor());
             holder.tv_sec.setText(data.get(holder.getAdapterPosition()).getCatTime());
@@ -232,9 +260,79 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                     context.startActivity(intent);
                 }
             });
+
+            holder.iv_download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ExecutorService executorService = Executors.newSingleThreadExecutor();
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            int count;
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Util.showDownloadDialog(context);
+                                }
+                            });
+                            try {
+                                URL url = new URL(data.get(holder.getAdapterPosition()).getRingtoneUrl());
+                                URLConnection connection = url.openConnection();
+                                connection.connect();
+                                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+
+                                File dir = new File(RINGTONE_DOWNLOAD);
+                                if(!dir.exists()){
+                                    dir.mkdir();
+                                }
+
+                                File file = new File(RINGTONE_DOWNLOAD, "ringtone_" + System.currentTimeMillis() + ".mp3");
+                                OutputStream output = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    output = Files.newOutputStream(file.toPath());
+                                }else {
+                                    output = new FileOutputStream(file);
+
+                                }
+
+                                byte data[] = new byte[1024];
+
+                                while ((count = input.read(data)) != -1) {
+                                    output.write(data, 0, count);
+                                }
+
+                                output.flush();
+                                output.close();
+                                input.close();
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Util.hideDownloadDialog();
+                                        Toast.makeText(context, "Ringtone Saved", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } catch (Exception e) {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Util.hideDownloadDialog();
+                                        Toast.makeText(context, "Ringtone Failed To Save", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                Log.e("Error: ", e.getMessage());
+                            }
+                        }
+                    });
+                }
+            });
+
         }
 
 
+    }
+
+    private int checkReadPermission(String permission1) {
+        return context.checkSelfPermission(permission1);
     }
 
     private boolean isKeyboardEnabled() {
@@ -286,7 +384,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
     static class SomeCategoryViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView iv_cat_bg, tv_img;
+        ImageView iv_cat_bg, tv_img, iv_download;
         TextView tv_title, tv_desc, tv_song_name, tv_author, tv_sec;
 
         public SomeCategoryViewHolder(@NonNull View itemView) {
@@ -299,6 +397,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             tv_author = itemView.findViewById(R.id.tv_author);
             tv_sec = itemView.findViewById(R.id.tv_sec);
             tv_img = itemView.findViewById(R.id.tv_img);
+            iv_download = itemView.findViewById(R.id.iv_download);
         }
     }
 

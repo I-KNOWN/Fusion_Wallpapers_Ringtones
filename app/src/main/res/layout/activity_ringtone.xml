@@ -191,7 +191,37 @@
             app:layout_constraintBottom_toTopOf="@+id/seekbar_audio"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <SeekBar
+
+        <com.masoudss.lib.WaveformSeekBar
+            android:id="@+id/seekbar_audio"
+            app:wave_progress="33"
+            app:wave_max_progress="100"
+            app:wave_width="5dp"
+            app:wave_gap="3dp"
+            app:wave_min_height="5dp"
+            app:wave_corner_radius="0dp"
+            app:wave_background_color="@color/white"
+            app:wave_progress_color="@color/blue"
+            app:wave_gravity="center"
+            app:wave_padding_top="2dp"
+            app:wave_padding_Bottom="2dp"
+            app:wave_padding_right="2dp"
+            app:wave_padding_left="2dp"
+        app:wave_visible_progress="40"
+        app:marker_color="@color/red"
+        app:marker_width="1dp"
+        app:marker_text_color="@color/colorAccent"
+        app:marker_text_padding="2dp"
+        app:marker_text_size="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+<!--        <SeekBar
             android:id="@+id/seekbar_audio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -201,7 +231,7 @@
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout5"

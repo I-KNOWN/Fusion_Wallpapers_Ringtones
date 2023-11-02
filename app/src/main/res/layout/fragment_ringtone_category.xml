@@ -41,4 +41,39 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
 
+    <TextView
+        android:id="@+id/tv_rig_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Categories"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_some_cat" />
+
+    <TextView
+        android:id="@+id/tv_seeall_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="See All"
+        android:textColor="#CCFFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rig_pop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_rig_pop" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_pop_cat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rig_pop" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,18 @@ public class TMCActivity extends AppCompatActivity {
         binding = ActivityTmcactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initBtn();
+        if(getIntent().getStringExtra("type") != null){
+            binding.tvNext.setText("Close");
+            binding.cvNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }else{
+            initBtn();
+        }
+
 
     }
 
@@ -31,5 +42,10 @@ public class TMCActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

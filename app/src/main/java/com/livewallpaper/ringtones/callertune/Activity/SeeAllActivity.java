@@ -145,6 +145,8 @@ public class SeeAllActivity extends AppCompatActivity {
                 JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
                 JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
                 String urlKpop = kpop1.get("url").getAsString();
+                String baseurl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
+                String ringtoneUrl = baseurl+urlKpop;
                 ExtraCategoryModel extraCategoryModel = new ExtraCategoryModel(
                         kpop1.get("ringtone_name").getAsString(),
                         kpop1.get("ringtone_author").getAsString(),
@@ -154,6 +156,7 @@ public class SeeAllActivity extends AppCompatActivity {
                 );
                 extraCategoryModel.setRingtoneImg(kpop1.get("ringtone_img").getAsString());
                 extraCategoryModel.setCategory(dto.get(currentIndex).getCategory_name());
+                extraCategoryModel.setRingtoneUrl(ringtoneUrl);
                 data.add(extraCategoryModel);
             }
 

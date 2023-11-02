@@ -7,12 +7,22 @@ public class ExtraCategoryModel {
     String catTime;
     String ringtoneImg;
     String catPreivewImageUrl;
+    String ringtoneUrl;
 
     public ExtraCategoryModel(String catName, String catAuthor, String catTime, String catPreivewImageUrl) {
         this.catName = catName;
         this.catAuthor = catAuthor;
         this.catTime = catTime;
         this.catPreivewImageUrl = catPreivewImageUrl;
+    }
+
+
+    public String getRingtoneUrl() {
+        return ringtoneUrl;
+    }
+
+    public void setRingtoneUrl(String ringtoneUrl) {
+        this.ringtoneUrl = ringtoneUrl;
     }
 
     public String getCategory() {

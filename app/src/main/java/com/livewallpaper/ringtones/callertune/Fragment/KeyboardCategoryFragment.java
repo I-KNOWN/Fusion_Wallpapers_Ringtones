@@ -3,6 +3,7 @@ package com.livewallpaper.ringtones.callertune.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
@@ -22,9 +24,13 @@ import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.databinding.FragmentKeyboardCategoryBinding;
+import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.RequestCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class KeyboardCategoryFragment extends Fragment {
@@ -45,7 +51,7 @@ public class KeyboardCategoryFragment extends Fragment {
         initSomeCategoryRecyclerView();
         initSomePopData();
         initBtn();
-
+//
 
         return view;
     }
@@ -100,15 +106,35 @@ public class KeyboardCategoryFragment extends Fragment {
     }
 
     private void intRecyclerView(List<ExtraCategoryModel> imageModels) {
-        adapter = new SeeAllItemAdapter(requireContext(), imageModels, "keyboard", new SeeAllItemAdapter.onClickInputMethod() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
             @Override
-            public void onClickIdentifyKeyboard() {
+            public void run() {
+
+                adapter = new SeeAllItemAdapter(requireContext(), imageModels, "keyboard", new SeeAllItemAdapter.onClickInputMethod() {
+                    @Override
+                    public void onClickIdentifyKeyboard() {
 /*                mState = NONE;
                 pickInput();*/
+
+                        PermissionX.init(requireActivity())
+                                .permissions(android.Manifest.permission.RECORD_AUDIO)
+                                .request(new RequestCallback() {
+                                    @Override
+                                    public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
+                                        if(allGranted){
+                                        }else {
+                                            Toast.makeText(requireContext(), "Permission Needed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                });
+                binding.rvSomePop.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+                binding.rvSomePop.setAdapter(adapter);
             }
         });
-        binding.rvSomePop.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        binding.rvSomePop.setAdapter(adapter);
+
     }
 
 

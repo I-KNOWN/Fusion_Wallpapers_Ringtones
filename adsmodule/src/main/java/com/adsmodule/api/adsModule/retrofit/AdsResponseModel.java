@@ -417,7 +417,7 @@ public class AdsResponseModel {
         private String ringtone_base_url;
         private int popularWallpaperIndex;
         private int popularkeyboardIndex;
-
+        private int popularringtoneIndex;
         private List<WallpaperColorsDTO> wallpaper_colors;
         private List<WallpaperCategoriesDTO> wallpaper_categories;
         private JsonObject wallpaper_data;
@@ -427,6 +427,14 @@ public class AdsResponseModel {
         private JsonObject ringtone_data;
         private List<RingtoneMoodsDTO> ringtone_moods;
         private List<RingtoneCategoriesDTO> ringtone_categories;
+
+        public int getPopularringtoneIndex() {
+            return popularringtoneIndex;
+        }
+
+        public void setPopularringtoneIndex(int popularringtoneIndex) {
+            this.popularringtoneIndex = popularringtoneIndex;
+        }
 
         public String getRingtone_base_url() {
             return ringtone_base_url;

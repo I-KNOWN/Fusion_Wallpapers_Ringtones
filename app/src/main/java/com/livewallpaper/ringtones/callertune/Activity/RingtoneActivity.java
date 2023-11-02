@@ -36,6 +36,8 @@ import com.livewallpaper.ringtones.callertune.Adapter.RingtoneScrollAdapter;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityRingtoneBinding;
+import com.masoudss.lib.SeekBarOnProgressChanged;
+import com.masoudss.lib.WaveformSeekBar;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -302,7 +304,7 @@ public class RingtoneActivity extends AppCompatActivity {
     private void initSeekbar() {
         int duration = mediaPlayer.getDuration();
         binding.maxDuration.setText(getTimeString(duration));
-        binding.seekbarAudio.setMax(mediaPlayer.getDuration()/1000);
+        binding.seekbarAudio.setMaxProgress(mediaPlayer.getDuration()/1000);
         Handler mHandler = new Handler();
 //Make sure you update Seekbar on UI thread
         runOnUiThread(new Runnable() {
@@ -319,11 +321,11 @@ public class RingtoneActivity extends AppCompatActivity {
                 mHandler.postDelayed(this, 1000);
             }
         });
-        binding.seekbarAudio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.seekbarAudio.setOnProgressChanged(new SeekBarOnProgressChanged() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(@NonNull WaveformSeekBar waveformSeekBar, float progress, boolean fromUser) {
                 if(mediaPlayer != null && fromUser){
-                    mediaPlayer.seekTo(progress * 1000);
+                    mediaPlayer.seekTo((int)progress * 1000);
                     mediaPlayer.start();
                     if(
                             mediaPlayer.isPlaying()){
@@ -331,16 +333,6 @@ public class RingtoneActivity extends AppCompatActivity {
                         binding.ivPause.setVisibility(View.VISIBLE);
                     }
                 }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
@@ -357,6 +349,7 @@ public class RingtoneActivity extends AppCompatActivity {
         try {
             mediaPlayer.seekTo(0);
             mediaPlayer.setDataSource(urlAudio);
+            binding.seekbarAudio.setSampleFrom(urlAudio);
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mediaPlayer) {
@@ -369,6 +362,14 @@ public class RingtoneActivity extends AppCompatActivity {
                             initPlayerBtn();
                         }
                     });
+                }
+            });
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    binding.ivPlay.setVisibility(View.VISIBLE);
+                    binding.ivPause.setVisibility(View.GONE);
+
                 }
             });
             mediaPlayer.prepare();
