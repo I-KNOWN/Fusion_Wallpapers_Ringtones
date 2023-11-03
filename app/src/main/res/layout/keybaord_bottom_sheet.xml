@@ -84,6 +84,17 @@
                 android:textSize="18sp" />
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+            android:id="@+id/iv_favourite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="3dp"
+            android:src="@drawable/favourite_ic"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_apply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cv_apply" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

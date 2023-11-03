@@ -139,17 +139,19 @@ public class WallpaperCategoryFragment extends Fragment {
     private void initSomeCategoryData() {
         List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
         data = new ArrayList<>();
-        int size = Math.min(dto.size(), 4);
-        for(int i = 0; i < size; i++){
-            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
-            JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
-            String urlKpop = kpop1.get("url").getAsString();
-            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
-            data.add(new CategoryModel(
-                    dto.get(i).getCategory_name(),
-                    dto.get(i).getCategory_desc(),
-                    baseUrl+urlKpop
-            ));
+        if(dto != null){
+            int size = Math.min(dto.size(), 4);
+            for(int i = 0; i < size; i++){
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+                JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
+                String urlKpop = kpop1.get("url").getAsString();
+                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+                data.add(new CategoryModel(
+                        dto.get(i).getCategory_name(),
+                        dto.get(i).getCategory_desc(),
+                        baseUrl+urlKpop
+                ));
+            }
         }
     }
 

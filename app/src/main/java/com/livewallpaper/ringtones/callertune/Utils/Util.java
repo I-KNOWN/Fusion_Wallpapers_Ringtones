@@ -9,6 +9,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.review.testing.FakeReviewManager;
+import com.livewallpaper.ringtones.callertune.BuildConfig;
 import com.livewallpaper.ringtones.callertune.R;
 
 public class Util {
@@ -60,6 +66,19 @@ public class Util {
         }
     }
 
+    public static void reviewDialog(Activity activity) {
+        ReviewManager manager = BuildConfig.DEBUG ? new FakeReviewManager(activity) : ReviewManagerFactory.create(activity);
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                ReviewInfo reviewInfo = task.getResult();
+                Task<Void> flow = manager.launchReviewFlow(activity, reviewInfo);
+                flow.addOnCompleteListener(task1 -> {
+
+                });
+            }
+        });
+    }
 
     public static void shareApp(Activity activity) {
         try {

@@ -11,5 +11,9 @@ public class Constants {
     public static final String RINGTONE_DOWNLOAD = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "FusionRingtone/";
 
     public static final String WALLPAPER_FAV = "FAV_WALLPAPER";
+    public static final String KEYBOARD_FAV = "FAV_KEYBOARD";
+    public static final String RINGTONE_FAV = "FAV_RINGTONE";
+
+    public static final String DOWNALOD_RINGTONE = "DOWN_RING";
 
 }

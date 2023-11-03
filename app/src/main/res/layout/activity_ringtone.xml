@@ -96,20 +96,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="14dp"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/iv_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/iv_fav"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:src="@drawable/favourite_ic" />
+                        android:src="@drawable/favourite_ic_filled" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="7dp"
                     android:background="#ACACAC" />
 
                 <LinearLayout
@@ -166,15 +166,27 @@
         app:layout_constraintStart_toStartOf="parent">
 
 
+        <ImageView
+            android:id="@+id/iv_favurite"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="6dp"
+            android:padding="8dp"
+            android:src="@drawable/favourite_ic"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvname" />
+
+
         <TextView
             android:id="@+id/tvname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/inter_semibold"
             android:text="Back To Her"
             android:textColor="@color/white"
             android:textSize="22sp"
-            android:layout_marginBottom="10dp"
 
             app:layout_constraintBottom_toTopOf="@+id/tv_author"
             app:layout_constraintStart_toStartOf="parent" />

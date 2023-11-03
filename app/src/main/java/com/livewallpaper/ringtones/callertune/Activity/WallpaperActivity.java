@@ -186,41 +186,45 @@ public class WallpaperActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        if(!getIntent().getStringExtra("activity").equals("download")){
+            binding.ivFavourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isFavourite){
+                        binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperActivity.this, R.drawable.favourite_ic));
+                        isFavourite = false;
+                        String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
+                        ArrayList<String> data = new ArrayList<>();
+                        data.addAll(favouriteModel.getData());
+                        data.remove(url);
+                        favouriteModel.setData(data);
+                        String convertedArray = new Gson().toJson(favouriteModel);
+                        MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
+                    }else{
+                        binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperActivity.this, R.drawable.favourite_ic_filled));
+                        isFavourite = true;
+                        String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        if (arryString.equals("")){
+                            WallpaperFavouriteModel datamodel = new WallpaperFavouriteModel(new ArrayList<>());
+                            MyApplication.getPreferences().putString(WALLPAPER_FAV, new Gson().toJson(datamodel));
+                            arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        }
 
-        binding.ivFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFavourite){
-                    binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperActivity.this, R.drawable.favourite_ic));
-                    isFavourite = false;
-                    String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
-                    WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
-                    ArrayList<String> data = new ArrayList<>();
-                    data.addAll(favouriteModel.getData());
-                    data.remove(url);
-                    favouriteModel.setData(data);
-                    String convertedArray = new Gson().toJson(favouriteModel);
-                    MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
-                }else{
-                    binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperActivity.this, R.drawable.favourite_ic_filled));
-                    isFavourite = true;
-                    String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
-                    if (arryString.equals("")){
-                        WallpaperFavouriteModel datamodel = new WallpaperFavouriteModel(new ArrayList<>());
-                        MyApplication.getPreferences().putString(WALLPAPER_FAV, new Gson().toJson(datamodel));
-                        arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
+                        ArrayList<String> data = new ArrayList<>();
+                        data.addAll(favouriteModel.getData());
+                        data.add(url);
+                        favouriteModel.setData(data);
+                        String convertedArray = new Gson().toJson(favouriteModel);
+                        MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
                     }
-
-                    WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
-                    ArrayList<String> data = new ArrayList<>();
-                    data.addAll(favouriteModel.getData());
-                    data.add(url);
-                    favouriteModel.setData(data);
-                    String convertedArray = new Gson().toJson(favouriteModel);
-                    MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
                 }
-            }
-        });
+            });
+
+        }else{
+            binding.ivFavourite.setAlpha(0.3f);
+        }
     }
 
     private void initWallpaper() {

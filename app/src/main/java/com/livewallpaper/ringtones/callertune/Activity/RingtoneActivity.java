@@ -1,9 +1,11 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_FAV;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_PATH;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -31,10 +33,15 @@ import android.widget.Toast;
 
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.livewallpaper.ringtones.callertune.Adapter.RingtoneScrollAdapter;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
+import com.livewallpaper.ringtones.callertune.Model.RingtoneData;
+import com.livewallpaper.ringtones.callertune.Model.RingtoneFavouriteRootModel;
 import com.livewallpaper.ringtones.callertune.R;
+import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
+import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityRingtoneBinding;
 import com.masoudss.lib.SeekBarOnProgressChanged;
 import com.masoudss.lib.WaveformSeekBar;
@@ -65,6 +72,8 @@ public class RingtoneActivity extends AppCompatActivity {
     String category;
     int currentPos;
     List<String> id;
+    boolean isFavourite;
+    ArrayList<RingtoneData> copyData;
     String urlAudio = "https://www.api.idecloudstoragepanel.com/media/Applications_Data/com.livewallpaper.ringtones.callertune/Audio_Files/happiness/be_happy.mp3";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,7 @@ public class RingtoneActivity extends AppCompatActivity {
         binding = ActivityRingtoneBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         id = new ArrayList<>();
+        copyData = new ArrayList<>();
         category = getIntent().getStringExtra("category");
         currentPos = getIntent().getIntExtra("pos", 0);
         iniAnimation();
@@ -81,12 +91,146 @@ public class RingtoneActivity extends AppCompatActivity {
         initBtn();
     }
 
+    private void initCheckFav() {
+        String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+        if(!arrayStr.isEmpty()){
+            if (binding != null){
+                if(arrayStr.contains(urlAudio)){
+                    isFavourite = true;
+                    binding.ivFavurite.setImageDrawable(ContextCompat.getDrawable(RingtoneActivity.this, R.drawable.favourite_ic_filled));
+                }else {
+                    isFavourite = false;
+                    binding.ivFavurite.setImageDrawable(ContextCompat.getDrawable(RingtoneActivity.this, R.drawable.favourite_ic));
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if(binding != null){
+            binding = null;
+        }
+    }
+
     private void initBtn() {
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaPlayerCanceller();
                 finish();
+            }
+        });
+        binding.ivFavurite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFavourite){
+                    binding.ivFavurite.setImageDrawable(ContextCompat.getDrawable(RingtoneActivity.this, R.drawable.favourite_ic));
+                    String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                    RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+                    ArrayList<RingtoneData> value = new ArrayList<>();
+
+
+                    if(category.equals("favourite")) {
+                        value.addAll(model.getData());
+                        RingtoneData ringtoneData = new RingtoneData(
+                                copyData.get(currentPos).getRingtoneName(),
+                                copyData.get(currentPos).getRingtoneAuthor(),
+                                copyData.get(currentPos).getRingtoneTime(),
+                                copyData.get(currentPos).getRingtonePreviewImage(),
+                                copyData.get(currentPos).getRingtoneUrl()
+                        );
+                        value.removeIf(ringtoneData1 -> ringtoneData1.getRingtoneUrl().equals(ringtoneData.getRingtoneUrl()));
+                        model.setData(value);
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                    }else {
+                        JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                        String currentId = id.get(currentPos);
+                        JsonObject kpop1 = wallpaperData.getAsJsonObject(currentId);
+                        String ringtoneName = kpop1.get("ringtone_name").getAsString();
+                        String ringtoneAthor = kpop1.get("ringtone_author").getAsString();
+                        String baseUrl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
+                        urlAudio = (baseUrl+kpop1.get("url").getAsString());
+                        value.addAll(model.getData());
+
+                        RingtoneData ringtoneData = new RingtoneData(
+                                ringtoneName,
+                                ringtoneAthor,
+                                kpop1.get("ringtone_duration").getAsString(),
+                                kpop1.get("ringtone_img").getAsString(),
+                                urlAudio
+                        );
+/*                                                        for(KeyboardData keyboardData1 : value){
+                                                            if(keyboardData1)
+                                                        }*/
+                        value.removeIf(ringtoneData1 -> ringtoneData1.getRingtoneUrl().equals(ringtoneData.getRingtoneUrl()));
+                        model.setData(value);
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                    }
+
+
+                    isFavourite = false;
+                }else{
+                    binding.ivFavurite.setImageDrawable(ContextCompat.getDrawable(RingtoneActivity.this, R.drawable.favourite_ic_filled));
+                    String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                    if(arrayStr.isEmpty()){
+
+                        ArrayList<RingtoneData> value = new ArrayList<>();
+
+                        RingtoneFavouriteRootModel model = new RingtoneFavouriteRootModel(value);
+
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                        arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                    }
+                    RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+                    ArrayList<RingtoneData> value = new ArrayList<>();
+
+                    if(category.equals("favourite")){
+                        value.addAll(model.getData());
+                        value.add(new RingtoneData(
+                                copyData.get(currentPos).getRingtoneName(),
+                                copyData.get(currentPos).getRingtoneAuthor(),
+                                copyData.get(currentPos).getRingtoneTime(),
+                                copyData.get(currentPos).getRingtonePreviewImage(),
+                                copyData.get(currentPos).getRingtoneUrl()
+                        ));
+                        model.setData(value);
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                    }else {
+                        JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                        String currentId = id.get(currentPos);
+                        JsonObject kpop1 = wallpaperData.getAsJsonObject(currentId);
+                        String ringtoneName = kpop1.get("ringtone_name").getAsString();
+                        String ringtoneAthor = kpop1.get("ringtone_author").getAsString();
+                        String baseUrl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
+                        urlAudio = (baseUrl+kpop1.get("url").getAsString());
+                        value.addAll(model.getData());
+                        value.add(new RingtoneData(
+                                ringtoneName,
+                                ringtoneAthor,
+                                kpop1.get("ringtone_duration").getAsString(),
+                                kpop1.get("ringtone_img").getAsString(),
+                                urlAudio
+                        ));
+                        model.setData(value);
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                    }
+                    isFavourite = true;
+                }
+            }
+        });
+        binding.ivFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.ivFavurite.performClick();
+                binding.ivMore.performClick();
             }
         });
     }
@@ -143,6 +287,7 @@ public class RingtoneActivity extends AppCompatActivity {
         binding.llSetRingtone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Util.showDownloadDialog(RingtoneActivity.this);
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
                 executorService.execute(new Runnable() {
                     @Override
@@ -182,6 +327,7 @@ public class RingtoneActivity extends AppCompatActivity {
                                     setRingtone(RingtoneActivity.this, Uri.fromFile(file));
                                 }
                                 else {
+                                    Util.hideDownloadDialog();
                                     Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
                                     intent.setData(Uri.parse("package:" + getPackageName()));
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -191,6 +337,9 @@ public class RingtoneActivity extends AppCompatActivity {
 
 
                         } catch (Exception e) {
+                            Util.hideDownloadDialog();
+                            Toast.makeText(RingtoneActivity.this, "Song type is not supported", Toast.LENGTH_SHORT).show();
+
                             Log.e("Error: ", e.getMessage());
                         }
 
@@ -232,6 +381,8 @@ public class RingtoneActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(context, "Ringtone has been set successfully", Toast.LENGTH_SHORT).show();
+                        Util.hideDownloadDialog();
+
                     }
                 });
             } catch (Exception e) {
@@ -240,6 +391,7 @@ public class RingtoneActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(context, "Song type is not supported", Toast.LENGTH_SHORT).show();
+                        Util.hideDownloadDialog();
                     }
                 });
             }
@@ -418,22 +570,32 @@ public class RingtoneActivity extends AppCompatActivity {
 
     private void initRingtoneData() {
         data = new ArrayList<>();
-        List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
-        int currentIndex = 0;
-        for (int i = 0; i < dto.size(); i++) {
-            if (dto.get(i).getCategory_name().equals(category)) {
-                currentIndex = i;
+        if(category.equals("favourite")){
+            String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+            RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+            copyData.addAll(model.getData());
+            for(RingtoneData data1: model.getData()){
+                data.add(data1.getRingtonePreviewImage());
+            }
+        }else{
+            List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
+            int currentIndex = 0;
+            for (int i = 0; i < dto.size(); i++) {
+                if (dto.get(i).getCategory_name().equals(category)) {
+                    currentIndex = i;
+                }
+            }
+
+            id.addAll(dto.get(currentIndex).getIds());
+//            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+            for (int i = 0; i < id.size(); i++) {
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                String urlKpop = kpop1.get("ringtone_img").getAsString();
+                data.add(urlKpop);
             }
         }
 
-        id.addAll(dto.get(currentIndex).getIds());
-//            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
-        for (int i = 0; i < id.size(); i++) {
-            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
-            JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
-            String urlKpop = kpop1.get("ringtone_img").getAsString();
-            data.add(urlKpop);
-        }
 
 
         binding.ivShuffle.setOnClickListener(new View.OnClickListener() {
@@ -469,8 +631,14 @@ public class RingtoneActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 currentPos = position;
-                mediaPlayerCanceller();
-                changeSongPreview();
+                try{
+                    mediaPlayerCanceller();
+                    changeSongPreview();
+                    initCheckFav();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -489,8 +657,10 @@ public class RingtoneActivity extends AppCompatActivity {
         compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
             @Override
             public void transformPage(@NonNull View page, float position) {
-                float r  = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.14f);
+                if(!Float.isNaN(position)){
+                    float r  = 1 - Math.abs(position);
+                    page.setScaleY(0.85f + r * 0.14f);
+                }
             }
         });
 
@@ -498,22 +668,36 @@ public class RingtoneActivity extends AppCompatActivity {
         binding.vp2Ringtone.setCurrentItem(currentPos);
     }
     private void mediaPlayerCanceller(){
-        if (mediaPlayer!= null && mediaPlayer.isPlaying()){
-            mediaPlayer.pause();
+        if (mediaPlayer!= null ){
+            if (mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
+            }
             mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            binding.seekbarAudio.setSampleFrom("");
         }
     }
     private void changeSongPreview() {
-        String currentId = id.get(currentPos);
-        JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
-        JsonObject kpop1 = wallpaperData.getAsJsonObject(currentId);
-        String ringtoneName = kpop1.get("ringtone_name").getAsString();
-        String ringtoneAthor = kpop1.get("ringtone_author").getAsString();
-        String baseUrl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
-        binding.tvTitle.setText(ringtoneName);
-        binding.tvname.setText(ringtoneName);
-        binding.tvAuthor.setText(ringtoneAthor);
-        urlAudio = (baseUrl+kpop1.get("url").getAsString());
+        if(category.equals("favourite")){
+/*            String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+            RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);*/
+            binding.tvname.setText(copyData.get(currentPos).getRingtoneName());
+            binding.tvTitle.setText(copyData.get(currentPos).getRingtoneName());
+            binding.tvAuthor.setText(copyData.get(currentPos).getRingtoneAuthor());
+            urlAudio = copyData.get(currentPos).getRingtoneUrl();
+        }else{
+            String currentId = id.get(currentPos);
+            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+            JsonObject kpop1 = wallpaperData.getAsJsonObject(currentId);
+            String ringtoneName = kpop1.get("ringtone_name").getAsString();
+            String ringtoneAthor = kpop1.get("ringtone_author").getAsString();
+            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
+            binding.tvTitle.setText(ringtoneName);
+            binding.tvname.setText(ringtoneName);
+            binding.tvAuthor.setText(ringtoneAthor);
+            urlAudio = (baseUrl+kpop1.get("url").getAsString());
+        }
         binding.ivPause.setVisibility(View.GONE);
         binding.ivPlay.setVisibility(View.VISIBLE);
         binding.ivPlayer.setOnClickListener(null);
@@ -524,5 +708,6 @@ public class RingtoneActivity extends AppCompatActivity {
                 initMediaPlayer();
             }
         });
+
     }
 }

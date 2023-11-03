@@ -87,41 +87,46 @@ public class WallpaperViewerActivity extends AppCompatActivity {
             }
         });
 
-        binding.ivFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFavourite){
-                    binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperViewerActivity.this, R.drawable.favourite_ic));
-                    isFavourite = false;
-                    String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
-                    WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
-                    ArrayList<String> data = new ArrayList<>();
-                    data.addAll(favouriteModel.getData());
-                    data.remove(url);
-                    favouriteModel.setData(data);
-                    String convertedArray = new Gson().toJson(favouriteModel);
-                    MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
+        if(!getIntent().getStringExtra("activity").equals("download")){
+            binding.ivFavourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isFavourite){
+                        binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperViewerActivity.this, R.drawable.favourite_ic));
+                        isFavourite = false;
+                        String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
+                        ArrayList<String> data = new ArrayList<>();
+                        data.addAll(favouriteModel.getData());
+                        data.remove(url);
+                        favouriteModel.setData(data);
+                        String convertedArray = new Gson().toJson(favouriteModel);
+                        MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
 
-                }else{
-                    binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperViewerActivity.this, R.drawable.favourite_ic_filled));
-                    isFavourite = true;
-                    String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
-                    if (arryString.equals("")){
-                        WallpaperFavouriteModel datamodel = new WallpaperFavouriteModel(new ArrayList<>());
-                        MyApplication.getPreferences().putString(WALLPAPER_FAV, new Gson().toJson(datamodel));
-                        arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                    }else{
+                        binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperViewerActivity.this, R.drawable.favourite_ic_filled));
+                        isFavourite = true;
+                        String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        if (arryString.equals("")){
+                            WallpaperFavouriteModel datamodel = new WallpaperFavouriteModel(new ArrayList<>());
+                            MyApplication.getPreferences().putString(WALLPAPER_FAV, new Gson().toJson(datamodel));
+                            arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
+                        }
+
+                        WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
+                        ArrayList<String> data = new ArrayList<>();
+                        data.addAll(favouriteModel.getData());
+                        data.add(url);
+                        favouriteModel.setData(data);
+                        String convertedArray = new Gson().toJson(favouriteModel);
+                        MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
                     }
-
-                    WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
-                    ArrayList<String> data = new ArrayList<>();
-                    data.addAll(favouriteModel.getData());
-                    data.add(url);
-                    favouriteModel.setData(data);
-                    String convertedArray = new Gson().toJson(favouriteModel);
-                    MyApplication.getPreferences().putString(WALLPAPER_FAV, convertedArray);
                 }
-            }
-        });
+            });
+        }else{
+            binding.ivFavourite.setAlpha(0.2f);
+        }
+
     }
     
     
@@ -195,6 +200,10 @@ public class WallpaperViewerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent in1 = new Intent(WallpaperViewerActivity.this, EditorActivity.class);
                 in1.putExtra("image", getIntent().getStringExtra("filename"));
+                in1.putExtra("activity", "");
+                if(getIntent().getStringExtra("activity").equals("download")){
+                    in1.putExtra("activity", "download");
+                }
                 startActivity(in1);
 //                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 /*String filename = "bitmap.png";
@@ -229,6 +238,10 @@ public class WallpaperViewerActivity extends AppCompatActivity {
                         Intent in1 = new Intent(WallpaperViewerActivity.this, WallpaperActivity.class);
                         in1.putExtra("image", getIntent().getStringExtra("filename"));
                         in1.putExtra("url", url);
+                        in1.putExtra("activity", "");
+                        if(getIntent().getStringExtra("activity").equals("download")){
+                            in1.putExtra("activity", "download");
+                        }
                         startActivity(in1);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -242,11 +255,16 @@ public class WallpaperViewerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
         url = getIntent().getStringExtra("url");
         String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
         if(arryString.contains(url)){
             isFavourite = true;
             binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperViewerActivity.this, R.drawable.favourite_ic_filled));
+        }else{
+            isFavourite = false;
+            binding.ivFavourite.setImageDrawable(ContextCompat.getDrawable(WallpaperViewerActivity.this, R.drawable.favourite_ic));
         }
     }
 }

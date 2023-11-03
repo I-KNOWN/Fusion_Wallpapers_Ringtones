@@ -9,6 +9,7 @@
         android:id="@+id/imageView6"
         android:layout_width="125dp"
         android:layout_height="185dp"
+        android:alpha="0.7"
         android:src="@drawable/gradient_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

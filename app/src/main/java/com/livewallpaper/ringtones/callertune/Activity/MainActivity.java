@@ -5,15 +5,19 @@ import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -98,6 +102,24 @@ public class MainActivity extends AppCompatActivity {
                 binding.drawer.closeDrawers();
             }
         });
+        LinearLayout llFavourite = headerLayout.findViewById(R.id.ll_fav);
+        llFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, FavouritesActivity.class));
+                binding.drawer.closeDrawers();
+            }
+        });
+
+        LinearLayout llDownload = headerLayout.findViewById(R.id.ll_down);
+        llDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, DownloadActivity.class));
+                binding.drawer.closeDrawers();
+            }
+        });
+
 
 
 
@@ -108,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.fragcontainer, fragment);
                 fragmentTransaction.commit();
 
@@ -359,7 +382,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!currentFrag.equals("wallpaper")){
+            binding.clWallpaper.performClick();
+        }else{
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.exit_dialog);
+            dialog.setCancelable(true);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            ImageView iv_close = dialog.findViewById(R.id.iv_close);
+            iv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            CardView cv_exit = dialog.findViewById(R.id.cv_exit);
+            cv_exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finishAffinity();
+                }
+            });
 
-
-
+            LinearLayout ll_rate = dialog.findViewById(R.id.ll_rate);
+            ll_rate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Util.reviewDialog(activity);
+                }
+            });
+            dialog.show();
+        }
+    }
 }

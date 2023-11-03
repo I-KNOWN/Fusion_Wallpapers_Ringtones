@@ -42,7 +42,6 @@ public class RingtoneCategoryFragment extends Fragment {
         View view = binding.getRoot();
         initBtn();
         initSomeCategoryData();
-        initSomePopData();
         return view;
     }
 
@@ -72,20 +71,23 @@ public class RingtoneCategoryFragment extends Fragment {
     private void initSomeCategoryData() {
         List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
         data = new ArrayList<>();
-        int size = Math.min(dto.size(), 4);
-        for(int i = 0; i < size; i++){
+        if(dto != null){
+            int size = Math.min(dto.size(), 4);
+            for(int i = 0; i < size; i++){
 /*            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
             JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
             String urlKpop = kpop1.get("url").getAsString();
             String baseUrl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();*/
-            data.add(new CategoryModel(
-                    dto.get(i).getCategory_name(),
-                    dto.get(i).getCategory_desc(),
-                    dto.get(i).getCategory_img()
-            ));
+                data.add(new CategoryModel(
+                        dto.get(i).getCategory_name(),
+                        dto.get(i).getCategory_desc(),
+                        dto.get(i).getCategory_img()
+                ));
+            }
+
+            initSomeCategoryRecyclerView();
         }
-        
-        initSomeCategoryRecyclerView();
+
         
     }
 
@@ -138,5 +140,9 @@ public class RingtoneCategoryFragment extends Fragment {
         binding.rvPopCat.setAdapter(adapter);
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        initSomePopData();
+    }
 }

@@ -83,11 +83,16 @@ public class WallpaperItemAdapter extends RecyclerView.Adapter<WallpaperItemAdap
                                                         }catch (Exception e) {
                                                             e.printStackTrace();
                                                         }
-
                                                         Intent intent =new Intent(context, WallpaperViewerActivity.class);
                                                         intent.putExtra("filename", filename);
                                                         intent.putExtra("url", data.get(holder.getAdapterPosition()));
+                                                        intent.putExtra("activity", "");
+                                                        if(activity.getComponentName().getClassName().contains("DownloadActivity")){
+                                                            intent.putExtra("activity", "download");
+                                                        }
                                                         context.startActivity(intent);
+
+
                                                         Global.hideAlertProgressDialog();
                                                     }
                                                 });
