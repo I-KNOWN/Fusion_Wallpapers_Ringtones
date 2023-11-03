@@ -23,6 +23,14 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initBtn() {
+
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         binding.llTmc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,5 +39,10 @@ public class SettingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

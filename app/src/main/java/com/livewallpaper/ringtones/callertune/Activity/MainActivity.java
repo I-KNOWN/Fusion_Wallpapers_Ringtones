@@ -78,11 +78,31 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        View headerLayout = binding.navview.getHeaderView(0);
+        LinearLayout llShare = headerLayout.findViewById(R.id.ll_share);
+        llShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Util.shareApp(activity);
+                binding.drawer.closeDrawers();
+            }
+        });
+
+        LinearLayout llSetting = headerLayout.findViewById(R.id.ll_setting);
+        llSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                binding.drawer.closeDrawers();
+            }
+        });
+
+
+
     }
 
-    public void initshare(View v){
-        Util.shareApp(activity);
-    }
 
     private void chageFragment(Fragment fragment) {
 

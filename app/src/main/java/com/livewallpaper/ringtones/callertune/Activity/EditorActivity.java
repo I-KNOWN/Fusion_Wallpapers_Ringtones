@@ -89,6 +89,7 @@ public class EditorActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        binding.ivEditor.setDrawingCacheEnabled(true);
 
 //        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.board1_01);
         binding.ivEditor.setImageBitmap(bitmap);
@@ -223,7 +224,9 @@ public class EditorActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
+                            binding.ivEditor.setDrawingCacheEnabled(true);
+
+                            manager.setBitmap(binding.ivEditor.getDrawingCache(), null, true, WallpaperManager.FLAG_LOCK);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -256,7 +259,9 @@ public class EditorActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM);
+                            binding.ivEditor.setDrawingCacheEnabled(true);
+
+                            manager.setBitmap(binding.ivEditor.getDrawingCache(), null, true, WallpaperManager.FLAG_SYSTEM);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -289,7 +294,9 @@ public class EditorActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            manager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM | WallpaperManager.FLAG_LOCK);
+                            binding.ivEditor.setDrawingCacheEnabled(true);
+
+                            manager.setBitmap(binding.ivEditor.getDrawingCache(), null, true, WallpaperManager.FLAG_SYSTEM | WallpaperManager.FLAG_LOCK);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -450,7 +457,8 @@ public class EditorActivity extends AppCompatActivity {
                 myDir.mkdirs();
             String fname = System.currentTimeMillis()+".jpg"; // Note the correction here
             File file = new File(myDir, fname);
-            Bitmap bm = bitmap;
+            binding.ivEditor.setDrawingCacheEnabled(true);
+            Bitmap bm = binding.ivEditor.getDrawingCache();
             FileOutputStream fos = new FileOutputStream(file); // Use FileOutputStream directl
             bm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();

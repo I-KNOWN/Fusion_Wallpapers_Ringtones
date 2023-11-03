@@ -86,6 +86,7 @@ public class WallpaperItemAdapter extends RecyclerView.Adapter<WallpaperItemAdap
 
                                                         Intent intent =new Intent(context, WallpaperViewerActivity.class);
                                                         intent.putExtra("filename", filename);
+                                                        intent.putExtra("url", data.get(holder.getAdapterPosition()));
                                                         context.startActivity(intent);
                                                         Global.hideAlertProgressDialog();
                                                     }

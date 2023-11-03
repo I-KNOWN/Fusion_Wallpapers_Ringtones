@@ -131,6 +131,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
                                             Intent intent =new Intent(context, WallpaperViewerActivity.class);
                                             intent.putExtra("filename", filename);
+                                            intent.putExtra("url", data.get(holder.getAdapterPosition()).getCatPreivewImageUrl());
                                             context.startActivity(intent);
                                             Global.hideAlertProgressDialog();
                                         }

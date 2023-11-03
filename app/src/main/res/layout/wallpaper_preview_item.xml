@@ -13,7 +13,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/total_white_bg"
             android:layout_margin="70dp"
-            app:riv_corner_radius="55dp"
+            app:riv_corner_radius="50dp"
             android:transitionName="image_transition"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

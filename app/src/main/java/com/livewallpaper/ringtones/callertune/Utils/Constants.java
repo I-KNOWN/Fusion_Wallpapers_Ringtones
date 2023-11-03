@@ -10,5 +10,6 @@ public class Constants {
     public static final String RINGTONE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES) + File.separator + ".FusionRingtone/";
     public static final String RINGTONE_DOWNLOAD = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "FusionRingtone/";
 
+    public static final String WALLPAPER_FAV = "FAV_WALLPAPER";
 
 }
