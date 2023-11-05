@@ -90,7 +90,7 @@ public class AllCategoriesActivity extends AppCompatActivity {
         if(type.equals("keyboard")){
             binding.tvTitle.setText("Keyboard Categories");
 
-            List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
+            List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
             data2 = new ArrayList<>();
             data2.add(new CategoryModel(
                     "customKeybaord",
@@ -98,7 +98,7 @@ public class AllCategoriesActivity extends AppCompatActivity {
                     ""
             ));
             for(int i = 0; i < dto.size(); i++){
-                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
                 JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
                 String urlKpop = kpop1.get("url").getAsString();
                 String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
@@ -322,7 +322,7 @@ public class AllCategoriesActivity extends AppCompatActivity {
             for(int i = 0; i < dto.size(); i++){
                 String colorName = dto.get(i).getColor_name();
                 String id = dto.get(i).getIds().get(0);
-                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
+                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
                 JsonObject kpop1 = wallpaperData.getAsJsonObject(id);
                 String urlKpop = kpop1.get("url").getAsString();
                 String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();

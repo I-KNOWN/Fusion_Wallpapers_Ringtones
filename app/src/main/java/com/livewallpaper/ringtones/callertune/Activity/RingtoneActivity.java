@@ -657,22 +657,37 @@ public class RingtoneActivity extends AppCompatActivity {
                 data.add(data1.getModel().getRingtoneImg());
             }
         } else{
+
+            boolean isMood = false;
             List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
             int currentIndex = 0;
             for (int i = 0; i < dto.size(); i++) {
                 if (dto.get(i).getCategory_name().equals(category)) {
                     currentIndex = i;
+                    isMood = false;
+                }
+            }
+            List<AdsResponseModel.ExtraDataFieldDTO.RingtoneMoodsDTO> dto2 = Constants.adsResponseModel.getExtra_data_field().getRingtone_moods();
+            for (int i = 0; i < dto2.size(); i++) {
+                if (dto2.get(i).getRingtone_name().equals(category)) {
+                    currentIndex = i;
+                    isMood = true;
                 }
             }
 
-            id.addAll(dto.get(currentIndex).getIds());
+            if(isMood){
+                id.addAll(dto2.get(currentIndex).getIds());
 //            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+            }else{
+                id.addAll(dto.get(currentIndex).getIds());
+            }
             for (int i = 0; i < id.size(); i++) {
                 JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
                 JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
                 String urlKpop = kpop1.get("ringtone_img").getAsString();
                 data.add(urlKpop);
             }
+
         }
 
 

@@ -56,6 +56,7 @@ public class SeeAllActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         category = getIntent().getStringExtra("category");
+
         binding.tvTitle.setText(category);
         initBtn();
         getData();
@@ -78,89 +79,186 @@ public class SeeAllActivity extends AppCompatActivity {
 
         if(type.equals("wallpaper")){
 
-            List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
-            int currentIndex = 0;
-            for(int i = 0; i < dto.size(); i++){
-                if(dto.get(i).getCategory_name().equals(category)){
-                    currentIndex = i;
+
+            if(getIntent().getBooleanExtra("circular", false)){
+                List<AdsResponseModel.ExtraDataFieldDTO.WallpaperColorsDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_colors();
+                int currentIndex = 0;
+                for(int i = 0; i < dto.size(); i++){
+                    if(dto.get(i).getColor_name().equals(category)){
+                        currentIndex = i;
+                    }
                 }
+
+                List<String> id = dto.get(currentIndex).getIds();
+                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+
+                for(int i = 0; i < id.size(); i++){
+                    JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+                    JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                    String urlKpop = kpop1.get("url").getAsString();
+
+                    data.add(new ExtraCategoryModel(
+                            "",
+                            "",
+                            "",
+                            baseUrl+urlKpop
+                    ));
+                }
+                intRecyclerView(data);
+            }else{
+                List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+                int currentIndex = 0;
+                for(int i = 0; i < dto.size(); i++){
+                    if(dto.get(i).getCategory_name().equals(category)){
+                        currentIndex = i;
+                    }
+                }
+
+                List<String> id = dto.get(currentIndex).getIds();
+                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+
+                for(int i = 0; i < id.size(); i++){
+                    JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+                    JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                    String urlKpop = kpop1.get("url").getAsString();
+
+                    data.add(new ExtraCategoryModel(
+                            "",
+                            "",
+                            "",
+                            baseUrl+urlKpop
+                    ));
+                }
+                intRecyclerView(data);
             }
-
-            List<String> id = dto.get(currentIndex).getIds();
-            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
-
-            for(int i = 0; i < id.size(); i++){
-                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
-                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
-                String urlKpop = kpop1.get("url").getAsString();
-
-                data.add(new ExtraCategoryModel(
-                        "",
-                        "",
-                        "",
-                        baseUrl+urlKpop
-                ));
-            }
-            intRecyclerView(data);
 
         } else if (type.equals("keyboard")) {
 
-            List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
-            int currentIndex = 0;
-            for(int i = 0; i < dto.size(); i++){
-                if(dto.get(i).getCategory_name().equals(category)){
-                    currentIndex = i;
+
+            if(getIntent().getBooleanExtra("circular", false)){
+
+                List<AdsResponseModel.ExtraDataFieldDTO.WallpaperColorsDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_colors();
+                int currentIndex = 0;
+                for(int i = 0; i < dto.size(); i++){
+                    if(dto.get(i).getColor_name().equals(category)){
+                        currentIndex = i;
+                    }
                 }
+
+                List<String> id = dto.get(currentIndex).getIds();
+                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+
+                for(int i = 0; i < id.size(); i++){
+                    JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+                    JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                    String urlKpop = kpop1.get("url").getAsString();
+
+                    data.add(new ExtraCategoryModel(
+                            kpop1.get("name").getAsString(),
+                            "",
+                            "",
+                            baseUrl+urlKpop
+                    ));
+                }
+                intRecyclerView(data);
+
+            }else{
+                List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+                int currentIndex = 0;
+                for(int i = 0; i < dto.size(); i++){
+                    if(dto.get(i).getCategory_name().equals(category)){
+                        currentIndex = i;
+                    }
+                }
+
+                List<String> id = dto.get(currentIndex).getIds();
+                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+
+                for(int i = 0; i < id.size(); i++){
+                    JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
+                    JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                    String urlKpop = kpop1.get("url").getAsString();
+
+                    data.add(new ExtraCategoryModel(
+                            kpop1.get("name").getAsString(),
+                            "",
+                            "",
+                            baseUrl+urlKpop
+                    ));
+                }
+                intRecyclerView(data);
             }
 
-            List<String> id = dto.get(currentIndex).getIds();
-            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
 
-            for(int i = 0; i < id.size(); i++){
-                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
-                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
-                String urlKpop = kpop1.get("url").getAsString();
-
-                data.add(new ExtraCategoryModel(
-                        kpop1.get("name").getAsString(),
-                        "",
-                        "",
-                        baseUrl+urlKpop
-                ));
-            }
-            intRecyclerView(data);
 
         } else if (type.equals("ringtone")) {
-            List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
-            int currentIndex = 0;
-            for(int i = 0; i < dto.size(); i++){
-                if(dto.get(i).getCategory_name().equals(category)){
-                    currentIndex = i;
+
+            ;
+            if(getIntent().getBooleanExtra("circular", false)){
+                List<AdsResponseModel.ExtraDataFieldDTO.RingtoneMoodsDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_moods();
+                int currentIndex = 0;
+                for(int i = 0; i < dto.size(); i++){
+                    if(dto.get(i).getRingtone_name().equals(category)){
+                        currentIndex = i;
+                    }
                 }
-            }
-
-            List<String> id = dto.get(currentIndex).getIds();
+                List<String> id = dto.get(currentIndex).getIds();
 //            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
-            for(int i = 0; i < id.size(); i++){
-                JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
-                JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
-                String urlKpop = kpop1.get("url").getAsString();
-                String baseurl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
-                String ringtoneUrl = baseurl+urlKpop;
-                ExtraCategoryModel extraCategoryModel = new ExtraCategoryModel(
-                        kpop1.get("ringtone_name").getAsString(),
-                        kpop1.get("ringtone_author").getAsString(),
-                        kpop1.get("ringtone_duration").getAsString(),
-                        ""
+                for(int i = 0; i < id.size(); i++){
+                    JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                    JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                    String urlKpop = kpop1.get("url").getAsString();
+                    String baseurl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
+                    String ringtoneUrl = baseurl+urlKpop;
+                    ExtraCategoryModel extraCategoryModel = new ExtraCategoryModel(
+                            kpop1.get("ringtone_name").getAsString(),
+                            kpop1.get("ringtone_author").getAsString(),
+                            kpop1.get("ringtone_duration").getAsString(),
+                            ""
 
-                );
-                extraCategoryModel.setRingtoneImg(kpop1.get("ringtone_img").getAsString());
-                extraCategoryModel.setCategory(dto.get(currentIndex).getCategory_name());
-                extraCategoryModel.setRingtoneUrl(ringtoneUrl);
-                data.add(extraCategoryModel);
+                    );
+                    extraCategoryModel.setRingtoneImg(kpop1.get("ringtone_img").getAsString());
+                    extraCategoryModel.setCategory(dto.get(currentIndex).getRingtone_name());
+                    extraCategoryModel.setRingtoneUrl(ringtoneUrl);
+                    data.add(extraCategoryModel);
+                }
+
+                intRecyclerView2(data);
+            }else{
+                List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
+                int currentIndex = 0;
+                for(int i = 0; i < dto.size(); i++){
+                    if(dto.get(i).getCategory_name().equals(category)){
+                        currentIndex = i;
+                    }
+                }
+                List<String> id = dto.get(currentIndex).getIds();
+//            String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
+                for(int i = 0; i < id.size(); i++){
+                    JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
+                    JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
+                    String urlKpop = kpop1.get("url").getAsString();
+                    String baseurl = Constants.adsResponseModel.getExtra_data_field().getRingtone_base_url();
+                    String ringtoneUrl = baseurl+urlKpop;
+                    ExtraCategoryModel extraCategoryModel = new ExtraCategoryModel(
+                            kpop1.get("ringtone_name").getAsString(),
+                            kpop1.get("ringtone_author").getAsString(),
+                            kpop1.get("ringtone_duration").getAsString(),
+                            ""
+
+                    );
+                    extraCategoryModel.setRingtoneImg(kpop1.get("ringtone_img").getAsString());
+                    extraCategoryModel.setCategory(dto.get(currentIndex).getCategory_name());
+                    extraCategoryModel.setRingtoneUrl(ringtoneUrl);
+                    data.add(extraCategoryModel);
+                }
+
+                intRecyclerView2(data);
             }
 
-            intRecyclerView2(data);
+
+
+
 
         }
 
@@ -204,6 +302,9 @@ public class SeeAllActivity extends AppCompatActivity {
         });
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
         binding.rvAll.setAdapter(adapter);
+        if(type.equals("keyboard")){
+            binding.rvAll.setHasFixedSize(true);
+        }
 
     }
 

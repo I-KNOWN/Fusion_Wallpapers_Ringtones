@@ -43,13 +43,11 @@ public class Util {
     }
 
     public static void showDownloadDialog(Context context){
-        if(dialog == null){
             dialog = new Dialog(context);
             handler = new Handler();
             dialog.setCancelable(false);
             dialog.setContentView(R.layout.download_dialog);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
         dialog.show();
         updateDialogProgress();
     }

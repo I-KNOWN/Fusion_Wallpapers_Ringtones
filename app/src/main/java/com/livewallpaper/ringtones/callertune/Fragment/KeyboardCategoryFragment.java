@@ -82,14 +82,14 @@ public class KeyboardCategoryFragment extends Fragment {
     }
 
     private void initSomePopData() {
-        List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
+        List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
         List<ExtraCategoryModel> data = new ArrayList<>();
         List<String> id = dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularkeyboardIndex()).getIds();
         binding.tvPopCat.setText(dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularkeyboardIndex()).getCategory_name());
         String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
         int size = Math.min(id.size(), 7);
         for(int i = 0; i < size; i++){
-            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
+            JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
             JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
             String urlKpop = kpop1.get("url").getAsString();
             String name = kpop1.get("name").getAsString();
@@ -145,11 +145,11 @@ public class KeyboardCategoryFragment extends Fragment {
 
 
     private void initSomeCategoryData() {
-        List<AdsResponseModel.ExtraDataFieldDTO.KeyboardCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getKeyboard_categories();
+        List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
         data = new ArrayList<>();
         int size = Math.min(dto.size(), 4);
         for(int i = 0; i < size; i++){
-            JsonObject keyboardData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
+            JsonObject keyboardData = Constants.adsResponseModel.getExtra_data_field().getWallpaper_data();
             JsonObject kpop1 = keyboardData.getAsJsonObject(dto.get(i).getIds().get(i));
             String urlKpop = kpop1.get("url").getAsString();
             String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();

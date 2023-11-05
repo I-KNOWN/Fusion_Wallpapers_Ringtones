@@ -40,8 +40,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adsmodule.api.adsModule.utils.Global;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
@@ -171,6 +173,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
             Glide.with(context)
                     .asBitmap()
+                    .apply(new RequestOptions().override(600, 300))
                     .load(data.get(holder.getAdapterPosition()).getCatPreivewImageUrl())
                     .addListener(new RequestListener<Bitmap>() {
                         @Override

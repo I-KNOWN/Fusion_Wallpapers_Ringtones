@@ -71,6 +71,7 @@ public class CircularCategoryAdapter extends RecyclerView.Adapter<CircularCatego
                 Intent intent = new Intent(context, SeeAllActivity.class);
                 intent.putExtra("type", type);
                 intent.putExtra("category", data.get(holder.getAdapterPosition()).getCatName());
+                intent.putExtra("circular", true);
                 context.startActivity(intent);
             }
         });
