@@ -28,19 +28,27 @@
         app:cardElevation="0dp"
         android:elevation="0dp"
         android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            app:lottie_rawRes="@raw/splash_loader"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
         <ImageView
             android:id="@+id/iv_cat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/abstract_sample"
             android:scaleType="centerCrop"/>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

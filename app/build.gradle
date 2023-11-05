@@ -89,6 +89,8 @@ dependencies {
     //Review
     implementation 'com.google.android.play:review:2.0.1'
 
+    implementation 'com.github.alexei-frolo:WaveformSeekBar:1.1'
+
 
 
 }

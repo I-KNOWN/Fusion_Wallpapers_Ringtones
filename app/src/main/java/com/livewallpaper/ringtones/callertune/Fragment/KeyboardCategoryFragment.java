@@ -86,13 +86,13 @@ public class KeyboardCategoryFragment extends Fragment {
         List<ExtraCategoryModel> data = new ArrayList<>();
         List<String> id = dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularkeyboardIndex()).getIds();
         binding.tvPopCat.setText(dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularkeyboardIndex()).getCategory_name());
-        String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
+        String baseUrl = Constants.adsResponseModel.getExtra_data_field().getKeyboard_base_url();
         int size = Math.min(id.size(), 7);
         for(int i = 0; i < size; i++){
             JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getKeyboard_data();
             JsonObject kpop1 = wallpaperData.getAsJsonObject(id.get(i));
             String urlKpop = kpop1.get("url").getAsString();
-            String name = kpop1.get("category").getAsString();
+            String name = kpop1.get("name").getAsString();
 
             data.add(new ExtraCategoryModel(
                     name,
@@ -130,8 +130,14 @@ public class KeyboardCategoryFragment extends Fragment {
                                 });
                     }
                 });
-                binding.rvSomePop.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-                binding.rvSomePop.setAdapter(adapter);
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.rvSomePop.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+                        binding.rvSomePop.setAdapter(adapter);
+                    }
+                });
+
             }
         });
 

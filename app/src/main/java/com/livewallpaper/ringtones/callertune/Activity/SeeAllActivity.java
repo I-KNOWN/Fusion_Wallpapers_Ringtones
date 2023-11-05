@@ -122,7 +122,7 @@ public class SeeAllActivity extends AppCompatActivity {
                 String urlKpop = kpop1.get("url").getAsString();
 
                 data.add(new ExtraCategoryModel(
-                        kpop1.get("category").getAsString(),
+                        kpop1.get("name").getAsString(),
                         "",
                         "",
                         baseUrl+urlKpop
@@ -204,6 +204,7 @@ public class SeeAllActivity extends AppCompatActivity {
         });
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
         binding.rvAll.setAdapter(adapter);
+
     }
 
     private void intRecyclerView2(List<ExtraCategoryModel> imageModels) {

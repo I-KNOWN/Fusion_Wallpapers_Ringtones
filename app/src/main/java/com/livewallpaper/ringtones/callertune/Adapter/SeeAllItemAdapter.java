@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +86,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
     onClickInputMethod onClickInputMethod;
     boolean isKeyboardFav;
     boolean isRingtoneFav;
+    boolean isRingtoneDownloaded;
     public SeeAllItemAdapter(Context context, List<ExtraCategoryModel> data, String type, onClickInputMethod onClickInputMethod){
         this.context = context;
         this.data = data;
@@ -114,10 +116,11 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
 
         if(type.equals("wallpaper")){
+//            holder.iv_cat_bg.setImageResource(android.R.color.transparent);
             Glide.with(context)
                     .asBitmap()
                     .load(data.get(holder.getAdapterPosition()).getCatPreivewImageUrl())
-                    .addListener(new RequestListener<Bitmap>() {
+                    .listener(new RequestListener<Bitmap>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Bitmap> target, boolean isFirstResource) {
                             return true;
@@ -128,7 +131,10 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    holder.iv_cat_bg.setImageBitmap(resource);
+                                    Glide.with(context)
+                                            .load(resource)
+                                                    .into(holder.iv_cat_bg);
+//                                    holder.iv_cat_bg.setImageBitmap(resource);
                                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -147,6 +153,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
                                             Intent intent =new Intent(context, WallpaperViewerActivity.class);
                                             intent.putExtra("filename", filename);
+                                            intent.putExtra("activity", filename);
                                             intent.putExtra("url", data.get(holder.getAdapterPosition()).getCatPreivewImageUrl());
                                             context.startActivity(intent);
                                             Global.hideAlertProgressDialog();
@@ -159,7 +166,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                     }).submit();
         }
         else if (type.equals("keyboard")) {
-            Log.d("dataisnotshowing", "onBindViewHolder: "+ data.get(holder.getAdapterPosition()));
+            Log.d("dataisnotshowing", "onBindViewHolder: "+ data.get(holder.getAdapterPosition()).getCatPreivewImageUrl());
             holder.tv_title.setText(data.get(holder.getAdapterPosition()).getCatName()+" Keyboard");
 
             Glide.with(context)
@@ -369,19 +376,27 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             String downloadString = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
             if(!downloadString.isEmpty() && downloadString.contains(data.get(holder.getAdapterPosition()).getCatName())){
                 RingtoneDownloadRootModel downlaodmodel = new Gson().fromJson(downloadString, RingtoneDownloadRootModel.class);
-                String path = downlaodmodel.getDownloadModels().get(holder.getAdapterPosition()).getSavedPath();
-                File downloadFile = new File(path);
-                if(downloadFile.exists()){
-                    holder.iv_download.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.downloaded));
+                if( holder.getAdapterPosition() < downlaodmodel.getDownloadModels().size()){
+                    String path = downlaodmodel.getDownloadModels().get(holder.getAdapterPosition()).getSavedPath();
+                    File downloadFile = new File(path);
+                    if(downloadFile.exists()){
+                        holder.iv_download.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.downloaded));
+                        isRingtoneDownloaded = true;
+                    }else{
+                        holder.iv_download.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.download));
+                        ArrayList<RingtoneDownloadModel> ringtoneDownloadModels = new ArrayList<>();
+                        ringtoneDownloadModels.addAll(downlaodmodel.getDownloadModels());
+                        ringtoneDownloadModels.remove(holder.getAdapterPosition());
+                        downlaodmodel.setDownloadModels(ringtoneDownloadModels);
+                        String convertedData = new Gson().toJson(downlaodmodel);
+                        MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedData);
+                        isRingtoneDownloaded = false;
+                    }
                 }else{
                     holder.iv_download.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.download));
-                    ArrayList<RingtoneDownloadModel> ringtoneDownloadModels = new ArrayList<>();
-                    ringtoneDownloadModels.addAll(downlaodmodel.getDownloadModels());
-                    ringtoneDownloadModels.remove(holder.getAdapterPosition());
-                    downlaodmodel.setDownloadModels(ringtoneDownloadModels);
-                    String convertedData = new Gson().toJson(downlaodmodel);
-                    MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedData);
                 }
+            }else{
+                isRingtoneDownloaded = false;
             }
 
 
@@ -403,97 +418,185 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                 }
             });
 
-            holder.iv_download.setOnClickListener(new View.OnClickListener() {
+            holder.ll_selector.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    ExecutorService executorService = Executors.newSingleThreadExecutor();
-                    executorService.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            int count;
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Util.showDownloadDialog(context);
-                                }
-                            });
-                            try {
-                                URL url = new URL(data.get(holder.getAdapterPosition()).getRingtoneUrl());
-                                URLConnection connection = url.openConnection();
-                                connection.connect();
-                                InputStream input = new BufferedInputStream(url.openStream(), 8192);
-
-                                File dir = new File(RINGTONE_DOWNLOAD);
-                                if(!dir.exists()){
-                                    dir.mkdir();
-                                }
-
-                                File file = new File(RINGTONE_DOWNLOAD, "ringtone_" + System.currentTimeMillis() + ".mp3");
-                                OutputStream output = null;
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    output = Files.newOutputStream(file.toPath());
-                                }else {
-                                    output = new FileOutputStream(file);
-
-                                }
-
-                                byte data_byte[] = new byte[1024];
-
-                                while ((count = input.read(data_byte)) != -1) {
-                                    output.write(data_byte, 0, count);
-                                }
-
-                                output.flush();
-                                output.close();
-                                input.close();
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Util.hideDownloadDialog();
-                                        String arrayStr = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
-                                        if(arrayStr.isEmpty()){
-                                            ArrayList<RingtoneDownloadModel> value = new ArrayList<>();
-                                            RingtoneDownloadRootModel model = new RingtoneDownloadRootModel(value);
-                                            String convertedModel = new Gson().toJson(model);
-                                            MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedModel);
-                                            arrayStr = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
-                                        }
-                                        RingtoneDownloadRootModel rootModel = new Gson().fromJson(arrayStr, RingtoneDownloadRootModel.class);
-                                        ArrayList<RingtoneDownloadModel> value = new ArrayList<>();
-                                        value.addAll(rootModel.getDownloadModels());
-                                        value.add(new RingtoneDownloadModel(
-                                                data.get(holder.getAdapterPosition()),
-                                                data.get(holder.getAdapterPosition()).getCatName(),
-                                                file.getName(),
-                                                file.getAbsolutePath()
-                                        ));
-                                        rootModel.setDownloadModels(value);
-                                        String convertedModel = new Gson().toJson(rootModel);
-                                        MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedModel);
-                                        notifyItemChanged(holder.getAdapterPosition());
-                                        Toast.makeText(context, "Ringtone Saved", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } catch (Exception e) {
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Util.hideDownloadDialog();
-                                        Toast.makeText(context, "Ringtone Failed To Save", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                Log.e("Error: ", e.getMessage());
-                            }
-                        }
-                    });
+                public void onClick(View view) {
+                    holder.tv_img.performClick();
                 }
             });
+
+            if(!isRingtoneDownloaded){
+                holder.iv_download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ExecutorService executorService = Executors.newSingleThreadExecutor();
+                        executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                int count;
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Util.showDownloadDialog(context);
+                                    }
+                                });
+                                try {
+                                    URL url = new URL(data.get(holder.getAdapterPosition()).getRingtoneUrl());
+                                    URLConnection connection = url.openConnection();
+                                    connection.connect();
+                                    InputStream input = new BufferedInputStream(url.openStream(), 8192);
+
+                                    File dir = new File(RINGTONE_DOWNLOAD);
+                                    if(!dir.exists()){
+                                        dir.mkdir();
+                                    }
+
+                                    File file = new File(RINGTONE_DOWNLOAD, "ringtone_" + System.currentTimeMillis() + ".mp3");
+                                    OutputStream output = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        output = Files.newOutputStream(file.toPath());
+                                    }else {
+                                        output = new FileOutputStream(file);
+
+                                    }
+
+                                    byte data_byte[] = new byte[1024];
+
+                                    while ((count = input.read(data_byte)) != -1) {
+                                        output.write(data_byte, 0, count);
+                                    }
+
+                                    output.flush();
+                                    output.close();
+                                    input.close();
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Util.hideDownloadDialog();
+                                            String arrayStr = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
+                                            if(arrayStr.isEmpty()){
+                                                ArrayList<RingtoneDownloadModel> value = new ArrayList<>();
+                                                RingtoneDownloadRootModel model = new RingtoneDownloadRootModel(value);
+                                                String convertedModel = new Gson().toJson(model);
+                                                MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedModel);
+                                                arrayStr = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
+                                            }
+                                            RingtoneDownloadRootModel rootModel = new Gson().fromJson(arrayStr, RingtoneDownloadRootModel.class);
+                                            ArrayList<RingtoneDownloadModel> value = new ArrayList<>();
+                                            value.addAll(rootModel.getDownloadModels());
+                                            value.add(new RingtoneDownloadModel(
+                                                    data.get(holder.getAdapterPosition()),
+                                                    data.get(holder.getAdapterPosition()).getCatName(),
+                                                    file.getName(),
+                                                    file.getAbsolutePath()
+                                            ));
+                                            rootModel.setDownloadModels(value);
+                                            String convertedModel = new Gson().toJson(rootModel);
+                                            MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedModel);
+                                            notifyItemChanged(holder.getAdapterPosition());
+                                            Toast.makeText(context, "Ringtone Saved", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Util.hideDownloadDialog();
+                                            Toast.makeText(context, "Ringtone Failed To Save", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    Log.e("Error: ", e.getMessage());
+                                }
+                            }
+                        });
+                    }
+                });
+            }else{
+                holder.iv_download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context, "Ringtone Already Downloaded", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
             String downloadString2 = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
             if(!downloadString2.isEmpty() && downloadString2.contains(data.get(holder.getAdapterPosition()).getCatName())){
                 RingtoneDownloadRootModel downlaodmodel2 = new Gson().fromJson(downloadString2, RingtoneDownloadRootModel.class);
-                String path = downlaodmodel2.getDownloadModels().get(holder.getAdapterPosition()).getSavedPath();
-                File downloadFile = new File(path);
-                if(!downloadFile.exists()){
+                if(downlaodmodel2.getDownloadModels().size() < holder.getAdapterPosition()){
+                    String path = downlaodmodel2.getDownloadModels().get(holder.getAdapterPosition()).getSavedPath();
+                    File downloadFile = new File(path);
+                    if(!downloadFile.exists()){
+                        holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String arrayStr2 = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                                if(arrayStr2.contains(data.get(holder.getAdapterPosition()).getRingtoneUrl())){
+                                    isRingtoneFav = true;
+                                    holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic_filled));
+                                }else {
+                                    isRingtoneFav = false;
+                                    holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
+                                }
+                                if(isRingtoneFav){
+                                    holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
+                                    String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                                    RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+                                    ArrayList<RingtoneData> value = new ArrayList<>();
+                                    value.addAll(model.getData());
+
+                                    RingtoneData ringtoneData = new RingtoneData(
+                                            data.get(holder.getAdapterPosition()).getCatName(),
+                                            data.get(holder.getAdapterPosition()).getCatAuthor(),
+                                            data.get(holder.getAdapterPosition()).getCatTime(),
+                                            data.get(holder.getAdapterPosition()).getRingtoneImg(),
+                                            data.get(holder.getAdapterPosition()).getRingtoneUrl()
+                                    );
+/*                                                        for(KeyboardData keyboardData1 : value){
+                                                            if(keyboardData1)
+                                                        }*/
+                                    value.removeIf(ringtoneData1 -> ringtoneData1.getRingtoneUrl().equals(ringtoneData.getRingtoneUrl()));
+                                    model.setData(value);
+                                    String convertedModel = new Gson().toJson(model);
+                                    MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                                    if(activity.getComponentName().getClassName().contains("FavouritesActivity")){
+                                        data.remove(holder.getAdapterPosition());
+                                        notifyItemRemoved(holder.getAdapterPosition());
+                                    }
+                                    isRingtoneFav = false;
+                                }else{
+                                    holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic_filled));
+                                    String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                                    if(arrayStr.isEmpty()){
+
+                                        ArrayList<RingtoneData> value = new ArrayList<>();
+
+                                        RingtoneFavouriteRootModel model = new RingtoneFavouriteRootModel(value);
+
+                                        String convertedModel = new Gson().toJson(model);
+                                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                                        arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                                    }
+                                    RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+                                    ArrayList<RingtoneData> value = new ArrayList<>();
+                                    value.addAll(model.getData());
+                                    value.add(new RingtoneData(
+                                            data.get(holder.getAdapterPosition()).getCatName(),
+                                            data.get(holder.getAdapterPosition()).getCatAuthor(),
+                                            data.get(holder.getAdapterPosition()).getCatTime(),
+                                            data.get(holder.getAdapterPosition()).getRingtoneImg(),
+                                            data.get(holder.getAdapterPosition()).getRingtoneUrl()
+                                    ));
+                                    model.setData(value);
+                                    String convertedModel = new Gson().toJson(model);
+                                    MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+
+                                    isRingtoneFav = true;
+                                }
+                            }
+                        });
+                    }
+                }else{
                     holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -562,78 +665,90 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             }
                         }
                     });
-
                 }
-            }else{
-                holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String arrayStr2 = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
-                        if(arrayStr2.contains(data.get(holder.getAdapterPosition()).getRingtoneUrl())){
-                            isRingtoneFav = true;
-                            holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic_filled));
-                        }else {
-                            isRingtoneFav = false;
-                            holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
-                        }
-                        if(isRingtoneFav){
-                            holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
-                            String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
-                            RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
-                            ArrayList<RingtoneData> value = new ArrayList<>();
-                            value.addAll(model.getData());
 
-                            RingtoneData ringtoneData = new RingtoneData(
-                                    data.get(holder.getAdapterPosition()).getCatName(),
-                                    data.get(holder.getAdapterPosition()).getCatAuthor(),
-                                    data.get(holder.getAdapterPosition()).getCatTime(),
-                                    data.get(holder.getAdapterPosition()).getRingtoneImg(),
-                                    data.get(holder.getAdapterPosition()).getRingtoneUrl()
-                            );
+            }else{
+
+            }
+            holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String arrayStr2 = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                    if(arrayStr2.contains(data.get(holder.getAdapterPosition()).getRingtoneUrl())){
+                        isRingtoneFav = true;
+                        holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic_filled));
+                    }else {
+                        isRingtoneFav = false;
+                        holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
+                    }
+                    if(isRingtoneFav){
+                        holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
+                        String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                        RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+                        ArrayList<RingtoneData> value = new ArrayList<>();
+                        value.addAll(model.getData());
+
+                        RingtoneData ringtoneData = new RingtoneData(
+                                data.get(holder.getAdapterPosition()).getCatName(),
+                                data.get(holder.getAdapterPosition()).getCatAuthor(),
+                                data.get(holder.getAdapterPosition()).getCatTime(),
+                                data.get(holder.getAdapterPosition()).getRingtoneImg(),
+                                data.get(holder.getAdapterPosition()).getRingtoneUrl()
+                        );
 /*                                                        for(KeyboardData keyboardData1 : value){
                                                             if(keyboardData1)
                                                         }*/
-                            value.removeIf(ringtoneData1 -> ringtoneData1.getRingtoneUrl().equals(ringtoneData.getRingtoneUrl()));
-                            model.setData(value);
-                            String convertedModel = new Gson().toJson(model);
-                            MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
-                            if(activity.getComponentName().getClassName().contains("FavouritesActivity")){
-                                data.remove(holder.getAdapterPosition());
-                                notifyItemRemoved(holder.getAdapterPosition());
-                            }
-                            isRingtoneFav = false;
-                        }else{
-                            holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic_filled));
-                            String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
-                            if(arrayStr.isEmpty()){
-
-                                ArrayList<RingtoneData> value = new ArrayList<>();
-
-                                RingtoneFavouriteRootModel model = new RingtoneFavouriteRootModel(value);
-
-                                String convertedModel = new Gson().toJson(model);
-                                MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
-                                arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
-                            }
-                            RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
-                            ArrayList<RingtoneData> value = new ArrayList<>();
-                            value.addAll(model.getData());
-                            value.add(new RingtoneData(
-                                    data.get(holder.getAdapterPosition()).getCatName(),
-                                    data.get(holder.getAdapterPosition()).getCatAuthor(),
-                                    data.get(holder.getAdapterPosition()).getCatTime(),
-                                    data.get(holder.getAdapterPosition()).getRingtoneImg(),
-                                    data.get(holder.getAdapterPosition()).getRingtoneUrl()
-                            ));
-                            model.setData(value);
-                            String convertedModel = new Gson().toJson(model);
-                            MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
-
-                            isRingtoneFav = true;
+                        value.removeIf(ringtoneData1 -> ringtoneData1.getRingtoneUrl().equals(ringtoneData.getRingtoneUrl()));
+                        model.setData(value);
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                        if(activity.getComponentName().getClassName().contains("FavouritesActivity")){
+                            data.remove(holder.getAdapterPosition());
+                            notifyItemRemoved(holder.getAdapterPosition());
                         }
+                        isRingtoneFav = false;
+                    }else{
+                        holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic_filled));
+                        String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                        if(arrayStr.isEmpty()){
+
+                            ArrayList<RingtoneData> value = new ArrayList<>();
+
+                            RingtoneFavouriteRootModel model = new RingtoneFavouriteRootModel(value);
+
+                            String convertedModel = new Gson().toJson(model);
+                            MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+                            arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
+                        }
+                        RingtoneFavouriteRootModel model = new Gson().fromJson(arrayStr, RingtoneFavouriteRootModel.class);
+                        ArrayList<RingtoneData> value = new ArrayList<>();
+                        value.addAll(model.getData());
+                        value.add(new RingtoneData(
+                                data.get(holder.getAdapterPosition()).getCatName(),
+                                data.get(holder.getAdapterPosition()).getCatAuthor(),
+                                data.get(holder.getAdapterPosition()).getCatTime(),
+                                data.get(holder.getAdapterPosition()).getRingtoneImg(),
+                                data.get(holder.getAdapterPosition()).getRingtoneUrl()
+                        ));
+                        model.setData(value);
+                        String convertedModel = new Gson().toJson(model);
+                        MyApplication.getPreferences().putString(RINGTONE_FAV, convertedModel);
+
+                        isRingtoneFav = true;
+                    }
+                }
+            });
+
+
+            if(activity.getComponentName().getClassName().contains("DownloadActivity")){
+                holder.iv_favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.favourite_ic));
+                holder.iv_favourite.setAlpha(0.3f);
+                holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context, "Can not Favourite Downloaded File", Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
 
         }
@@ -690,6 +805,9 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
     @Override
     public int getItemCount() {
+        if(activity.getComponentName().getClassName().contains("SeeAllActivity") || activity.getComponentName().getClassName().contains("DownloadActivity") || activity.getComponentName().getClassName().contains("FavouritesActivity")){
+            return data.size();
+        }
         return Math.min(data.size(), 8);
     }
 
@@ -697,10 +815,10 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
         ImageView iv_cat_bg, tv_img, iv_download, clickable, iv_favourite;
         TextView tv_title, tv_desc, tv_song_name, tv_author, tv_sec;
+        LinearLayout ll_selector;
 
         public SomeCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-
             iv_cat_bg = itemView.findViewById(R.id.iv_cat);
             tv_desc = itemView.findViewById(R.id.tv_dec_);
             tv_title = itemView.findViewById(R.id.tv_title);
@@ -711,6 +829,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             iv_download = itemView.findViewById(R.id.iv_download);
             clickable = itemView.findViewById(R.id.iv_clickable);
             iv_favourite = itemView.findViewById(R.id.iv_favourite);
+            ll_selector = itemView.findViewById(R.id.ll_selector);
         }
     }
 

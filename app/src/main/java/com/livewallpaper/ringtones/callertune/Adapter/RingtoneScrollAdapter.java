@@ -81,7 +81,8 @@ public class RingtoneScrollAdapter extends RecyclerView.Adapter<RingtoneScrollAd
 
 
     public void initDataAgain(ArrayList<String> data){
-        this.data = data;
+//        this.data.clear();
+        this.data = data ;
         notifyDataSetChanged();
     }
 

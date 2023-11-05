@@ -130,7 +130,8 @@ public class AllCategoriesActivity extends AppCompatActivity {
             for(int i = 0; i < dto.size(); i++){
                 JsonObject wallpaperData = Constants.adsResponseModel.getExtra_data_field().getRingtone_data();
                 JsonObject kpop1 = wallpaperData.getAsJsonObject(dto.get(i).getIds().get(i));
-                String urlKpop = kpop1.get("ringtone_img").getAsString();
+//                String urlKpop = kpop1.get("ringtone_img").getAsString();
+                String urlKpop = dto.get(i).getCategory_img();
 //                String baseUrl = Constants.adsResponseModel.getExtra_data_field().getWallpaper_base_url();
                 data2.add(new CategoryModel(
                         dto.get(i).getCategory_name(),
