@@ -3,6 +3,7 @@ package com.livewallpaper.ringtones.callertune.Activity;
 import static com.adsmodule.api.adsModule.retrofit.APICallHandler.callAdsApi;
 import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
 import static com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication.getConnectionStatus;
+import static com.livewallpaper.ringtones.callertune.Utils.Constants.APP_FIRST_RUN;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,7 +72,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void nextActivity() {
-        startActivity(MyApplication.getPreferences().isFirstRun()? new Intent(SplashActivity.this, OnboardingActivity.class): new Intent(SplashActivity.this, MainActivity.class));
+//        Log.d("Whatismyfirstrun", "run: "+MyApplication.getPreferences().isFirstRun());
+        startActivity(MyApplication.getPreferences().getBoolean(APP_FIRST_RUN, true)? new Intent(SplashActivity.this, OnboardingActivity.class): new Intent(SplashActivity.this, MainActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

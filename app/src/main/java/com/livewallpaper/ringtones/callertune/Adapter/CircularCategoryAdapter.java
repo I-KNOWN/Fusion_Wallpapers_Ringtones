@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Adapter;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -68,11 +72,13 @@ public class CircularCategoryAdapter extends RecyclerView.Adapter<CircularCatego
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SeeAllActivity.class);
-                intent.putExtra("type", type);
-                intent.putExtra("category", data.get(holder.getAdapterPosition()).getCatName());
-                intent.putExtra("circular", true);
-                context.startActivity(intent);
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent = new Intent(context, SeeAllActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("category", data.get(holder.getAdapterPosition()).getCatName());
+                    intent.putExtra("circular", true);
+                    context.startActivity(intent);
+                });
             }
         });
     }

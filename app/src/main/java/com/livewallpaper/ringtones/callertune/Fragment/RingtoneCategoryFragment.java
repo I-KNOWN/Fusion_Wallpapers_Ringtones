@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Fragment;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.google.gson.JsonObject;
@@ -50,9 +53,12 @@ public class RingtoneCategoryFragment extends Fragment {
         binding.tvSeeallCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), AllCategoriesActivity.class);
-                intent.putExtra("type", "ringtone");
-                startActivity(intent);
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent = new Intent(requireActivity(), AllCategoriesActivity.class);
+                    intent.putExtra("type", "ringtone");
+                    startActivity(intent);
+                });
+
             }
         });
 
@@ -60,11 +66,13 @@ public class RingtoneCategoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 List<AdsResponseModel.ExtraDataFieldDTO.RingtoneCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getRingtone_categories();
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent = new Intent(requireActivity(), SeeAllActivity.class);
+                    intent.putExtra("type", "ringtone");
+                    intent.putExtra("category", dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularringtoneIndex()).getCategory_name());
+                    startActivity(intent);
+                });
 
-                Intent intent = new Intent(requireActivity(), SeeAllActivity.class);
-                intent.putExtra("type", "ringtone");
-                intent.putExtra("category", dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularringtoneIndex()).getCategory_name());
-                startActivity(intent);
             }
         });
     }

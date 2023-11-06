@@ -18,7 +18,7 @@
         android:paddingVertical="1dp"
         android:text="Ad"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="9sp"
         tools:ignore="SmallSp" />
 

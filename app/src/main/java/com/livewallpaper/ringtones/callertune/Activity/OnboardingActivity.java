@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
@@ -8,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.livewallpaper.ringtones.callertune.Adapter.OnboardingAdapter;
 import com.livewallpaper.ringtones.callertune.Model.AutoScrollImageModel;
 import com.livewallpaper.ringtones.callertune.R;
@@ -38,14 +42,18 @@ public class OnboardingActivity extends AppCompatActivity {
         binding.cvNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentPage == 0){
-                    binding.vp2.setCurrentItem(1,true);
-                } else if (currentPage == 1) {
-                    binding.vp2.setCurrentItem(2,true);
-                } else if (currentPage == 2) {
-                    startActivity(new Intent(OnboardingActivity.this, TMCActivity.class));
-                    finish();
-                }
+
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    if(currentPage == 0){
+                        binding.vp2.setCurrentItem(1,true);
+                    } else if (currentPage == 1) {
+                        binding.vp2.setCurrentItem(2,true);
+                    } else if (currentPage == 2) {
+                        startActivity(new Intent(OnboardingActivity.this, TMCActivity.class));
+                        finish();
+                    }
+                });
+
             }
         });
     }

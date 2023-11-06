@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.adsmodule.api.adsModule.utils.Global;
@@ -389,6 +390,7 @@ public class AllCategoriesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
+
     }
 }

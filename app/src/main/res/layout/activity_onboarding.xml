@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
         android:layout_marginBottom="15dp"
+        android:fontFamily="@font/nunito_bold"
         android:text="@string/boarding_desc_1"
         android:textAlignment="center"
-        android:textSize="12sp"
-        android:fontFamily="@font/nunito_bold"
         android:textColor="@color/white"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -40,12 +40,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:text="@string/boarding_title_1"
         android:layout_marginBottom="15dp"
-        android:textAlignment="center"
         android:fontFamily="@font/nunito_extrabold"
-        android:textSize="24sp"
+        android:text="@string/boarding_title_1"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -134,6 +134,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

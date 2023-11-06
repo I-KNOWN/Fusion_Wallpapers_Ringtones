@@ -1,5 +1,6 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.DOWNALOD_RINGTONE;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.google.gson.Gson;
 import com.livewallpaper.ringtones.callertune.Adapter.SeeAllItemAdapter;
@@ -69,7 +71,14 @@ public class DownloadActivity extends AppCompatActivity {
         for(File file: allData){
             imgPath.add(file.getAbsolutePath());
         }
-        initRecyclerViewWallpaper();
+        if(allData.size() == 0){
+            binding.tvFav.setVisibility(View.VISIBLE);
+            binding.rvData.setVisibility(View.GONE);
+        }else{
+            binding.tvFav.setVisibility(View.GONE);
+            binding.rvData.setVisibility(View.VISIBLE);
+            initRecyclerViewWallpaper();
+        }
     }
 
     private void initRecyclerViewWallpaper() {
@@ -107,10 +116,14 @@ public class DownloadActivity extends AppCompatActivity {
                     MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedData);
                 }
             }
-        }else{
+            binding.tvFav.setVisibility(View.GONE);
+            binding.rvData.setVisibility(View.VISIBLE);
+            initRingtoneRecyclerView();
 
+        }else{
+            binding.tvFav.setVisibility(View.VISIBLE);
+            binding.rvData.setVisibility(View.GONE);
         }
-        initRingtoneRecyclerView();
 
     }
 
@@ -124,23 +137,24 @@ public class DownloadActivity extends AppCompatActivity {
 
             @Override
             public void onWallpaperClick(Bitmap resource, String url) {
-                Util.showDownloadDialog(DownloadActivity.this);
-                String filename = "bitmap.png";
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    String filename = "bitmap.png";
 
-                try {
-                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    stream.close();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                        resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        stream.close();
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                Intent intent =new Intent(DownloadActivity.this, WallpaperViewerActivity.class);
-                intent.putExtra("filename", filename);
-                intent.putExtra("activity", filename);
-                intent.putExtra("url", url);
-                startActivity(intent);
-                Util.hideDownloadDialog();
+                    Intent intent =new Intent(DownloadActivity.this, WallpaperViewerActivity.class);
+                    intent.putExtra("filename", filename);
+                    intent.putExtra("activity", filename);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                });
+
             }
 
 
@@ -156,6 +170,11 @@ public class DownloadActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
     }
 
     private void initStartTabAnimation() {

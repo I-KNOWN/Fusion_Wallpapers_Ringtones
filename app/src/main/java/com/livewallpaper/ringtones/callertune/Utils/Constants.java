@@ -16,4 +16,6 @@ public class Constants {
 
     public static final String DOWNALOD_RINGTONE = "DOWN_RING";
 
+    public static final String APP_FIRST_RUN = "first_run";
+
 }

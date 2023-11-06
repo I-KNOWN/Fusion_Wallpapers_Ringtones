@@ -202,6 +202,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
+            android:id="@+id/tv_tmc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -226,6 +227,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <TextView
+            android:id="@+id/tv_privacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -247,7 +249,7 @@
         android:layout_marginBottom="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/smallad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -296,6 +298,13 @@
 
     </androidx.cardview.widget.CardView>
 
-
+    <com.adsmodule.api.adsModule.interfaces.CustomView
+        android:id="@+id/smallad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginVertical="8dp"
+        app:adType="small"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

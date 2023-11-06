@@ -1,5 +1,8 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+import static com.livewallpaper.ringtones.callertune.Utils.Constants.APP_FIRST_RUN;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -13,6 +16,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityPreferencesBinding;
@@ -43,12 +48,14 @@ public class PreferencesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(count != 0){
-                    Toast.makeText(PreferencesActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                    MyApplication.getPreferences().setFirstRun(false);
-                    startActivity(new Intent(PreferencesActivity.this, MainActivity.class));
-                    finish();
+                    AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                        MyApplication.getPreferences().putBoolean(APP_FIRST_RUN,false);
+                        startActivity(new Intent(PreferencesActivity.this, MainActivity.class));
+                        finish();
+                    });
+
                 }else {
-                    Toast.makeText(PreferencesActivity.this, "Select Atleast 1 Interest", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PreferencesActivity.this, "Select At-least 1 Interest", Toast.LENGTH_SHORT).show();
                 }
 
 

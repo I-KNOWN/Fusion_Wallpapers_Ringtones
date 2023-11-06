@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Adapter;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.livewallpaper.ringtones.callertune.Activity.SeeAllActivity;
@@ -52,10 +55,13 @@ public class SomeCategoryAdapter extends RecyclerView.Adapter<SomeCategoryAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SeeAllActivity.class);
-                intent.putExtra("type", type);
-                intent.putExtra("category", model.getCategoryName());
-                context.startActivity(intent);
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent = new Intent(context, SeeAllActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("category", model.getCategoryName());
+                    context.startActivity(intent);
+                });
+
             }
         });
 

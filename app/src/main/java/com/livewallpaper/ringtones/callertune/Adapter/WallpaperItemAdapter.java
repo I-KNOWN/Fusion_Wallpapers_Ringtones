@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.adsmodule.api.adsModule.utils.Global;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -83,17 +85,20 @@ public class WallpaperItemAdapter extends RecyclerView.Adapter<WallpaperItemAdap
                                                         }catch (Exception e) {
                                                             e.printStackTrace();
                                                         }
-                                                        Intent intent =new Intent(context, WallpaperViewerActivity.class);
-                                                        intent.putExtra("filename", filename);
-                                                        intent.putExtra("url", data.get(holder.getAdapterPosition()));
-                                                        intent.putExtra("activity", "");
-                                                        if(activity.getComponentName().getClassName().contains("DownloadActivity")){
-                                                            intent.putExtra("activity", "download");
-                                                        }
-                                                        context.startActivity(intent);
-
-
                                                         Global.hideAlertProgressDialog();
+                                                        AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                                                            Intent intent =new Intent(context, WallpaperViewerActivity.class);
+                                                            intent.putExtra("filename", filename);
+                                                            intent.putExtra("url", data.get(holder.getAdapterPosition()));
+                                                            intent.putExtra("activity", "");
+                                                            if(activity.getComponentName().getClassName().contains("DownloadActivity")){
+                                                                intent.putExtra("activity", "download");
+                                                            }
+                                                            context.startActivity(intent);
+                                                        });
+
+
+
                                                     }
                                                 });
                                              }

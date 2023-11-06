@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.adsmodule.api.adsModule.utils.Global;
@@ -83,6 +84,11 @@ public class SeeAllActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {super.onBackPressed();});
     }
 
     private void getData() {
@@ -324,7 +330,6 @@ public class SeeAllActivity extends AppCompatActivity {
 
             @Override
             public void onWallpaperClick(Bitmap resource, String url) {
-                Util.showDownloadDialog(SeeAllActivity.this);
                 String filename = "bitmap.png";
 
                 try {
@@ -334,13 +339,15 @@ public class SeeAllActivity extends AppCompatActivity {
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent =new Intent(SeeAllActivity.this, WallpaperViewerActivity.class);
+                    intent.putExtra("filename", filename);
+                    intent.putExtra("activity", filename);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                });
 
-                Intent intent =new Intent(SeeAllActivity.this, WallpaperViewerActivity.class);
-                intent.putExtra("filename", filename);
-                intent.putExtra("activity", filename);
-                intent.putExtra("url", url);
-                startActivity(intent);
-                Util.hideDownloadDialog();
+
             }
         });
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
@@ -370,35 +377,25 @@ public class SeeAllActivity extends AppCompatActivity {
 
             @Override
             public void onWallpaperClick(Bitmap resource, String url) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Global.showAlertProgressDialog(activity);
-//                        Util.showDownloadDialog(SeeAllActivity.this);
-                    }
-                });
-                String filename = "bitmap.png";
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    String filename = "bitmap.png";
 
-                try {
-                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    stream.close();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent =new Intent(SeeAllActivity.this, WallpaperViewerActivity.class);
-                intent.putExtra("filename", filename);
-                intent.putExtra("activity", filename);
-                intent.putExtra("url", url);
-                startActivity(intent);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Global.hideAlertProgressDialog();
-//                        Util.hideDownloadDialog();
+                    try {
+                        FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                        resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        stream.close();
+                    }catch (Exception e) {
+                        e.printStackTrace();
                     }
+
+                    Intent intent =new Intent(SeeAllActivity.this, WallpaperViewerActivity.class);
+                    intent.putExtra("filename", filename);
+                    intent.putExtra("activity", filename);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
                 });
+
+
             }
         });
         binding.rvAll.setLayoutManager(new LinearLayoutManager(SeeAllActivity.this));

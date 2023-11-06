@@ -908,16 +908,21 @@ public class AdUtils {
     public static void showRewardAd(String rewardAd, Activity activity, AppInterfaces.RewardedAd rewardedAdInterface) {
         cd = new ConnectionDetector(activity);
         if (cd.isConnectingToInternet() && Constants.adsResponseModel.isShow_ads() && !isNull(rewardAd)) {
+            Global.showAlertProgressDialog(activity);
+
             if (precacheRewardAd != null) {
                 AdRequest adRequest = new AdRequest.Builder().build();
                 RewardedAd.load(activity, rewardAd, adRequest, new RewardedAdLoadCallback() {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Global.hideAlertProgressDialog();
                         Global.sout("RewardedAdLoadCallback: ", loadAdError.toString());
                     }
 
                     @Override
                     public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        Global.hideAlertProgressDialog();
+
                         rewardedAd.show(activity, new OnUserEarnedRewardListener() {
 
                             @Override
@@ -949,6 +954,8 @@ public class AdUtils {
                                         case 2:
                                             rewardedAdInterface.rewardState(false);
                                             break;
+                                        default:
+                                            rewardedAdInterface.rewardState(false);
 
                                     }
                                 } else {
@@ -960,7 +967,7 @@ public class AdUtils {
 
                             @Override
                             public void onAdDismissedFullScreenContent() {
-                                rewardedAdInterface.rewardState(false);
+                                rewardedAdInterface.rewardState(true);
                             }
                         });
                     }
@@ -972,6 +979,9 @@ public class AdUtils {
                 RewardedAd.load(activity, rewardAd, adRequest, new RewardedAdLoadCallback() {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Global.hideAlertProgressDialog();
+
+                        rewardedAdInterface.rewardState(false);
                         Global.sout("RewardedAdLoadCallback: ", loadAdError.toString());
                     }
 
@@ -1009,6 +1019,8 @@ public class AdUtils {
                                             buildRewardAdCache(Constants.adsResponseModel.getRewarded_ads().getAdx(), activity);
                                             rewardedAdInterface.rewardState(false);
                                             break;
+                                        default:
+                                            rewardedAdInterface.rewardState(false);
 
                                     }
                                 } else {
@@ -1020,7 +1032,7 @@ public class AdUtils {
 
                             @Override
                             public void onAdDismissedFullScreenContent() {
-                                rewardedAdInterface.rewardState(false);
+                                rewardedAdInterface.rewardState(true);
                             }
                         });
                     }

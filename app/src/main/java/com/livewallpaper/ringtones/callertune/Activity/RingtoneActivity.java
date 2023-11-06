@@ -1,5 +1,6 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.DOWNALOD_RINGTONE;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_FAV;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_PATH;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.google.gson.Gson;
@@ -127,7 +129,7 @@ public class RingtoneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mediaPlayerCanceller();
-                finish();
+                onBackPressed();
             }
         });
         if(!category.equals("download")){
@@ -359,7 +361,12 @@ public class RingtoneActivity extends AppCompatActivity {
 
                                     } catch (Exception e) {
                                         Util.hideDownloadDialog();
-                                        Toast.makeText(RingtoneActivity.this, "Song type is not supported", Toast.LENGTH_SHORT).show();
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(RingtoneActivity.this, "Song type is not supported", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
 
                                         Log.e("Error: ", e.getMessage());
                                     }
@@ -841,5 +848,10 @@ public class RingtoneActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
     }
 }

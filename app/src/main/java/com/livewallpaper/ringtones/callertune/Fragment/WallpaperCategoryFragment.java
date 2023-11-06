@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Fragment;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.google.gson.JsonObject;
@@ -63,10 +66,12 @@ public class WallpaperCategoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent = new Intent(requireActivity(), AllCategoriesActivity.class);
+                    intent.putExtra("type", "wallpaper");
+                    startActivity(intent);
+                });
 
-                Intent intent = new Intent(requireActivity(), AllCategoriesActivity.class);
-                intent.putExtra("type", "wallpaper");
-                startActivity(intent);
             }
         });
 
@@ -74,11 +79,13 @@ public class WallpaperCategoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 List<AdsResponseModel.ExtraDataFieldDTO.WallpaperCategoriesDTO> dto = Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories();
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent intent = new Intent(requireActivity(), SeeAllActivity.class);
+                    intent.putExtra("type", "wallpaper");
+                    intent.putExtra("category", dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularWallpaperIndex()).getCategory_name());
+                    startActivity(intent);
+                });
 
-                Intent intent = new Intent(requireActivity(), SeeAllActivity.class);
-                intent.putExtra("type", "wallpaper");
-                intent.putExtra("category", dto.get(Constants.adsResponseModel.getExtra_data_field().getPopularWallpaperIndex()).getCategory_name());
-                startActivity(intent);
             }
         });
 

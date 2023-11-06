@@ -28,7 +28,7 @@ public class AdsResponseModel {
     private String common_text_color;
     private String ads_bg;
     private String backpress_ads_type;
-    private int backPress_count;
+    private int backpress_count;
 
     public String getAds_sequence_type() {
         return ads_sequence_type;
@@ -49,11 +49,11 @@ public class AdsResponseModel {
     }
 
     public int getBackPress_count() {
-        return backPress_count;
+        return backpress_count;
     }
 
     public void setBackPress_count(int backPress_count) {
-        this.backPress_count = backPress_count;
+        this.backpress_count = backPress_count;
     }
 
     public String getButton_bg() {

@@ -1,5 +1,6 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.KEYBOARD_FAV;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.RINGTONE_FAV;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.WALLPAPER_FAV;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.google.gson.Gson;
 import com.livewallpaper.ringtones.callertune.Adapter.SeeAllItemAdapter;
@@ -182,9 +184,19 @@ public class FavouritesActivity extends AppCompatActivity {
             String arryString =  MyApplication.getPreferences().getString(WALLPAPER_FAV, "");
             if (!arryString.equals("")){
                 WallpaperFavouriteModel favouriteModel = new Gson().fromJson(arryString, WallpaperFavouriteModel.class);
-                wallpaperItemAdapter = new WallpaperItemAdapter(FavouritesActivity.this, favouriteModel.getData());
-                binding.rvData.setLayoutManager(new GridLayoutManager(FavouritesActivity.this, 2));
-                binding.rvData.setAdapter(wallpaperItemAdapter);
+                if(favouriteModel.getData().size() == 0){
+                    binding.tvFav.setVisibility(View.VISIBLE);
+                    binding.rvData.setVisibility(View.GONE);
+                }else {
+                    binding.tvFav.setVisibility(View.GONE);
+                    binding.rvData.setVisibility(View.VISIBLE);
+                    wallpaperItemAdapter = new WallpaperItemAdapter(FavouritesActivity.this, favouriteModel.getData());
+                    binding.rvData.setLayoutManager(new GridLayoutManager(FavouritesActivity.this, 2));
+                    binding.rvData.setAdapter(wallpaperItemAdapter);
+                }
+            }else{
+                binding.tvFav.setVisibility(View.VISIBLE);
+                binding.rvData.setVisibility(View.GONE);
             }
         }else if (currentFrag.equals("keyboard")){
             String arrayStr = MyApplication.getPreferences().getString(KEYBOARD_FAV, "");
@@ -200,20 +212,32 @@ public class FavouritesActivity extends AppCompatActivity {
                     ));
                 }
 
-                seeAllItemAdapter = new SeeAllItemAdapter(FavouritesActivity.this, arrayList, "keyboard", new SeeAllItemAdapter.onClickInputMethod() {
-                    @Override
-                    public void onClickIdentifyKeyboard() {
+                if(arrayList.size() == 0){
+                    binding.tvFav.setVisibility(View.VISIBLE);
+                    binding.rvData.setVisibility(View.GONE);
+                }else{
+                    binding.tvFav.setVisibility(View.GONE);
+                    binding.rvData.setVisibility(View.VISIBLE);
+                    seeAllItemAdapter = new SeeAllItemAdapter(FavouritesActivity.this, arrayList, "keyboard", new SeeAllItemAdapter.onClickInputMethod() {
+                        @Override
+                        public void onClickIdentifyKeyboard() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onWallpaperClick(Bitmap resource, String url) {
+                        @Override
+                        public void onWallpaperClick(Bitmap resource, String url) {
 
-                    }
-                });
-                binding.rvData.setLayoutManager(new GridLayoutManager(FavouritesActivity.this, 2));
-                binding.rvData.setAdapter(seeAllItemAdapter);
+                        }
+                    });
+                    binding.rvData.setLayoutManager(new GridLayoutManager(FavouritesActivity.this, 2));
+                    binding.rvData.setAdapter(seeAllItemAdapter);
+                }
 
+
+
+            }else{
+                binding.tvFav.setVisibility(View.VISIBLE);
+                binding.rvData.setVisibility(View.GONE);
             }
         }else if (currentFrag.equals("ringtone")){
             String arrayStr = MyApplication.getPreferences().getString(RINGTONE_FAV, "");
@@ -234,20 +258,30 @@ public class FavouritesActivity extends AppCompatActivity {
                     arrayList.add(extraCategoryModel1);
                 }
 
-                seeAllItemAdapter = new SeeAllItemAdapter(FavouritesActivity.this, arrayList, "ringtone", new SeeAllItemAdapter.onClickInputMethod() {
-                    @Override
-                    public void onClickIdentifyKeyboard() {
+                if(arrayList.size() == 0){
+                    binding.tvFav.setVisibility(View.VISIBLE);
+                    binding.rvData.setVisibility(View.GONE);
+                }else {
+                    binding.tvFav.setVisibility(View.GONE);
+                    binding.rvData.setVisibility(View.VISIBLE);
 
-                    }
+                    seeAllItemAdapter = new SeeAllItemAdapter(FavouritesActivity.this, arrayList, "ringtone", new SeeAllItemAdapter.onClickInputMethod() {
+                        @Override
+                        public void onClickIdentifyKeyboard() {
 
-                    @Override
-                    public void onWallpaperClick(Bitmap resource, String url) {
+                        }
 
-                    }
-                });
-                binding.rvData.setLayoutManager(new LinearLayoutManager(FavouritesActivity.this, LinearLayoutManager.VERTICAL, false));
-                binding.rvData.setAdapter(seeAllItemAdapter);
+                        @Override
+                        public void onWallpaperClick(Bitmap resource, String url) {
 
+                        }
+                    });
+                    binding.rvData.setLayoutManager(new LinearLayoutManager(FavouritesActivity.this, LinearLayoutManager.VERTICAL, false));
+                    binding.rvData.setAdapter(seeAllItemAdapter);
+                }
+            }else{
+                binding.tvFav.setVisibility(View.VISIBLE);
+                binding.rvData.setVisibility(View.GONE);
             }
         }
     }
@@ -282,7 +316,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
     }
 
     @Override

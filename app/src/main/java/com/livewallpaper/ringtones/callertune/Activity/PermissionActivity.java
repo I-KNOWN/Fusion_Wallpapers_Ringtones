@@ -1,5 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityPermissionBinding;
 import com.permissionx.guolindev.PermissionX;
 import com.permissionx.guolindev.callback.RequestCallback;
@@ -49,8 +53,13 @@ public class PermissionActivity extends AppCompatActivity {
                             binding.cvNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                startActivity(new Intent(PermissionActivity.this, PreferencesActivity.class));
-                                finish();
+
+                                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                                    startActivity(new Intent(PermissionActivity.this, PreferencesActivity.class));
+                                    finish();
+                                });
+
+
                             }
                         });
                             binding.ivKeyboardCheck.setAlpha(1f);

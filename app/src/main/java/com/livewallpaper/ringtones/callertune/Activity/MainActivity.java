@@ -32,6 +32,8 @@ import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -44,7 +46,6 @@ import com.livewallpaper.ringtones.callertune.Fragment.RingtoneCategoryFragment;
 import com.livewallpaper.ringtones.callertune.Fragment.WallpaperCategoryFragment;
 import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.SingletonClasses.MyApplication;
-import com.livewallpaper.ringtones.callertune.Utils.Constants;
 import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityMainBinding;
 import com.livewallpaper.ringtones.callertune.databinding.ItemKeyboardBinding;
@@ -98,16 +99,22 @@ public class MainActivity extends AppCompatActivity {
         llSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                binding.drawer.closeDrawers();
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                    binding.drawer.closeDrawers();
+                });
+
             }
         });
         LinearLayout llFavourite = headerLayout.findViewById(R.id.ll_fav);
         llFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FavouritesActivity.class));
-                binding.drawer.closeDrawers();
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    startActivity(new Intent(MainActivity.this, FavouritesActivity.class));
+                    binding.drawer.closeDrawers();
+                });
+
             }
         });
 
@@ -115,8 +122,11 @@ public class MainActivity extends AppCompatActivity {
         llDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DownloadActivity.class));
-                binding.drawer.closeDrawers();
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    startActivity(new Intent(MainActivity.this, DownloadActivity.class));
+                    binding.drawer.closeDrawers();
+                });
+
             }
         });
 
@@ -128,12 +138,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void chageFragment(Fragment fragment) {
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(Constants.adsResponseModel.getExtra_data_field().getWallpaper_categories() != null){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.fragcontainer, fragment);
-                fragmentTransaction.commit();
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            fragmentTransaction.replace(R.id.fragcontainer, fragment);
+            fragmentTransaction.commit();
+        }else{
+
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.item_no_internet);
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+        }
+
 
 
     }
@@ -392,6 +413,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.setCancelable(true);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             ImageView iv_close = dialog.findViewById(R.id.iv_close);
+            AdUtils.showNativeAd(activity, Constants.adsResponseModel.getNative_ads().getAdx(), dialog.findViewById(R.id.ll_ads), "full", null);
             iv_close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

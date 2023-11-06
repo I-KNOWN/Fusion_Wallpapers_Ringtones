@@ -84,12 +84,15 @@ public class Global {
     }
 
     public static void showAlertProgressDialog(Activity activity) {
-        alertLoaderDialog = new Dialog(activity);
-        alertLoaderDialog.setContentView(LayoutInflater.from(activity).inflate(R.layout.loading_dialog, null));
-        alertLoaderDialog.setCancelable(true);
-        alertLoaderDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        if (!alertLoaderDialog.isShowing()) alertLoaderDialog.show();
-        else alertLoaderDialog.dismiss();
+        if(!activity.getComponentName().getClassName().equals("com.livewallpaper.ringtones.callertune.Activity.SplashActivity")){
+            alertLoaderDialog = new Dialog(activity);
+            alertLoaderDialog.setContentView(LayoutInflater.from(activity).inflate(R.layout.loading_dialog, null));
+            alertLoaderDialog.setCancelable(true);
+            alertLoaderDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            if (!alertLoaderDialog.isShowing()) alertLoaderDialog.show();
+            else alertLoaderDialog.dismiss();
+        }
+
     }
 
     public static void hideAlertProgressDialog() {

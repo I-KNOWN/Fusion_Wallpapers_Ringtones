@@ -1,5 +1,6 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
 import static com.livewallpaper.ringtones.callertune.Utils.Constants.WALLPAPER_FAV;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.adsmodule.api.adsModule.utils.Global;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -83,7 +86,7 @@ public class WallpaperViewerActivity extends AppCompatActivity {
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getOnBackPressedDispatcher().onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -198,13 +201,16 @@ public class WallpaperViewerActivity extends AppCompatActivity {
         binding.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in1 = new Intent(WallpaperViewerActivity.this, EditorActivity.class);
-                in1.putExtra("image", getIntent().getStringExtra("filename"));
-                in1.putExtra("activity", "");
-                if(getIntent().getStringExtra("activity").equals("download")){
-                    in1.putExtra("activity", "download");
-                }
-                startActivity(in1);
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    Intent in1 = new Intent(WallpaperViewerActivity.this, EditorActivity.class);
+                    in1.putExtra("image", getIntent().getStringExtra("filename"));
+                    in1.putExtra("activity", "");
+                    if(getIntent().getStringExtra("activity").equals("download")){
+                        in1.putExtra("activity", "download");
+                    }
+                    startActivity(in1);
+                });
+
 //                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 /*String filename = "bitmap.png";
 
@@ -235,15 +241,19 @@ public class WallpaperViewerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        Global.hideAlertProgressDialog();
-                        Intent in1 = new Intent(WallpaperViewerActivity.this, WallpaperActivity.class);
-                        in1.putExtra("image", getIntent().getStringExtra("filename"));
-                        in1.putExtra("url", url);
-                        in1.putExtra("activity", "");
-                        if(getIntent().getStringExtra("activity").equals("download")){
-                            in1.putExtra("activity", "download");
-                        }
-                        startActivity(in1);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+                        AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                            Intent in1 = new Intent(WallpaperViewerActivity.this, WallpaperActivity.class);
+                            in1.putExtra("image", getIntent().getStringExtra("filename"));
+                            in1.putExtra("url", url);
+                            in1.putExtra("activity", "");
+                            if(getIntent().getStringExtra("activity").equals("download")){
+                                in1.putExtra("activity", "download");
+                            }
+                            startActivity(in1);
+                        });
+
+//                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
                     }
                 });
@@ -251,6 +261,10 @@ public class WallpaperViewerActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
+    }
 
     @Override
     protected void onResume() {

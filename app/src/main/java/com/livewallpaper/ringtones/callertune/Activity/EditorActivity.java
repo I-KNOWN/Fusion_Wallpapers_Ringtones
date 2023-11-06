@@ -31,6 +31,9 @@ import android.window.OnBackInvokedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.interfaces.AppInterfaces;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.adsmodule.api.adsModule.utils.Global;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.slider.Slider;
@@ -144,7 +147,7 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
     }
 
     /*   @NonNull
@@ -156,7 +159,7 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void initCrop() {
@@ -442,7 +445,21 @@ public class EditorActivity extends AppCompatActivity {
         binding.cvWatchAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBtnSavePng();
+                AdUtils.showRewardAd(Constants.adsResponseModel.getRewarded_ads().getAdx(), activity, new AppInterfaces.RewardedAd() {
+                    @Override
+                    public void rewardState(boolean adState) {
+                        if(adState){
+                            onBtnSavePng();
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(EditorActivity.this, "Failed To Load Ad", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
 
             }
         });

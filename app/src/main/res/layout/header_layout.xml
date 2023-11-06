@@ -76,31 +76,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_games"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_down">
 
-        <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_game" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Games"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-    </LinearLayout>
 
 
     <View
@@ -109,7 +85,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="20dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/ll_games" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_down" />
 
 
     <LinearLayout

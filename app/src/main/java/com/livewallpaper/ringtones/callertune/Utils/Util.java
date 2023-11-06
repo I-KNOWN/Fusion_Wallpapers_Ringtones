@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.widget.TextView;
 
@@ -58,7 +59,7 @@ public class Util {
     }
 
     public static void hideDownloadDialog(){
-        if (dialog.isShowing() && dialog != null){
+        if (dialog != null &&dialog.isShowing() ){
             handler.removeCallbacks(runnable);
             dialog.dismiss();
         }
@@ -92,6 +93,11 @@ public class Util {
         } catch (Exception e) {
             //e.toString();
         }
+    }
+
+    public static void gotoUrl(Activity activity) {
+        Uri uri = Uri.parse("https://miramaxsprod.blogspot.com/p/privacy-policy.html");
+        activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
 }

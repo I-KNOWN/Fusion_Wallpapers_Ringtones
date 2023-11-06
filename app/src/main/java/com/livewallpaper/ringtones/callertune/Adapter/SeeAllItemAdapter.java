@@ -37,6 +37,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.utils.Global;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -408,10 +409,15 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             holder.tv_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, RingtoneActivity.class);
-                    intent.putExtra("category",data.get(holder.getAdapterPosition()).getCategory());
-                    intent.putExtra("pos", holder.getAdapterPosition());
-                    context.startActivity(intent);
+
+                    AdUtils.showInterstitialAd(com.adsmodule.api.adsModule.utils.Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                        Intent intent = new Intent(context, RingtoneActivity.class);
+                        intent.putExtra("category",data.get(holder.getAdapterPosition()).getCategory());
+                        intent.putExtra("pos", holder.getAdapterPosition());
+                        context.startActivity(intent);
+                    });
+
+
                 }
             });
 

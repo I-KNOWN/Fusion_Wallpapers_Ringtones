@@ -24,6 +24,9 @@ import android.view.View;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
+import com.adsmodule.api.adsModule.AdUtils;
+import com.adsmodule.api.adsModule.interfaces.AppInterfaces;
+import com.adsmodule.api.adsModule.utils.Constants;
 import com.adsmodule.api.adsModule.utils.Global;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -244,7 +247,23 @@ public class WallpaperActivity extends AppCompatActivity {
         binding.cvWatchAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBtnSavePng();
+
+                AdUtils.showRewardAd(Constants.adsResponseModel.getRewarded_ads().getAdx(), activity, new AppInterfaces.RewardedAd() {
+                    @Override
+                    public void rewardState(boolean adState) {
+                        if(adState){
+                            onBtnSavePng();
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(WallpaperActivity.this, "Failed To Load Ad", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+
             }
         });
 
@@ -496,7 +515,8 @@ public class WallpaperActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+
+        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), state_load -> {finish();});
     }
 
     @Override
@@ -513,6 +533,6 @@ public class WallpaperActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }
