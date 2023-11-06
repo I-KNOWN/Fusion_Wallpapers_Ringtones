@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -204,6 +205,11 @@ public class FavouritesActivity extends AppCompatActivity {
                     public void onClickIdentifyKeyboard() {
 
                     }
+
+                    @Override
+                    public void onWallpaperClick(Bitmap resource, String url) {
+
+                    }
                 });
                 binding.rvData.setLayoutManager(new GridLayoutManager(FavouritesActivity.this, 2));
                 binding.rvData.setAdapter(seeAllItemAdapter);
@@ -231,6 +237,11 @@ public class FavouritesActivity extends AppCompatActivity {
                 seeAllItemAdapter = new SeeAllItemAdapter(FavouritesActivity.this, arrayList, "ringtone", new SeeAllItemAdapter.onClickInputMethod() {
                     @Override
                     public void onClickIdentifyKeyboard() {
+
+                    }
+
+                    @Override
+                    public void onWallpaperClick(Bitmap resource, String url) {
 
                     }
                 });

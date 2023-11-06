@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.ActivityDownloadBinding;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -117,6 +121,29 @@ public class DownloadActivity extends AppCompatActivity {
 /*                mState = NONE;
                 pickInput();*/
             }
+
+            @Override
+            public void onWallpaperClick(Bitmap resource, String url) {
+                Util.showDownloadDialog(DownloadActivity.this);
+                String filename = "bitmap.png";
+
+                try {
+                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent =new Intent(DownloadActivity.this, WallpaperViewerActivity.class);
+                intent.putExtra("filename", filename);
+                intent.putExtra("activity", filename);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                Util.hideDownloadDialog();
+            }
+
+
         });
         binding.rvData.setLayoutManager(new LinearLayoutManager(DownloadActivity.this, LinearLayoutManager.VERTICAL, false));
         binding.rvData.setAdapter(seeAllItemAdapter);

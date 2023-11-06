@@ -1,6 +1,8 @@
 package com.livewallpaper.ringtones.callertune.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,16 +19,20 @@ import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.google.gson.JsonObject;
 import com.livewallpaper.ringtones.callertune.Activity.AllCategoriesActivity;
+import com.livewallpaper.ringtones.callertune.Activity.DownloadActivity;
 import com.livewallpaper.ringtones.callertune.Activity.SeeAllActivity;
+import com.livewallpaper.ringtones.callertune.Activity.WallpaperViewerActivity;
 import com.livewallpaper.ringtones.callertune.Adapter.SeeAllItemAdapter;
 import com.livewallpaper.ringtones.callertune.Adapter.SomeCategoryAdapter;
 import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
 import com.livewallpaper.ringtones.callertune.Model.ExtraCategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
+import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.FragmentKeyboardCategoryBinding;
 import com.permissionx.guolindev.PermissionX;
 import com.permissionx.guolindev.callback.RequestCallback;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -129,6 +135,28 @@ public class KeyboardCategoryFragment extends Fragment {
                                     }
                                 });
                     }
+
+                    @Override
+                    public void onWallpaperClick(Bitmap resource, String url) {
+                        Util.showDownloadDialog(requireActivity());
+                        String filename = "bitmap.png";
+
+                        try {
+                            FileOutputStream stream = requireActivity().openFileOutput(filename, Context.MODE_PRIVATE);
+                            resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            stream.close();
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        Intent intent =new Intent(requireActivity(), WallpaperViewerActivity.class);
+                        intent.putExtra("filename", filename);
+                        intent.putExtra("activity", filename);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                        Util.hideDownloadDialog();
+                    }
+
                 });
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override

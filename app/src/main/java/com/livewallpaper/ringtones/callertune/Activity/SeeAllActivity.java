@@ -1,9 +1,12 @@
 package com.livewallpaper.ringtones.callertune.Activity;
 
+import static com.livewallpaper.ringtones.callertune.SingletonClasses.AppOpenAds.activity;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +15,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -23,6 +27,7 @@ import android.widget.Toast;
 
 import com.adsmodule.api.adsModule.retrofit.AdsResponseModel;
 import com.adsmodule.api.adsModule.utils.Constants;
+import com.adsmodule.api.adsModule.utils.Global;
 import com.google.gson.JsonObject;
 import com.livewallpaper.ringtones.callertune.Adapter.SeeAllItemAdapter;
 import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
@@ -32,8 +37,12 @@ import com.livewallpaper.ringtones.callertune.R;
 import com.livewallpaper.ringtones.callertune.Retrofit.BodyModel;
 import com.livewallpaper.ringtones.callertune.Retrofit.ImageCall;
 import com.livewallpaper.ringtones.callertune.Retrofit.ImageRetrofit;
+import com.livewallpaper.ringtones.callertune.Utils.Util;
 import com.livewallpaper.ringtones.callertune.databinding.ActivitySeeAllBinding;
+import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.RequestCallback;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +68,12 @@ public class SeeAllActivity extends AppCompatActivity {
 
         binding.tvTitle.setText(category);
         initBtn();
-        getData();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
     }
 
     private void initBtn() {
@@ -296,8 +309,38 @@ public class SeeAllActivity extends AppCompatActivity {
         adapter = new SeeAllItemAdapter(SeeAllActivity.this, imageModels, type, new SeeAllItemAdapter.onClickInputMethod() {
             @Override
             public void onClickIdentifyKeyboard() {
-                mState = NONE;
-                pickInput();
+                PermissionX.init(SeeAllActivity.this)
+                        .permissions(android.Manifest.permission.RECORD_AUDIO)
+                        .request(new RequestCallback() {
+                            @Override
+                            public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
+                                if(allGranted){
+                                }else {
+                                    Toast.makeText(SeeAllActivity.this, "Permission Needed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+
+            @Override
+            public void onWallpaperClick(Bitmap resource, String url) {
+                Util.showDownloadDialog(SeeAllActivity.this);
+                String filename = "bitmap.png";
+
+                try {
+                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent =new Intent(SeeAllActivity.this, WallpaperViewerActivity.class);
+                intent.putExtra("filename", filename);
+                intent.putExtra("activity", filename);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                Util.hideDownloadDialog();
             }
         });
         binding.rvAll.setLayoutManager(new GridLayoutManager(SeeAllActivity.this, 2));
@@ -312,8 +355,50 @@ public class SeeAllActivity extends AppCompatActivity {
         adapter = new SeeAllItemAdapter(SeeAllActivity.this, imageModels, type, new SeeAllItemAdapter.onClickInputMethod() {
             @Override
             public void onClickIdentifyKeyboard() {
-                mState = NONE;
-                pickInput();
+                PermissionX.init(SeeAllActivity.this)
+                        .permissions(android.Manifest.permission.RECORD_AUDIO)
+                        .request(new RequestCallback() {
+                            @Override
+                            public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
+                                if(allGranted){
+                                }else {
+                                    Toast.makeText(SeeAllActivity.this, "Permission Needed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+
+            @Override
+            public void onWallpaperClick(Bitmap resource, String url) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Global.showAlertProgressDialog(activity);
+//                        Util.showDownloadDialog(SeeAllActivity.this);
+                    }
+                });
+                String filename = "bitmap.png";
+
+                try {
+                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent =new Intent(SeeAllActivity.this, WallpaperViewerActivity.class);
+                intent.putExtra("filename", filename);
+                intent.putExtra("activity", filename);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Global.hideAlertProgressDialog();
+//                        Util.hideDownloadDialog();
+                    }
+                });
             }
         });
         binding.rvAll.setLayoutManager(new LinearLayoutManager(SeeAllActivity.this));
@@ -321,7 +406,7 @@ public class SeeAllActivity extends AppCompatActivity {
     }
 
 
-    @Override
+/*    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         Log.d("focusChaged", "focus: "+hasFocus);
@@ -333,8 +418,9 @@ public class SeeAllActivity extends AppCompatActivity {
             Log.d("Whatisthebool", "Activated"+ isThisKeyboardSetAsDefaultIME(SeeAllActivity.this));
 
         }
-    }
+    }*/
 
+/*
     private static final int NONE = 0;
     private static final int PICKING = 1;
     private static final int CHOSEN = 2;
@@ -362,6 +448,7 @@ public class SeeAllActivity extends AppCompatActivity {
         final String defaultIME = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
         return isThisKeyboardSetAsDefaultIME(defaultIME, context.getPackageName());
     }
+*/
 
 
     public static boolean isThisKeyboardSetAsDefaultIME(String defaultIME, String myPackageName) {

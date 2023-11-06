@@ -118,7 +118,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
 
         if(type.equals("wallpaper")){
-//            holder.iv_cat_bg.setImageResource(android.R.color.transparent);
+            holder.iv_cat_bg.setImageResource(android.R.color.transparent);
             Glide.with(context)
                     .asBitmap()
                     .load(data.get(holder.getAdapterPosition()).getCatPreivewImageUrl())
@@ -133,32 +133,16 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Glide.with(context)
+                                    /*Glide.with(context)
                                             .load(resource)
-                                                    .into(holder.iv_cat_bg);
-//                                    holder.iv_cat_bg.setImageBitmap(resource);
+                                                    .into(holder.iv_cat_bg);*/
+                                    holder.iv_cat_bg.setImageBitmap(resource);
                                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
 
-                                            Global.showAlertProgressDialog(activity);
+                                            onClickInputMethod.onWallpaperClick(resource, data.get(holder.getAdapterPosition()).getCatPreivewImageUrl());
 
-                                            String filename = "bitmap.png";
-
-                                            try {
-                                                FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                                                resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                                stream.close();
-                                            }catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            Intent intent =new Intent(context, WallpaperViewerActivity.class);
-                                            intent.putExtra("filename", filename);
-                                            intent.putExtra("activity", filename);
-                                            intent.putExtra("url", data.get(holder.getAdapterPosition()).getCatPreivewImageUrl());
-                                            context.startActivity(intent);
-                                            Global.hideAlertProgressDialog();
                                         }
                                     });
                                 }
@@ -170,6 +154,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
         else if (type.equals("keyboard")) {
             Log.d("dataisnotshowing", "onBindViewHolder: "+ data.get(holder.getAdapterPosition()).getCatPreivewImageUrl());
             holder.tv_title.setText(data.get(holder.getAdapterPosition()).getCatName()+" Keyboard");
+            holder.iv_cat_bg.setImageResource(android.R.color.transparent);
 
             Glide.with(context)
                     .asBitmap()
@@ -288,7 +273,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                                                 @Override
                                                 public void onClick(View v) {
 
-                                                    if(!isKeyboardEnabled()){
+                                                        if(!isKeyboardEnabled()){
                                                         openKeyboardSettings();
                                                     }else{
                                                         Global.showAlertProgressDialog(activity);
@@ -379,8 +364,17 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             String downloadString = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
             if(!downloadString.isEmpty() && downloadString.contains(data.get(holder.getAdapterPosition()).getCatName())){
                 RingtoneDownloadRootModel downlaodmodel = new Gson().fromJson(downloadString, RingtoneDownloadRootModel.class);
-                if( holder.getAdapterPosition() < downlaodmodel.getDownloadModels().size()){
-                    String path = downlaodmodel.getDownloadModels().get(holder.getAdapterPosition()).getSavedPath();
+
+
+                int downloadIndex2 = 0;
+                for(int i = 0 ; i < downlaodmodel.getDownloadModels().size(); i++){
+                    if(downlaodmodel.getDownloadModels().get(i).getModel().getCatName().equals(data.get(holder.getAdapterPosition()).getCatName())){
+                        downloadIndex2 = i;
+                        break;
+                    }
+                }
+
+                    String path = downlaodmodel.getDownloadModels().get(downloadIndex2).getSavedPath();
                     File downloadFile = new File(path);
                     if(downloadFile.exists()){
                         holder.iv_download.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.downloaded));
@@ -395,9 +389,9 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                         MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedData);
                         isRingtoneDownloaded = false;
                     }
-                }else{
+                /*else{
                     holder.iv_download.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.download));
-                }
+                }*/
             }else{
                 isRingtoneDownloaded = false;
             }
@@ -526,8 +520,15 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             String downloadString2 = MyApplication.getPreferences().getString(DOWNALOD_RINGTONE, "");
             if(!downloadString2.isEmpty() && downloadString2.contains(data.get(holder.getAdapterPosition()).getCatName())){
                 RingtoneDownloadRootModel downlaodmodel2 = new Gson().fromJson(downloadString2, RingtoneDownloadRootModel.class);
-                if(downlaodmodel2.getDownloadModels().size() < holder.getAdapterPosition()){
-                    String path = downlaodmodel2.getDownloadModels().get(holder.getAdapterPosition()).getSavedPath();
+                int downloadIndex = 0;
+                for(int i = 0 ; i < downlaodmodel2.getDownloadModels().size(); i++){
+                    if(downlaodmodel2.getDownloadModels().get(i).getModel().getCatName().equals(data.get(holder.getAdapterPosition()).getCatName())){
+                        downloadIndex = i;
+                        break;
+                    }
+                }
+
+                    String path = downlaodmodel2.getDownloadModels().get(downloadIndex).getSavedPath();
                     File downloadFile = new File(path);
                     if(!downloadFile.exists()){
                         holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
@@ -599,7 +600,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             }
                         });
                     }
-                }else{
+                /*else{
                     holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -625,9 +626,9 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                                         data.get(holder.getAdapterPosition()).getRingtoneImg(),
                                         data.get(holder.getAdapterPosition()).getRingtoneUrl()
                                 );
-/*                                                        for(KeyboardData keyboardData1 : value){
+*//*                                                        for(KeyboardData keyboardData1 : value){
                                                             if(keyboardData1)
-                                                        }*/
+                                                        }*//*
                                 value.removeIf(ringtoneData1 -> ringtoneData1.getRingtoneUrl().equals(ringtoneData.getRingtoneUrl()));
                                 model.setData(value);
                                 String convertedModel = new Gson().toJson(model);
@@ -668,9 +669,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
                             }
                         }
                     });
-                }
-
-            }else{
+                }*/
 
             }
             holder.iv_favourite.setOnClickListener(new View.OnClickListener() {
@@ -838,5 +837,6 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
 
     public interface onClickInputMethod{
         void onClickIdentifyKeyboard();
+        void onWallpaperClick(Bitmap resource, String url);
     }
 }

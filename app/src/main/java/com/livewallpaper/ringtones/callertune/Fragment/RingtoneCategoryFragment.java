@@ -1,6 +1,7 @@
 package com.livewallpaper.ringtones.callertune.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -135,6 +136,13 @@ public class RingtoneCategoryFragment extends Fragment {
 /*                mState = NONE;
                 pickInput();*/
             }
+
+            @Override
+            public void onWallpaperClick(Bitmap resource, String url) {
+
+            }
+
+
         });
         binding.rvPopCat.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.rvPopCat.setAdapter(adapter);
