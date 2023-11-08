@@ -122,6 +122,7 @@ public class SeeAllItemAdapter extends RecyclerView.Adapter<SeeAllItemAdapter.So
             holder.iv_cat_bg.setImageResource(android.R.color.transparent);
             Glide.with(context)
                     .asBitmap()
+                    .apply(new RequestOptions().override(920, 600))
                     .load(data.get(holder.getAdapterPosition()).getCatPreivewImageUrl())
                     .listener(new RequestListener<Bitmap>() {
                         @Override

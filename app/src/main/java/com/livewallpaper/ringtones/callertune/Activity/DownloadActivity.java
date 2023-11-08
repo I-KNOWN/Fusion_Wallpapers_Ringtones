@@ -65,6 +65,9 @@ public class DownloadActivity extends AppCompatActivity {
         imgPath.clear();
         String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         File myDir = new File(root + "/Fusion_Wallpaper");
+        if(!myDir.exists()){
+            myDir.mkdir();
+        }
         File[] allImages = myDir.listFiles();
         ArrayList<File> allData = new ArrayList<>();
         allData.addAll(Arrays.asList(allImages));
@@ -116,9 +119,15 @@ public class DownloadActivity extends AppCompatActivity {
                     MyApplication.getPreferences().putString(DOWNALOD_RINGTONE, convertedData);
                 }
             }
-            binding.tvFav.setVisibility(View.GONE);
-            binding.rvData.setVisibility(View.VISIBLE);
-            initRingtoneRecyclerView();
+            if(downlaodmodel.getDownloadModels().size() == 0){
+                binding.tvFav.setVisibility(View.VISIBLE);
+                binding.rvData.setVisibility(View.GONE);
+            }else{
+                binding.tvFav.setVisibility(View.GONE);
+                binding.rvData.setVisibility(View.VISIBLE);
+                initRingtoneRecyclerView();
+            }
+
 
         }else{
             binding.tvFav.setVisibility(View.VISIBLE);

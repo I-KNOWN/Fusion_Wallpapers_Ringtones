@@ -24,8 +24,9 @@
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
+
     <LinearLayout
-        android:id="@+id/ll_fav"
+        android:id="@+id/ll_wall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -35,15 +36,100 @@
         app:layout_constraintTop_toBottomOf="@+id/view">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_favourit_drawer" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/img_ic" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/poppins_semibold"
+            android:layout_gravity="center_vertical"
+            android:text="Wallapaper"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_wall">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/input_ic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Keyboard"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ring"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_key">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/music_ic2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:layout_gravity="center_vertical"
+            android:text="Ringtone"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_fav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_ring">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/heart_ic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:layout_gravity="center_vertical"
             android:text="Favorites"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -61,14 +147,16 @@
         app:layout_constraintTop_toBottomOf="@+id/ll_fav">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_round_download" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/down_ic" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
+
             android:fontFamily="@font/poppins_semibold"
             android:text="Downloads"
             android:textColor="@color/white"
@@ -99,14 +187,15 @@
         app:layout_constraintTop_toBottomOf="@+id/view2">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_setting" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/sett_ic" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
             android:fontFamily="@font/poppins_semibold"
             android:text="Settings"
             android:textColor="@color/white"
@@ -127,14 +216,15 @@
         app:layout_constraintTop_toBottomOf="@+id/ll_setting">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_share" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/share_ic" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
             android:fontFamily="@font/poppins_semibold"
             android:text="Share With Friends"
             android:textColor="@color/white"

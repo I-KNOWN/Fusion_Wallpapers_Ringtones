@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adsmodule.api.adsModule.AdUtils;
 import com.adsmodule.api.adsModule.utils.Constants;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.livewallpaper.ringtones.callertune.Activity.SeeAllActivity;
 import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
 import com.livewallpaper.ringtones.callertune.R;
@@ -48,6 +49,7 @@ public class SomeCategoryAdapter extends RecyclerView.Adapter<SomeCategoryAdapte
         CategoryModel model = data.get(holder.getAdapterPosition());
         Glide.with(context)
                 .load(model.getCategoryImageUrl())
+                .apply(new RequestOptions().override(920, 600))
                 .into(holder.iv_cat_bg);
 //        holder.iv_cat_bg.setImageDrawable(ContextCompat.getDrawable(context, model.getCategoryImage()));
         holder.tv_title.setText(model.getCategoryName());

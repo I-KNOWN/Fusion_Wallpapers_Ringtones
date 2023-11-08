@@ -122,15 +122,44 @@ public class MainActivity extends AppCompatActivity {
         llDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
                     startActivity(new Intent(MainActivity.this, DownloadActivity.class));
                     binding.drawer.closeDrawers();
-                });
-
             }
         });
 
+        LinearLayout llWallpaper = headerLayout.findViewById(R.id.ll_wall);
+        LinearLayout llKeyboard = headerLayout.findViewById(R.id.ll_key);
+        LinearLayout llRingtone = headerLayout.findViewById(R.id.ll_ring);
 
+        llWallpaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    binding.clWallpaper.performClick();
+                    binding.drawer.closeDrawers();
+                });
+            }
+        });
+
+        llKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    binding.clKeyboard.performClick();
+                    binding.drawer.closeDrawers();
+                });
+            }
+        });
+
+        llRingtone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    binding.clRingtone.performClick();
+                    binding.drawer.closeDrawers();
+                });
+            }
+        });
 
 
     }

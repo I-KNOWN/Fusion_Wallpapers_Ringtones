@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.livewallpaper.ringtones.callertune.Activity.WallpaperViewerActivity;
 import com.livewallpaper.ringtones.callertune.Model.CategoryModel;
@@ -57,6 +58,7 @@ public class WallpaperItemAdapter extends RecyclerView.Adapter<WallpaperItemAdap
     public void onBindViewHolder(@NonNull SomeCategoryViewHolder holder, int position) {
         Glide.with(context)
                 .asBitmap()
+                .apply(new RequestOptions().override(920, 600))
                         .load(data.get(holder.getAdapterPosition()))
                                 .addListener(new RequestListener<Bitmap>() {
                                     @Override

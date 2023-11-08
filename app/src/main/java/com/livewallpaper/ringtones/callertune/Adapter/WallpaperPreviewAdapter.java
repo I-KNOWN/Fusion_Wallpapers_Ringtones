@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.livewallpaper.ringtones.callertune.Activity.WallpaperActivity;
 import com.livewallpaper.ringtones.callertune.Activity.WallpaperViewerActivity;
 import com.livewallpaper.ringtones.callertune.R;

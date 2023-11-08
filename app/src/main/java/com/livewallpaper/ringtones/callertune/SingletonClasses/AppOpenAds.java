@@ -52,35 +52,7 @@ public class AppOpenAds implements LifecycleObserver, Application.ActivityLifecy
         }
         AppOpenAds.activity = activity;
         bundle = savedInstanceState;
-    }
 
-    @Override
-    public void onActivityStarted(@NonNull Activity activity) {
-        if (!activity.getComponentName().getClassName().equals("com.google.android.gms.ads.AdActivity"))
-            AppOpenAds.activity = activity;
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onStart() {
-        if (Constants.adsResponseModel != null && Constants.adsResponseModel.isShow_ads()) {
-            if (!isAdShowing && AppOpenAds.activity != null && (!AppOpenAds.activity.getClass().getName().equals(SplashActivity.class.getName()))) {
-                isAdShowing = true;
-
-                AdUtils.showAppOpenAds(Constants.adsResponseModel.getApp_open_ads().getAdx(), AppOpenAds.activity, state_load -> {
-                    isAdShowing = false;
-                });
-
-            } else {
-                isAdShowing = false;
-            }
-        }
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-        AppOpenAds.activity = activity;
         ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
             @Override
             public void onAvailable(@NonNull Network network) {
@@ -115,6 +87,36 @@ public class AppOpenAds implements LifecycleObserver, Application.ActivityLifecy
             NetworkRequest request = new NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build();
             connectivityManager.registerNetworkCallback(request, networkCallback);
         }
+    }
+
+    @Override
+    public void onActivityStarted(@NonNull Activity activity) {
+        if (!activity.getComponentName().getClassName().equals("com.google.android.gms.ads.AdActivity"))
+            AppOpenAds.activity = activity;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onStart() {
+        if (Constants.adsResponseModel != null && Constants.adsResponseModel.isShow_ads()) {
+            if (!isAdShowing && AppOpenAds.activity != null && (!AppOpenAds.activity.getClass().getName().equals(SplashActivity.class.getName()))) {
+                isAdShowing = true;
+
+                AdUtils.showAppOpenAds(Constants.adsResponseModel.getApp_open_ads().getAdx(), AppOpenAds.activity, state_load -> {
+                    isAdShowing = false;
+                });
+
+            } else {
+                isAdShowing = false;
+            }
+        }
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+        AppOpenAds.activity = activity;
+
     }
 
     @Override

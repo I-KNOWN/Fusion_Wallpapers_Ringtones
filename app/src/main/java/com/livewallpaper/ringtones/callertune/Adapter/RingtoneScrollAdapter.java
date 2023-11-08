@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.livewallpaper.ringtones.callertune.R;
 
@@ -46,6 +47,7 @@ public class RingtoneScrollAdapter extends RecyclerView.Adapter<RingtoneScrollAd
     public void onBindViewHolder(@NonNull RingtoneViewHolder holder, int position) {
         Glide.with(context)
                 .asBitmap()
+                .apply(new RequestOptions().override(920, 600))
                 .load(data.get(holder.getAdapterPosition()))
                 .addListener(new RequestListener<Bitmap>() {
                     @Override
